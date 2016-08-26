@@ -7,20 +7,47 @@
 //
 
 import UIKit
+import SQLite
+
+let ServerURL = "http://ansinlee.com/"
+
+public enum PoemFont : String {
+    case 汉仪全唐诗简体 = "HYQuanTangShiJ"
+    case 汉仪全唐诗繁体 = "HYQuanTangShiF"
+    case 方正宋刻本秀楷简体 = "FZSongKeBenXiuKaiS-R-GB"
+    case 方正宋刻本秀楷繁体 = "FZSongKeBenXiuKaiT-R-GB"
+    case 方正北魏楷书简体 = "FZBeiWeiKaiShu-S19S"
+    case 方正北魏楷书繁体 = "FZBeiWeiKaiShu-Z15T"
+}
+
+public var UserFont = PoemFont.汉仪全唐诗简体.rawValue
+
+public let DocumentPath:String = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+
+public var NeedDownloadDB = false
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        if let font = NSUserDefaults.standardUserDefaults().objectForKey("font") as? String {
+            UserFont = font
+        }
+        if NSFileManager.defaultManager().fileExistsAtPath(DocumentPath.stringByAppendingString("/poem.db")) {
+            DataManager.manager.connect()
+        } else {
+            NeedDownloadDB = true
+        }
+        //UINavigationBar.appearance().tintColor = UIColor.flatRedColor()
+        RCIM.sharedRCIM().initWithAppKey("8w7jv4qb77vey")
         return true
     }
 
     func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS ®message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 

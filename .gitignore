@@ -1,0 +1,11 @@
+Pods/
+
+Podfile.lock
+
+poetry.xcworkspace/xcuserdata/nuochong.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+
+*.xcbkptlist
+
+xcuserdata/
+
+poetry.xcworkspace/contents.xcworkspacedata
