@@ -407,6 +407,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="cME-0Y-zh1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                         </textAttributes>
@@ -418,6 +419,146 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UNh-tp-IX5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="318" y="974"/>
+        </scene>
+        <!--搜索结果-->
+        <scene sceneID="MRN-l2-Mj9">
+            <objects>
+                <viewController storyboardIdentifier="searchresult" id="IGX-cb-PSu" customClass="SearchResultViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qpL-yh-ItU"/>
+                        <viewControllerLayoutGuide type="bottom" id="y8m-XS-cKY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="frU-w8-6bE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DZ0-fh-Hht" customClass="UIToolbar">
+                                <rect key="frame" x="0.0" y="64" width="600" height="40"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="06x-Lr-Q0U">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="38"/>
+                                        <subviews>
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ld0-tQ-JRd">
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="38"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <state key="normal" title="诗词">
+                                                    <color key="titleColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onTapButton:" destination="IGX-cb-PSu" eventType="touchUpInside" id="Jfd-26-cOb"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBx-lQ-Rbt">
+                                                <rect key="frame" x="200" y="0.0" width="200" height="38"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <state key="normal" title="诗人">
+                                                    <color key="titleColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onTapButton:" destination="IGX-cb-PSu" eventType="touchUpInside" id="jmA-MR-8U4"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aXZ-vm-a28">
+                                                <rect key="frame" x="400" y="0.0" width="200" height="38"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <state key="normal" title="词牌">
+                                                    <color key="titleColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onTapButton:" destination="IGX-cb-PSu" eventType="touchUpInside" id="at1-9O-L6Z"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="38" id="7su-um-vl2"/>
+                                        </constraints>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="33Y-e3-oq0">
+                                        <rect key="frame" x="0.0" y="38" width="200" height="2"/>
+                                        <color key="backgroundColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="2" id="0Kk-bM-qqm"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="06x-Lr-Q0U" firstAttribute="leading" secondItem="DZ0-fh-Hht" secondAttribute="leading" id="2aY-sS-qEu"/>
+                                    <constraint firstItem="33Y-e3-oq0" firstAttribute="leading" secondItem="DZ0-fh-Hht" secondAttribute="leading" id="DLQ-dx-HtC"/>
+                                    <constraint firstAttribute="trailing" secondItem="06x-Lr-Q0U" secondAttribute="trailing" id="OHR-PC-izB"/>
+                                    <constraint firstAttribute="height" constant="40" id="OuO-hN-OSb"/>
+                                    <constraint firstItem="06x-Lr-Q0U" firstAttribute="top" secondItem="DZ0-fh-Hht" secondAttribute="top" id="Tot-LQ-0xx"/>
+                                    <constraint firstItem="33Y-e3-oq0" firstAttribute="width" secondItem="ld0-tQ-JRd" secondAttribute="width" id="aI9-uy-lBb"/>
+                                    <constraint firstAttribute="bottom" secondItem="06x-Lr-Q0U" secondAttribute="bottom" constant="2" id="pSu-TW-eL3"/>
+                                    <constraint firstAttribute="bottom" secondItem="33Y-e3-oq0" secondAttribute="bottom" id="t4W-NN-JUX"/>
+                                </constraints>
+                            </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gkX-1n-5k2">
+                                <rect key="frame" x="0.0" y="104" width="600" height="496"/>
+                                <connections>
+                                    <segue destination="eiI-XO-TkQ" kind="embed" id="FbA-Oc-PCM"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gkX-1n-5k2" firstAttribute="leading" secondItem="frU-w8-6bE" secondAttribute="leading" id="0f9-Is-pi5"/>
+                            <constraint firstItem="y8m-XS-cKY" firstAttribute="top" secondItem="gkX-1n-5k2" secondAttribute="bottom" id="m0d-zT-fM3"/>
+                            <constraint firstItem="DZ0-fh-Hht" firstAttribute="top" secondItem="qpL-yh-ItU" secondAttribute="bottom" constant="44" id="m5G-u7-zgZ"/>
+                            <constraint firstAttribute="trailing" secondItem="gkX-1n-5k2" secondAttribute="trailing" id="mdN-iZ-ZQx"/>
+                            <constraint firstItem="gkX-1n-5k2" firstAttribute="top" secondItem="DZ0-fh-Hht" secondAttribute="bottom" id="ofC-ie-EPt"/>
+                            <constraint firstAttribute="trailing" secondItem="DZ0-fh-Hht" secondAttribute="trailing" id="yEc-VD-N12"/>
+                            <constraint firstItem="DZ0-fh-Hht" firstAttribute="leading" secondItem="frU-w8-6bE" secondAttribute="leading" id="yXM-nn-0Mo"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="搜索结果" id="7py-wm-gNb">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="7Zg-b6-eeF"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="buttonGroup" destination="06x-Lr-Q0U" id="tWk-bd-HeA"/>
+                        <outlet property="leadingLayout" destination="DLQ-dx-HtC" id="9Fs-DG-4dK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uBU-7g-oja" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1133" y="262"/>
+        </scene>
+        <!--Page View Controller-->
+        <scene sceneID="pvJ-f4-f0g">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="eiI-XO-TkQ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="avy-sa-6M4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1807" y="244.5"/>
+        </scene>
+        <!--Search Result List View Controller-->
+        <scene sceneID="ASt-gY-6xN">
+            <objects>
+                <tableViewController storyboardIdentifier="searchlist" id="0IU-Y7-hXV" customClass="SearchResultListViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="vJH-1v-Ecu">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Byt-qX-lfg">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Byt-qX-lfg" id="dtF-zs-0Dr">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="0IU-Y7-hXV" id="JUP-mM-0il"/>
+                            <outlet property="delegate" destination="0IU-Y7-hXV" id="WMd-Nx-uaA"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="61Y-9t-Ow7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2442" y="274"/>
         </scene>
     </scenes>
     <resources>

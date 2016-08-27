@@ -12,9 +12,15 @@ import TagListView
 class SearchViewController: UITableViewController, UISearchResultsUpdating, UISearchControllerDelegate, TagListViewDelegate {
 
     var searchController:UISearchController!
+    
+    lazy var searchResultVC:SearchResultViewController = {
+        let tmpVC = self.storyboard!.instantiateViewControllerWithIdentifier("searchresult") as! SearchResultViewController
+        return tmpVC
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchController = UISearchController(searchResultsController: nil)
+        searchController = UISearchController(searchResultsController: searchResultVC)
         searchController.searchResultsUpdater = self;
         searchController.delegate = self
         //searchController.dimsBackgroundDuringPresentation = false
@@ -26,12 +32,22 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
 
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        
+        if searchController.searchBar.text?.characters.count == 0 {
+            searchController.searchResultsController?.view.hidden = false
+        }
     }
     
     func willPresentSearchController(searchController: UISearchController) {
         searchController.searchBar.showsCancelButton = true
+        dispatch_async(dispatch_get_main_queue()) { 
+            searchController.searchResultsController?.view.hidden = false
+        }
     }
+    
+    func didPresentSearchController(searchController: UISearchController) {
+        searchController.searchResultsController?.view.hidden = false
+    }
+    
     
     func willDismissSearchController(searchController: UISearchController) {
         searchController.searchBar.showsCancelButton = false
