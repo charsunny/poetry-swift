@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mja-cL-jzF">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Launch View Controller-->
+        <scene sceneID="1ZJ-MT-ytp">
+            <objects>
+                <viewController id="mja-cL-jzF" customClass="LaunchViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uAw-80-qjH"/>
+                        <viewControllerLayoutGuide type="bottom" id="1Vp-C0-31m"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KIJ-MD-wun">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="load" translatesAutoresizingMaskIntoConstraints="NO" id="tvM-Fh-od3">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loadtitle" translatesAutoresizingMaskIntoConstraints="NO" id="bCN-6o-vfN">
+                                <rect key="frame" x="269.5" y="208" width="61" height="184"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="uIb-CB-Euo">
+                                <rect key="frame" x="260" y="195" width="80" height="210"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="谁家新燕啄春泥" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abs-rn-h0E">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="210"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="几处早莺争暖树" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOi-sE-azi">
+                                        <rect key="frame" x="40" y="0.0" width="40" height="210"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="NCD-vL-y4A"/>
+                                    <constraint firstAttribute="height" constant="210" id="vg0-Mj-KJR"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="JDB-aa-UcW">
+                                <rect key="frame" x="240" y="405" width="120" height="50"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kNA-0I-WJ7">
+                                        <rect key="frame" x="-240" y="-405" width="0.0" height="40"/>
+                                        <state key="normal" image="weibo"/>
+                                        <connections>
+                                            <action selector="loginWithWeibo:" destination="mja-cL-jzF" eventType="touchUpInside" id="T1I-74-7I2"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IoD-oD-nUs">
+                                        <rect key="frame" x="-240" y="-405" width="0.0" height="40"/>
+                                        <state key="normal" image="qq"/>
+                                        <connections>
+                                            <action selector="loginWithQQ:" destination="mja-cL-jzF" eventType="touchUpInside" id="DpF-9x-fbh"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="NnK-x0-NUD"/>
+                                    <constraint firstAttribute="width" constant="120" id="ktu-IV-IOK"/>
+                                </constraints>
+                            </stackView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用第三方帐号登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2vh-hA-cQw">
+                                <rect key="frame" x="241" y="463" width="117" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gtg-FR-wgH">
+                                <rect key="frame" x="270" y="165" width="60" height="30"/>
+                                <state key="normal" title="进入诗词"/>
+                                <connections>
+                                    <action selector="enterMainPage:" destination="mja-cL-jzF" eventType="touchUpInside" id="5Fq-pY-zAU"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="tvM-Fh-od3" firstAttribute="leading" secondItem="KIJ-MD-wun" secondAttribute="leading" id="0yc-LJ-7Mw"/>
+                            <constraint firstItem="uIb-CB-Euo" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="1ej-Pv-T8C"/>
+                            <constraint firstItem="JDB-aa-UcW" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="3Xa-Zr-Kek"/>
+                            <constraint firstItem="uIb-CB-Euo" firstAttribute="top" secondItem="Gtg-FR-wgH" secondAttribute="bottom" constant="8" id="6Up-ns-des"/>
+                            <constraint firstItem="uIb-CB-Euo" firstAttribute="top" secondItem="Gtg-FR-wgH" secondAttribute="bottom" id="AGQ-gH-ed9"/>
+                            <constraint firstItem="bCN-6o-vfN" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="GQE-ys-yuY"/>
+                            <constraint firstItem="Gtg-FR-wgH" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="Odq-wq-pOk"/>
+                            <constraint firstItem="2vh-hA-cQw" firstAttribute="top" secondItem="JDB-aa-UcW" secondAttribute="bottom" constant="8" id="QFo-bs-Zje"/>
+                            <constraint firstItem="1Vp-C0-31m" firstAttribute="top" secondItem="tvM-Fh-od3" secondAttribute="bottom" id="ZCh-qX-UeJ"/>
+                            <constraint firstAttribute="trailing" secondItem="tvM-Fh-od3" secondAttribute="trailing" id="ZMu-Ow-C8r"/>
+                            <constraint firstItem="JDB-aa-UcW" firstAttribute="top" secondItem="uIb-CB-Euo" secondAttribute="bottom" id="ZgF-g0-G8s"/>
+                            <constraint firstItem="2vh-hA-cQw" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="f2R-Sf-PK8"/>
+                            <constraint firstItem="2vh-hA-cQw" firstAttribute="centerX" secondItem="IoD-oD-nUs" secondAttribute="centerX" id="f6u-VK-zze"/>
+                            <constraint firstItem="uIb-CB-Euo" firstAttribute="centerY" secondItem="KIJ-MD-wun" secondAttribute="centerY" id="hcN-3b-b1h"/>
+                            <constraint firstItem="tvM-Fh-od3" firstAttribute="top" secondItem="KIJ-MD-wun" secondAttribute="top" id="iJP-tG-Vck"/>
+                            <constraint firstItem="bCN-6o-vfN" firstAttribute="centerY" secondItem="KIJ-MD-wun" secondAttribute="centerY" id="osX-KK-NSZ"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="6Up-ns-des"/>
+                                <exclude reference="f6u-VK-zze"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="centerLayout" destination="GQE-ys-yuY" id="M1t-ph-1gE"/>
+                        <outlet property="enterButton" destination="Gtg-FR-wgH" id="fO5-YW-0bI"/>
+                        <outlet property="firstLineLabel" destination="abs-rn-h0E" id="QcW-9b-SRC"/>
+                        <outlet property="qqButton" destination="IoD-oD-nUs" id="x80-mG-arG"/>
+                        <outlet property="secondLineLabel" destination="wOi-sE-azi" id="VPe-1C-UGF"/>
+                        <outlet property="tipLabel" destination="2vh-hA-cQw" id="Pxx-yX-wFq"/>
+                        <outlet property="titleImageView" destination="bCN-6o-vfN" id="mNa-W7-J8D"/>
+                        <outlet property="weiboButton" destination="kNA-0I-WJ7" id="lzH-A1-r17"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rvu-OO-Dki" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="595" y="414"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="load" width="300" height="297"/>
+        <image name="loadtitle" width="61" height="184"/>
+        <image name="qq" width="40" height="40"/>
+        <image name="weibo" width="40" height="40"/>
+    </resources>
+</document>

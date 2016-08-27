@@ -43,6 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         //UINavigationBar.appearance().tintColor = UIColor.flatRedColor()
         RCIM.sharedRCIM().initWithAppKey("8w7jv4qb77vey")
+        WeiboSDK.enableDebugMode(true)
+        WeiboSDK.registerApp("4225157019")
         return true
     }
 
@@ -68,6 +70,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        var canHandle = WeiboSDK.handleOpenURL(url, delegate: self)
+        if canHandle {
+            return true
+        }
+        canHandle = TencentOAuth.HandleOpenURL(url)
+        if canHandle {
+            return true
+        }
+        return true
+    }
+}
 
+extension AppDelegate : WeiboSDKDelegate {
+    
+    func didReceiveWeiboRequest(request: WBBaseRequest!) {
+        
+    }
+    
+    func didReceiveWeiboResponse(response: WBBaseResponse!) {
+        if let result = response as? WBAuthorizeResponse {
+            //debugPrint(result.userInfo)
+        }
+    }
 }
 
