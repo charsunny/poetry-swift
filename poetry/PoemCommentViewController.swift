@@ -55,8 +55,25 @@ class PoemCommentViewController: SLKTextViewController, UIPopoverPresentationCon
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if indexPath.section == 1 {
-            let cell = tableView.cellForRowAtIndexPath(indexPath)
-            self.performSegueWithIdentifier("popmenu", sender: cell)
+//            let cell = tableView.cellForRowAtIndexPath(indexPath)
+//            self.performSegueWithIdentifier("popmenu", sender: cell)
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            alertController.addAction(UIAlertAction(title: "取消", style: .Cancel, handler: { (_) in
+                
+            }))
+            alertController.addAction(UIAlertAction(title: "回复", style: .Default, handler: { (_) in
+                
+            }))
+            alertController.addAction(UIAlertAction(title: "复制", style: .Default, handler: { (_) in
+                
+            }))
+            alertController.addAction(UIAlertAction(title: "分享", style: .Default, handler: { (_) in
+                
+            }))
+            alertController.addAction(UIAlertAction(title: "举报", style: .Default, handler: { (_) in
+                
+            }))
+            self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
     

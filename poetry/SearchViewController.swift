@@ -38,6 +38,9 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         if searchController.searchBar.text?.characters.count == 0 {
             searchController.searchResultsController?.view.hidden = false
+        } else {
+            let poems = DataManager.manager.search(searchController.searchBar.text!)
+            debugPrint(poems)
         }
     }
     

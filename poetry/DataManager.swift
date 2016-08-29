@@ -37,6 +37,7 @@ public class DataManager: NSObject {
     private var poets:Table = Table("poet")
     private var period:Table = Table("period")
     private var dict:Table = Table("dict")
+    private let poemsearch:VirtualTable = VirtualTable("ps")
     
     private let id = Expression<Int>("id")
     private let name = Expression<String>("name_cn")
@@ -56,10 +57,41 @@ public class DataManager: NSObject {
                     periods[p[id]] = p[name]
                 }
             }
+            dispatch_async(dispatch_get_global_queue(0, 0)) {
+                do {
+                    try self.db?.run(self.poemsearch.create(.FTS4([SQLIntExp("id"), SQLStringExp("name_cn"), SQLStringExp("text_cn"), SQLStringExp("poet_name")], tokenize : Tokenizer.Unicode61())))
+                    if let pm = try self.db?.prepare(self.poems) {
+                        for p in pm {
+                            let poem = Poem(p)
+                            poem.loadPoet()
+                            try self.db?.run(self.poemsearch.insert(SQLIntExp("id") <- poem.id, SQLStringExp("name_cn") <- poem.title, SQLStringExp("text_cn") <- poem.content, SQLStringExp("poet_name") <- (poem.poet?.name ?? "")))
+                        }
+                    }
+                } catch let e {
+                    print(e)
+                }
+            }
             return true
         } catch let e {
             print(e)
             return false
+        }
+    }
+    
+    public func search(text:String) -> [Poem] {
+        do {
+            var list:[Poem] = []
+            
+            if let ps = try db?.prepare(poemsearch.match(text)) {
+                for p in ps {
+                    let poem = Poem(p)
+                    poem.loadPoet()
+                    list.append(poem)
+                }
+            }
+            return list
+        } catch {
+            return []
         }
     }
     
