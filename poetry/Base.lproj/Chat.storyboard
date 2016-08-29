@@ -15,7 +15,7 @@
                         <color key="tintColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
-                            <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
                     </navigationBar>
                     <connections>
@@ -49,7 +49,7 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <state key="normal" title="动态">
-                                                    <color key="titleColor" red="0.1529411765" green="0.56862745100000001" blue="0.43529411759999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="onTapButton:" destination="UPf-vD-qBY" eventType="touchUpInside" id="vYy-9V-IKQ"/>
@@ -59,7 +59,7 @@
                                                 <rect key="frame" x="300" y="0.0" width="300" height="38"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="聊天">
-                                                    <color key="titleColor" red="0.15101002159999999" green="0.56891876460000002" blue="0.43715286250000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="onTapButton:" destination="UPf-vD-qBY" eventType="touchUpInside" id="VOR-SM-uOV"/>
@@ -73,7 +73,7 @@
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Og8-cq-pRC">
                                         <rect key="frame" x="0.0" y="38" width="300" height="2"/>
-                                        <color key="backgroundColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="2" id="bd6-uG-DGQ"/>
                                         </constraints>
@@ -129,7 +129,7 @@
             </objects>
             <point key="canvasLocation" x="2195" y="194.5"/>
         </scene>
-        <!--User Notif View Controller-->
+        <!--Empty Data Set Delegate-->
         <scene sceneID="Rik-ep-Vlf">
             <objects>
                 <tableViewController storyboardIdentifier="usernotif" id="gPH-MB-Jax" customClass="UserNotifViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
@@ -150,6 +150,8 @@
                         <connections>
                             <outlet property="dataSource" destination="gPH-MB-Jax" id="gBK-sr-pvL"/>
                             <outlet property="delegate" destination="gPH-MB-Jax" id="kyA-iB-lcR"/>
+                            <outlet property="emptyDataSetDelegate" destination="gPH-MB-Jax" id="DBv-ls-qY6"/>
+                            <outlet property="emptyDataSetSource" destination="gPH-MB-Jax" id="cx9-Ux-hLx"/>
                         </connections>
                     </tableView>
                 </tableViewController>

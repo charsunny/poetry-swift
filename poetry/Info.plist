@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.0.0</string>
+	<string>4.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -28,7 +28,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLIconFile</key>
-			<string>10</string>
+			<string></string>
 			<key>CFBundleURLName</key>
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>

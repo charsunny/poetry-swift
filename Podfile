@@ -4,6 +4,7 @@ target 'poetry' do
 	pod "WeiboSDK", :git => "https://github.com/sinaweibosdk/weibo_ios_sdk.git" 
 	pod "KCFloatingActionButton"
 	pod 'RongCloudIMKit'
+	pod 'STTweetLabel'
 	pod 'JDStatusBarNotification'
 	pod 'SwiftIconFont'
 	pod "PKHUD"
@@ -13,7 +14,8 @@ target 'poetry' do
 	pod 'ChameleonFramework'
 	pod 'Alamofire'
 	pod 'NVActivityIndicatorView'
-	pod 'Kingfisher'
+	pod 'AlamofireImage'
+	pod 'DZNEmptyDataSet'
 	pod 'SQLite.swift'
 	pod 'SwiftyJSON'
 	pod 'SSZipArchive'

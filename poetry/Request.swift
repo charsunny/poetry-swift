@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import ObjectMapper
 
+
 extension Result {
     func success(@noescape success: (value: Value) -> Void) -> Result<Value, Error> {
         switch self {
@@ -64,9 +65,9 @@ extension Request {
             let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
             let result = JSONResponseSerializer.serializeResponse(request, response, data, error)
             
-            guard let code = result.value?.valueForKeyPath("code") as? Int else {return .Failure(.DataSerialization(reason:"sever replay error"))}
+            guard let code = result.value?.valueForKeyPath("errcode") as? Int else {return .Failure(.DataSerialization(reason:"sever replay error"))}
             
-            let msg = result.value?.valueForKeyPath("msg") as? String ?? "unknow server error"
+            let msg = result.value?.valueForKeyPath("errmsg") as? String ?? "unknow server error"
             
             if code > 0 {
                 if code > 40000 && code < 50000 {
@@ -95,9 +96,9 @@ extension Request {
             let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
             let result = JSONResponseSerializer.serializeResponse(request, response, data, error)
             
-            guard let code = result.value?.valueForKeyPath("code") as? Int else {return .Failure(.DataSerialization(reason:"sever replay error"))}
+            guard let code = result.value?.valueForKeyPath("errcode") as? Int else {return .Failure(.DataSerialization(reason:"sever replay error"))}
             
-            let msg = result.value?.valueForKeyPath("msg") as? String ?? "unknow server error"
+            let msg = result.value?.valueForKeyPath("errmsg") as? String ?? "unknow server error"
             
             if code > 0 {
                 if code > 40000 && code < 50000 {
@@ -139,9 +140,9 @@ extension Request {
             let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
             let result = JSONResponseSerializer.serializeResponse(request, response, data, error)
             
-            guard let code = result.value?.valueForKeyPath("code") as? Int else {return .Failure(.DataSerialization(reason:"sever replay error"))}
+            guard let code = result.value?.valueForKeyPath("errcode") as? Int else {return .Failure(.DataSerialization(reason:"sever replay error"))}
             
-            let msg = result.value?.valueForKeyPath("msg") as? String ?? "unknow server error"
+            let msg = result.value?.valueForKeyPath("errmsg") as? String ?? "unknow server error"
             
             if code > 0 {
                 if code > 40000 && code < 50000 {

@@ -79,12 +79,12 @@ class PoemTextView: UIView {
         
         let titleAttributes = TextAttributes()
         titleAttributes.font(name: UserFont, size: 26).lineSpacing(20).alignment(.Center).foregroundColor(UIColor.whiteColor())
-        textStr.appendAttributedString(NSAttributedString(string: poem?.name ?? "", attributes: titleAttributes))
+        textStr.appendAttributedString(NSAttributedString(string: poem?.title ?? "", attributes: titleAttributes))
         textStr.appendAttributedString(NSAttributedString(string: "\n"))
         
         let authorAttributes = TextAttributes()
         authorAttributes.font(name: UserFont, size: 14).lineSpacing(8).alignment(.Right).foregroundColor(UIColor.whiteColor())
-        textStr.appendAttributedString(NSAttributedString(string: poem?.author?.name ?? "", attributes: authorAttributes))
+        textStr.appendAttributedString(NSAttributedString(string: poem?.poet?.name ?? "", attributes: authorAttributes))
         textStr.appendAttributedString(NSAttributedString(string: "\n"))
         
         let textAttributes = TextAttributes()
@@ -95,7 +95,7 @@ class PoemTextView: UIView {
         self.textView.scrollEnabled = false
         self.textView.alpha = 1
         self.indicatorView.hidden = true
-        if poem?.author == nil {
+        if poem?.poet == nil {
             if let button =  stackView.arrangedSubviews.last as? UIButton {
                 button.enabled = false
             }

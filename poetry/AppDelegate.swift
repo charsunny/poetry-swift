@@ -8,6 +8,7 @@
 
 import UIKit
 import SQLite
+import PKHUD
 
 let ServerURL = "http://ansinlee.com/"
 
@@ -24,7 +25,7 @@ public var UserFont = PoemFont.汉仪全唐诗简体.rawValue
 
 public let DocumentPath:String = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
 
-public var NeedDownloadDB = false
+public var LocalDBExist = false
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,9 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserFont = font
         }
         if NSFileManager.defaultManager().fileExistsAtPath(DocumentPath.stringByAppendingString("/poem.db")) {
-            DataManager.manager.connect()
-        } else {
-            NeedDownloadDB = true
+            LocalDBExist = DataManager.manager.connect()
         }
         //UINavigationBar.appearance().tintColor = UIColor.flatRedColor()
         RCIM.sharedRCIM().initWithAppKey("8w7jv4qb77vey")
@@ -91,7 +90,21 @@ extension AppDelegate : WeiboSDKDelegate {
     
     func didReceiveWeiboResponse(response: WBBaseResponse!) {
         if let result = response as? WBAuthorizeResponse {
-            //debugPrint(result.userInfo)
+            if let userInfo = result.userInfo {
+                var nick = ""
+                var avatar = ""
+                if let dict = userInfo["app"] as? NSDictionary {
+                    nick = dict["name"] as? String ?? ""
+                    avatar = dict["logo"] as? String ?? ""
+                }
+                Login.LoginWithSNS(nick, gender: 1, avatar: avatar, userId: userInfo["uid"] as? String ?? "", snsType: 1, finish: { (login, err) in
+                    if err != nil {
+                        HUD.flash(.LabeledError(title: "登录失败", subtitle: String.ErrorString(err!)), delay: 1)
+                    }
+                })
+            } else {
+                HUD.flash(.LabeledError(title: "拉取授权信息失败", subtitle:""), delay: 1)
+            }
         }
     }
 }

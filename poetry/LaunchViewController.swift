@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import PKHUD
 
 class LaunchViewController: UIViewController, TencentSessionDelegate {
 
+    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     @IBOutlet weak var centerLayout: NSLayoutConstraint!
     
     @IBOutlet weak var firstLineLabel: UILabel!
@@ -30,10 +32,16 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.qqButton.hidden = true
+        self.weiboButton.hidden = true
+        indicatorView.hidden = true
         firstLineLabel.font = UIFont.userFontWithSize(24)
         secondLineLabel.font = UIFont.userFontWithSize(24)
         enterButton.hidden = true
         qqOAuth = TencentOAuth(appId: "1105650150", andDelegate: self)
+        NSNotificationCenter.defaultCenter().addObserverForName("LoginSuccess", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            self.performSelector(#selector(LaunchViewController.enterMainPage(_:)), withObject: nil, afterDelay: 1)
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -49,13 +57,30 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
         }) { (_) in
             self.centerLayout.constant = 100
             self.enterButton.hidden = false
-            self.qqButton.hidden = false
-            self.weiboButton.hidden = false
-            self.tipLabel.hidden = false
+            if User.Token == nil {
+                self.qqButton.hidden = false
+                self.weiboButton.hidden = false
+                self.tipLabel.hidden = false
+            } else {
+                self.indicatorView.hidden = false
+                self.indicatorView.startAnimating()
+                User.GetUserInfo({ (u, error) in
+                    self.indicatorView.hidden = true
+                    if error != nil {
+                        self.qqButton.hidden = false
+                        self.weiboButton.hidden = false
+                        self.tipLabel.hidden = false
+                        HUD.flash(.LabeledError(title: "加载失败", subtitle: "请重新登录"), delay: 1.0)
+                    } else {
+                        self.performSelector(#selector(LaunchViewController.enterMainPage(_:)), withObject: nil, afterDelay: 1)
+                    }
+                })
+            }
         }
     }
     
-    @IBAction func enterMainPage(sender: AnyObject) {
+    @IBAction func enterMainPage(sender: AnyObject?) {
+        HUD.hide()
         let mainVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
         UIApplication.sharedApplication().keyWindow?.rootViewController = mainVC
     }

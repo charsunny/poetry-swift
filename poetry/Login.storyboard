@@ -28,13 +28,13 @@
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="谁家新燕啄春泥" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abs-rn-h0E">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="210"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="几处早莺争暖树" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOi-sE-azi">
                                         <rect key="frame" x="40" y="0.0" width="40" height="210"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -46,15 +46,15 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="JDB-aa-UcW">
                                 <rect key="frame" x="240" y="405" width="120" height="50"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kNA-0I-WJ7">
-                                        <rect key="frame" x="-240" y="-405" width="0.0" height="40"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kNA-0I-WJ7">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
                                         <state key="normal" image="weibo"/>
                                         <connections>
                                             <action selector="loginWithWeibo:" destination="mja-cL-jzF" eventType="touchUpInside" id="T1I-74-7I2"/>
                                         </connections>
                                     </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IoD-oD-nUs">
-                                        <rect key="frame" x="-240" y="-405" width="0.0" height="40"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IoD-oD-nUs">
+                                        <rect key="frame" x="60" y="0.0" width="60" height="50"/>
                                         <state key="normal" image="qq"/>
                                         <connections>
                                             <action selector="loginWithQQ:" destination="mja-cL-jzF" eventType="touchUpInside" id="DpF-9x-fbh"/>
@@ -79,14 +79,21 @@
                                     <action selector="enterMainPage:" destination="mja-cL-jzF" eventType="touchUpInside" id="5Fq-pY-zAU"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="jdE-OI-cI0">
+                                <rect key="frame" x="282" y="413" width="37" height="37"/>
+                                <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="jdE-OI-cI0" firstAttribute="top" secondItem="uIb-CB-Euo" secondAttribute="bottom" constant="8" id="0kl-cX-BBE"/>
                             <constraint firstItem="tvM-Fh-od3" firstAttribute="leading" secondItem="KIJ-MD-wun" secondAttribute="leading" id="0yc-LJ-7Mw"/>
                             <constraint firstItem="uIb-CB-Euo" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="1ej-Pv-T8C"/>
                             <constraint firstItem="JDB-aa-UcW" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="3Xa-Zr-Kek"/>
                             <constraint firstItem="uIb-CB-Euo" firstAttribute="top" secondItem="Gtg-FR-wgH" secondAttribute="bottom" constant="8" id="6Up-ns-des"/>
+                            <constraint firstItem="jdE-OI-cI0" firstAttribute="top" secondItem="bCN-6o-vfN" secondAttribute="bottom" constant="21" id="8gR-F1-7Y2"/>
                             <constraint firstItem="uIb-CB-Euo" firstAttribute="top" secondItem="Gtg-FR-wgH" secondAttribute="bottom" id="AGQ-gH-ed9"/>
+                            <constraint firstItem="jdE-OI-cI0" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="AO7-pP-yX1"/>
                             <constraint firstItem="bCN-6o-vfN" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="GQE-ys-yuY"/>
                             <constraint firstItem="Gtg-FR-wgH" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="Odq-wq-pOk"/>
                             <constraint firstItem="2vh-hA-cQw" firstAttribute="top" secondItem="JDB-aa-UcW" secondAttribute="bottom" constant="8" id="QFo-bs-Zje"/>
@@ -102,6 +109,7 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="6Up-ns-des"/>
+                                <exclude reference="0kl-cX-BBE"/>
                                 <exclude reference="f6u-VK-zze"/>
                             </mask>
                         </variation>
@@ -110,6 +118,7 @@
                         <outlet property="centerLayout" destination="GQE-ys-yuY" id="M1t-ph-1gE"/>
                         <outlet property="enterButton" destination="Gtg-FR-wgH" id="fO5-YW-0bI"/>
                         <outlet property="firstLineLabel" destination="abs-rn-h0E" id="QcW-9b-SRC"/>
+                        <outlet property="indicatorView" destination="jdE-OI-cI0" id="bMr-GJ-JSN"/>
                         <outlet property="qqButton" destination="IoD-oD-nUs" id="x80-mG-arG"/>
                         <outlet property="secondLineLabel" destination="wOi-sE-azi" id="VPe-1C-UGF"/>
                         <outlet property="tipLabel" destination="2vh-hA-cQw" id="Pxx-yX-wFq"/>

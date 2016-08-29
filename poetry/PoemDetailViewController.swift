@@ -8,11 +8,14 @@
 
 import UIKit
 import TextAttributes
-import Kingfisher
+import AlamofireImage
+import PKHUD
 
 class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverPresentationControllerDelegate {
     
     var poem:Poem?
+    
+    var poemId:Int = 0
 
     @IBOutlet var indicator: UIActivityIndicatorView!
     
@@ -43,16 +46,32 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
         textView.userInteractionEnabled = true
         self.addParallaxEffect(textView, depth: 10)
         textView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(PoemDetailViewController.onTapText(_:))))
-        if poem != nil {
-            setPoemContent()
-        }
-        let fonts = ["\u{e620}", "\u{e62a}", "\u{e734}","\u{e614}","\u{e611}"]
-        for view in stackView.arrangedSubviews where view is UIButton {
-            let v = view as! UIButton
-            let i = stackView.arrangedSubviews.indexOf(v)!
-            v.setTitle(fonts[i], forState: .Normal)
-            v.titleLabel?.font = UIFont(name: "iconfont", size: 24)
-            v.setImage(nil, forState: .Normal)
+        if LocalDBExist {
+            dispatch_async(dispatch_get_main_queue(), { 
+                self.poem = DataManager.manager.poemById(self.poemId)
+                self.poem?.loadPoet()
+                dispatch_async(dispatch_get_main_queue(), { 
+                    self.setPoemContent()
+                })
+            })
+            Poem.GetPoemDetail(poemId, finish: { (p, err) in
+                if err != nil {
+                    HUD.flash(.LabeledError(title: "加载失败", subtitle: nil), delay: 1.0)
+                } else {
+                    self.setPoemContent()
+                    self.updateToolbar(p?.commentCount ?? 0, ft: p?.likeCount ?? 0, isFav: p?.isFav ?? false)
+                }
+            })
+        } else {
+            Poem.GetPoemDetail(poemId, finish: { (p, err) in
+                if err != nil {
+                    HUD.flash(.LabeledError(title: "加载失败", subtitle: nil), delay: 1.0)
+                } else {
+                    self.poem = p
+                    self.setPoemContent()
+                    self.updateToolbar(p?.commentCount ?? 0, ft: p?.likeCount ?? 0, isFav: p?.isFav ?? false)
+                }
+            })
         }
     }
     
@@ -76,22 +95,22 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
     
     private func setPoemContent() {
         
-        if let index = poem?.content?.hash {
+        if let index = poem?.content.hash {
             bgImageView.image = UIImage(named: "\(abs(index % 13 + 1)).jpg")
         }
-        self.titleLabel.text = poem?.name
-        self.authorLabel.text = poem?.author?.name ?? ""
+        self.titleLabel.text = poem?.title
+        self.authorLabel.text = poem?.poet?.name ?? ""
         
         let textStr = NSMutableAttributedString()
         
         let titleAttributes = TextAttributes()
         titleAttributes.font(name: UserFont, size: 28).lineSpacing(20).alignment(.Center).foregroundColor(UIColor.whiteColor())
-        textStr.appendAttributedString(NSAttributedString(string: poem?.name ?? "", attributes: titleAttributes))
+        textStr.appendAttributedString(NSAttributedString(string: poem?.title ?? "", attributes: titleAttributes))
         textStr.appendAttributedString(NSAttributedString(string: "\n"))
         
         let authorAttributes = TextAttributes()
         authorAttributes.font(name: UserFont, size: 18).lineSpacing(8).alignment(.Right).foregroundColor(UIColor.whiteColor())
-        textStr.appendAttributedString(NSAttributedString(string: poem?.author?.name ?? "", attributes: authorAttributes))
+        textStr.appendAttributedString(NSAttributedString(string: poem?.poet?.name ?? "", attributes: authorAttributes))
         textStr.appendAttributedString(NSAttributedString(string: "\n"))
         
         let textAttributes = TextAttributes()
@@ -101,11 +120,34 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
         self.textView.attributedText = textStr
         self.textView.contentOffset = CGPointZero
         
-        if poem?.author == nil {
+        if poem?.poet == nil {
             if let button =  stackView.arrangedSubviews.last as? UIButton {
                 button.enabled = false
             }
         }
+    }
+    
+    @IBAction func onLike(sender: UIButton) {
+        guard let poem = self.poem else {return }
+        poem.like({ (result, err) in
+            if err != nil {
+                HUD.flash(.LabeledError(title: nil, subtitle:  String.ErrorString(err!)), delay: 1.0)
+            } else {
+                HUD.flash(.LabeledSuccess(title: nil, subtitle: result), delay: 1.0)
+            }
+            sender.setImage(UIImage(named: poem.isFav ? "heart" : "hert") , forState: .Normal)
+            sender.setTitle("\(poem.likeCount)", forState: .Normal)
+            sender.tintColor = poem.isFav ? UIColor.flatRedColor() : UIColor.whiteColor()
+        })
+    }
+    
+    func updateToolbar(ct:Int, ft:Int, isFav: Bool) {
+        let commentButton = stackView.arrangedSubviews[0] as! UIButton
+        let likeButton = stackView.arrangedSubviews[1] as! UIButton
+        commentButton.setTitle("\(ct)", forState: .Normal)
+        likeButton.setTitle("\(ft)", forState: .Normal)
+        likeButton.setImage(UIImage(named: isFav ? "heart" : "hert") , forState: .Normal)
+        likeButton.tintColor = isFav ? UIColor.flatRedColor() : UIColor.whiteColor()
     }
     
     private func addParallaxEffect(view:UIView, depth:CGFloat) {
@@ -185,7 +227,10 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
             }
         }
         if let vc = segue.destinationViewController as? AuthorViewController {
-            vc.poet = self.poem!.author!
+            vc.poet = self.poem!.poet!
+        }
+        if let vc = segue.destinationViewController as? PoemCommentViewController {
+            vc.poem = self.poem
         }
     }
     

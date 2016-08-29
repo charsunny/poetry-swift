@@ -20,8 +20,6 @@ class AuthorViewController: UIViewController {
     
     @IBOutlet weak var likeButton: UIBarButtonItem!
     
-    @IBOutlet weak var shareButton: UIBarButtonItem!
-    
     lazy var controllers:[UIViewController] = {
         var list:[UIViewController] = []
         if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("authordetail") as? AuthorDetailViewController
@@ -60,14 +58,7 @@ class AuthorViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = poet.name
-        
-        likeButton.icon(from: .Iconic, code: "heart", ofSize: 20)
-        shareButton.icon(from: .Iconic, code: "share", ofSize: 20)
-        
-//        if let url = poet?.name.iconURL() {
-//            headImageView.kf_setImageWithURL(NSURL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
-//        }
-//        
+
         for view in buttonStackView.arrangedSubviews where view is UIButton {
             let button = view as! UIButton
             button.addTarget(self, action: #selector(AuthorViewController.onClickButton(_:)), forControlEvents: .TouchUpInside)

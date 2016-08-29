@@ -37,13 +37,13 @@ class AuthorPoemListViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         let poem = poems[indexPath.row]
-        cell.textLabel?.text = poem.name
+        cell.textLabel?.text = poem.title
         cell.textLabel?.font = UIFont.userFontWithSize(16)
         cell.detailTextLabel?.font = UIFont.userFontWithSize(14)
-        if poem.content?.characters.count > 40 {
+        if poem.content.characters.count > 40 {
             cell.detailTextLabel?.text = ((poem.content as NSString?)?.substringToIndex(40).stringByReplacingOccurrencesOfString("\r\n", withString: "") ?? "") + "..."
         } else {
-            cell.detailTextLabel?.text = poem.content?.stringByReplacingOccurrencesOfString("\r\n", withString: "")
+            cell.detailTextLabel?.text = poem.content.stringByReplacingOccurrencesOfString("\r\n", withString: "")
         }
         return cell
     }

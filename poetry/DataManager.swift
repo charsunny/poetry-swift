@@ -9,23 +9,9 @@
 import UIKit
 import SQLite
 
-public typealias Poet = (
-    id : Int,
-    period : Period?,
-    name : String,
-    desc : String?
-)
-
 public typealias Period = (
     id : Int,
     name : String
-)
-
-public typealias Poem = (
-    id : Int,
-    name : String? ,
-    content : String? ,
-    author : Poet?
 )
 
 public typealias Dict = (
@@ -33,6 +19,14 @@ public typealias Dict = (
     explain : String,
     note : String
 )
+
+public typealias SQLStringExp = Expression<String>
+
+public typealias SQLStringOExp = Expression<String?>
+
+public typealias SQLIntExp = Expression<Int>
+
+public typealias SQLiteRow = Row
 
 public class DataManager: NSObject {
     
@@ -54,7 +48,7 @@ public class DataManager: NSObject {
         super.init()
     }
     
-    public func connect() {
+    public func connect() -> Bool {
         do {
             db = try Connection("\(DocumentPath)/poem.db")
             if let ps = try db?.prepare(period) {
@@ -62,8 +56,10 @@ public class DataManager: NSObject {
                     periods[p[id]] = p[name]
                 }
             }
+            return true
         } catch let e {
             print(e)
+            return false
         }
     }
     
@@ -85,8 +81,20 @@ public class DataManager: NSObject {
         do {
             if let ps = try db?.prepare(poems.filter(self.id == id)) {
                 for p in ps {
-                    let pid = p[Expression<Int>("poet_id")]
-                    return Poem(id: p[self.id], name:p[name], content:p[content], author:self.poetById(pid))
+                    return Poem(p)
+                }
+            }
+            return nil
+        } catch {
+            return nil
+        }
+    }
+    
+    public func poemByRowId(id: Int) -> Poem? {
+        do {
+            if let ps = try db?.prepare(poems.limit(1, offset: id)) {
+                for p in ps {
+                    return Poem(p)
                 }
             }
             return nil
@@ -99,8 +107,20 @@ public class DataManager: NSObject {
         do {
             if let ps = try db?.prepare(poets.filter(self.id == id)) {
                 for p in ps {
-                    let pid = p[Expression<Int>("period_id")]
-                    return Poet(id: p[self.id], name:p[name], desc:p[desc], period:Period(id:pid, name:self.periods[pid] ?? ""))
+                    return Poet(p)
+                }
+            }
+            return nil
+        } catch {
+            return nil
+        }
+    }
+    
+    public func poetByRowId(id: Int) -> Poet? {
+        do {
+            if let ps = try db?.prepare(poets.limit(1, offset: id)) {
+                for p in ps {
+                    return Poet(p)
                 }
             }
             return nil
@@ -114,7 +134,7 @@ public class DataManager: NSObject {
         do {
             if let ps = try db?.prepare(poems.filter(Expression<Int>("poet_id") == id)) {
                 for p in ps {
-                    let poem = Poem(id: p[self.id], name:p[name], content:p[content], author:nil)
+                    let poem = Poem(p)
                     poemlist.append(poem)
                 }
             }

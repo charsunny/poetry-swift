@@ -29,7 +29,7 @@
 		A9A234891CE45542008A8BAD /* PoemTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9A234881CE45542008A8BAD /* PoemTextView.xib */; };
 		A9A2348B1CE455BC008A8BAD /* PoemTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A2348A1CE455BC008A8BAD /* PoemTextView.swift */; };
 		A9AEAE6B1CE2033E00312C8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AEAE6A1CE2033E00312C8B /* AppDelegate.swift */; };
-		A9AEAE6D1CE2033E00312C8B /* RecommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AEAE6C1CE2033E00312C8B /* RecommandViewController.swift */; };
+		A9AEAE6D1CE2033E00312C8B /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AEAE6C1CE2033E00312C8B /* RecommendViewController.swift */; };
 		A9AEAE6F1CE2033E00312C8B /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AEAE6E1CE2033E00312C8B /* ExploreViewController.swift */; };
 		A9AEAE721CE2033E00312C8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9AEAE701CE2033E00312C8B /* Main.storyboard */; };
 		A9AEAE7F1CE203F800312C8B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9AEAE7E1CE203F800312C8B /* Images.xcassets */; };
@@ -84,7 +84,7 @@
 		A9DA87621CE205DF007D4EBC /* CreaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DA87611CE205DF007D4EBC /* CreaterViewController.swift */; };
 		A9DA87641CE205F2007D4EBC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DA87631CE205F2007D4EBC /* SearchViewController.swift */; };
 		A9DA87661CE20600007D4EBC /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DA87651CE20600007D4EBC /* UserViewController.swift */; };
-		A9DA87691CE20681007D4EBC /* Recommand.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DA87671CE20681007D4EBC /* Recommand.storyboard */; };
+		A9DA87691CE20681007D4EBC /* Recommend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DA87671CE20681007D4EBC /* Recommend.storyboard */; };
 		A9DA876B1CE206D6007D4EBC /* Explore.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DA876A1CE206D6007D4EBC /* Explore.storyboard */; };
 		A9DA876E1CE20789007D4EBC /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DA876C1CE20789007D4EBC /* Chat.storyboard */; };
 		A9DA87701CE207A2007D4EBC /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9DA876F1CE207A2007D4EBC /* Search.storyboard */; };
@@ -93,6 +93,18 @@
 		B61BA4F91D6F6D9C001D2F31 /* CustomAlertViewTransitioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61BA4F81D6F6D9C001D2F31 /* CustomAlertViewTransitioner.swift */; };
 		B61BA4FB1D6F7413001D2F31 /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61BA4FA1D6F7413001D2F31 /* LikeViewController.swift */; };
 		B61BA4FD1D6F7F6F001D2F31 /* PoemCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61BA4FC1D6F7F6F001D2F31 /* PoemCardCell.swift */; };
+		B6BAF3FE1D72B00A0095A5EE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF3FD1D72B00A0095A5EE /* User.swift */; };
+		B6BAF4001D72FF1F0095A5EE /* Recommend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF3FF1D72FF1F0095A5EE /* Recommend.swift */; };
+		B6BAF4021D73001B0095A5EE /* Poem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF4011D73001B0095A5EE /* Poem.swift */; };
+		B6BAF4041D7302DF0095A5EE /* Poet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF4031D7302DF0095A5EE /* Poet.swift */; };
+		B6BAF4061D735ACF0095A5EE /* PoemCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF4051D735ACF0095A5EE /* PoemCommentViewController.swift */; };
+		B6BAF4081D735D000095A5EE /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF4071D735D000095A5EE /* Comment.swift */; };
+		B6BAF40B1D735E3F0095A5EE /* PoemSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF4091D735E3F0095A5EE /* PoemSummaryCell.swift */; };
+		B6BAF40C1D735E3F0095A5EE /* PoemSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6BAF40A1D735E3F0095A5EE /* PoemSummaryCell.xib */; };
+		B6BAF40F1D735E570095A5EE /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF40D1D735E570095A5EE /* CommentCell.swift */; };
+		B6BAF4101D735E570095A5EE /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6BAF40E1D735E570095A5EE /* CommentCell.xib */; };
+		B6BAF4121D7371340095A5EE /* CommentMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF4111D7371340095A5EE /* CommentMenuViewController.swift */; };
+		B6BAF4141D7375A90095A5EE /* SearchIndexCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF4131D7375A90095A5EE /* SearchIndexCell.swift */; };
 		B6BDC63B1D6CC09400AF0B8F /* PoemTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BDC63A1D6CC09400AF0B8F /* PoemTabBarViewController.swift */; };
 		E65FF5B5E963E81EC8D8DBF8 /* Pods_poetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF809C35B568352BAAAD91DE /* Pods_poetry.framework */; };
 /* End PBXBuildFile section */
@@ -124,7 +136,7 @@
 		A9A2348A1CE455BC008A8BAD /* PoemTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoemTextView.swift; sourceTree = "<group>"; };
 		A9AEAE671CE2033E00312C8B /* poetry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = poetry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9AEAE6A1CE2033E00312C8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A9AEAE6C1CE2033E00312C8B /* RecommandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommandViewController.swift; sourceTree = "<group>"; };
+		A9AEAE6C1CE2033E00312C8B /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		A9AEAE6E1CE2033E00312C8B /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		A9AEAE711CE2033E00312C8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A9AEAE781CE2033E00312C8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -180,7 +192,7 @@
 		A9DA87611CE205DF007D4EBC /* CreaterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreaterViewController.swift; sourceTree = "<group>"; };
 		A9DA87631CE205F2007D4EBC /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A9DA87651CE20600007D4EBC /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
-		A9DA87681CE20681007D4EBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Recommand.storyboard; sourceTree = "<group>"; };
+		A9DA87681CE20681007D4EBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Recommend.storyboard; sourceTree = "<group>"; };
 		A9DA876A1CE206D6007D4EBC /* Explore.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Explore.storyboard; sourceTree = "<group>"; };
 		A9DA876D1CE20789007D4EBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Chat.storyboard; sourceTree = "<group>"; };
 		A9DA876F1CE207A2007D4EBC /* Search.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
@@ -189,6 +201,18 @@
 		B61BA4F81D6F6D9C001D2F31 /* CustomAlertViewTransitioner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlertViewTransitioner.swift; sourceTree = "<group>"; };
 		B61BA4FA1D6F7413001D2F31 /* LikeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		B61BA4FC1D6F7F6F001D2F31 /* PoemCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoemCardCell.swift; sourceTree = "<group>"; };
+		B6BAF3FD1D72B00A0095A5EE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B6BAF3FF1D72FF1F0095A5EE /* Recommend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recommend.swift; sourceTree = "<group>"; };
+		B6BAF4011D73001B0095A5EE /* Poem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poem.swift; sourceTree = "<group>"; };
+		B6BAF4031D7302DF0095A5EE /* Poet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poet.swift; sourceTree = "<group>"; };
+		B6BAF4051D735ACF0095A5EE /* PoemCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoemCommentViewController.swift; sourceTree = "<group>"; };
+		B6BAF4071D735D000095A5EE /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		B6BAF4091D735E3F0095A5EE /* PoemSummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoemSummaryCell.swift; sourceTree = "<group>"; };
+		B6BAF40A1D735E3F0095A5EE /* PoemSummaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PoemSummaryCell.xib; sourceTree = "<group>"; };
+		B6BAF40D1D735E570095A5EE /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		B6BAF40E1D735E570095A5EE /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
+		B6BAF4111D7371340095A5EE /* CommentMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentMenuViewController.swift; sourceTree = "<group>"; };
+		B6BAF4131D7375A90095A5EE /* SearchIndexCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchIndexCell.swift; sourceTree = "<group>"; };
 		B6BDC63A1D6CC09400AF0B8F /* PoemTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoemTabBarViewController.swift; sourceTree = "<group>"; };
 		CD021FA4C2ADDD4281A817C3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF809C35B568352BAAAD91DE /* Pods_poetry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_poetry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -230,6 +254,11 @@
 			isa = PBXGroup;
 			children = (
 				A9DA87751CE31A5E007D4EBC /* DataManager.swift */,
+				B6BAF3FD1D72B00A0095A5EE /* User.swift */,
+				B6BAF3FF1D72FF1F0095A5EE /* Recommend.swift */,
+				B6BAF4011D73001B0095A5EE /* Poem.swift */,
+				B6BAF4031D7302DF0095A5EE /* Poet.swift */,
+				B6BAF4071D735D000095A5EE /* Comment.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -257,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				A9DA876F1CE207A2007D4EBC /* Search.storyboard */,
+				B6BAF4131D7375A90095A5EE /* SearchIndexCell.swift */,
 				1605B5B51D71957600A781AE /* SearchResultListViewController.swift */,
 				1605B5B31D71915800A781AE /* SearchResultViewController.swift */,
 				A9DA87631CE205F2007D4EBC /* SearchViewController.swift */,
@@ -274,11 +304,11 @@
 			name = views;
 			sourceTree = "<group>";
 		};
-		A912E0ED1CED6B1D007EB8AC /* recommand */ = {
+		A912E0ED1CED6B1D007EB8AC /* recommend */ = {
 			isa = PBXGroup;
 			children = (
-				A9DA87671CE20681007D4EBC /* Recommand.storyboard */,
-				A9AEAE6C1CE2033E00312C8B /* RecommandViewController.swift */,
+				A9DA87671CE20681007D4EBC /* Recommend.storyboard */,
+				A9AEAE6C1CE2033E00312C8B /* RecommendViewController.swift */,
 				A9C847801CE5AFB20089D035 /* PoemDetailViewController.swift */,
 				A912E0F01CED9802007EB8AC /* RecHistoryViewController.swift */,
 				A9C847861CE5EDBF0089D035 /* DictViewController.swift */,
@@ -287,8 +317,14 @@
 				1664989A1D6DB42E00370655 /* AuthorDetailViewController.swift */,
 				1664989C1D6DB43F00370655 /* AuthorHotPoemViewController.swift */,
 				1664989E1D6DB45500370655 /* AuthorRelatedViewController.swift */,
+				B6BAF4051D735ACF0095A5EE /* PoemCommentViewController.swift */,
+				B6BAF4111D7371340095A5EE /* CommentMenuViewController.swift */,
+				B6BAF4091D735E3F0095A5EE /* PoemSummaryCell.swift */,
+				B6BAF40A1D735E3F0095A5EE /* PoemSummaryCell.xib */,
+				B6BAF40D1D735E570095A5EE /* CommentCell.swift */,
+				B6BAF40E1D735E570095A5EE /* CommentCell.xib */,
 			);
-			name = recommand;
+			name = recommend;
 			sourceTree = "<group>";
 		};
 		A912E0F21CEDAB1B007EB8AC /* explore */ = {
@@ -348,7 +384,7 @@
 				161976391D70290D004197DA /* model */,
 				B6BDC6391D6CC07400AF0B8F /* base */,
 				1605B5B71D71A31400A781AE /* login */,
-				A912E0ED1CED6B1D007EB8AC /* recommand */,
+				A912E0ED1CED6B1D007EB8AC /* recommend */,
 				A90A44E61CF3286B00DE3901 /* search */,
 				A912E0F41CF304ED007EB8AC /* chat */,
 				A912E0F21CEDAB1B007EB8AC /* explore */,
@@ -502,7 +538,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9DA87691CE20681007D4EBC /* Recommand.storyboard in Resources */,
+				A9DA87691CE20681007D4EBC /* Recommend.storyboard in Resources */,
 				A9DA876E1CE20789007D4EBC /* Chat.storyboard in Resources */,
 				A9AEAEDA1CE2049D00312C8B /* rhyme.plist in Resources */,
 				A9AEAEC21CE2049D00312C8B /* 4.jpg in Resources */,
@@ -535,6 +571,7 @@
 				A9AEAE821CE2048F00312C8B /* LaunchScreen.xib in Resources */,
 				A9AEAECD1CE2049D00312C8B /* FZBWF.ttf in Resources */,
 				A9AEAECA1CE2049D00312C8B /* color.plist in Resources */,
+				B6BAF4101D735E570095A5EE /* CommentCell.xib in Resources */,
 				A9AEAEB81CE2049D00312C8B /* 009@2x.jpg in Resources */,
 				A9AEAECE1CE2049D00312C8B /* FZBWJ.ttf in Resources */,
 				A9AEAECF1CE2049D00312C8B /* GuZheng_1.mp3 in Resources */,
@@ -553,6 +590,7 @@
 				A9AEAEB71CE2049D00312C8B /* 008@2x.jpg in Resources */,
 				A9AEAE721CE2033E00312C8B /* Main.storyboard in Resources */,
 				A9AEAED71CE2049D00312C8B /* HYQuanTangShiF.ttf in Resources */,
+				B6BAF40C1D735E3F0095A5EE /* PoemSummaryCell.xib in Resources */,
 				A9AEAECB1CE2049D00312C8B /* fsongti.ttf in Resources */,
 				A9C847831CE5C4880089D035 /* iconfont.ttf in Resources */,
 				A9AEAED51CE2049D00312C8B /* GuZheng_7.mp3 in Resources */,
@@ -615,10 +653,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6BAF4041D7302DF0095A5EE /* Poet.swift in Sources */,
+				B6BAF4061D735ACF0095A5EE /* PoemCommentViewController.swift in Sources */,
 				A9DA87641CE205F2007D4EBC /* SearchViewController.swift in Sources */,
 				16F6B7671D70405A00286C43 /* MessageViewController.swift in Sources */,
 				1619763F1D70295F004197DA /* Request.swift in Sources */,
 				1605B5B61D71957600A781AE /* SearchResultListViewController.swift in Sources */,
+				B6BAF3FE1D72B00A0095A5EE /* User.swift in Sources */,
 				161976401D70295F004197DA /* Router.swift in Sources */,
 				A9DA87661CE20600007D4EBC /* UserViewController.swift in Sources */,
 				1619763E1D70295F004197DA /* Error.swift in Sources */,
@@ -629,18 +670,25 @@
 				B6BDC63B1D6CC09400AF0B8F /* PoemTabBarViewController.swift in Sources */,
 				A9DA87761CE31A5E007D4EBC /* DataManager.swift in Sources */,
 				A912E0F61CF30517007EB8AC /* ChatListViewController.swift in Sources */,
+				B6BAF4121D7371340095A5EE /* CommentMenuViewController.swift in Sources */,
 				A912E0F11CED9802007EB8AC /* RecHistoryViewController.swift in Sources */,
 				A9AEAE6B1CE2033E00312C8B /* AppDelegate.swift in Sources */,
+				B6BAF40B1D735E3F0095A5EE /* PoemSummaryCell.swift in Sources */,
+				B6BAF4141D7375A90095A5EE /* SearchIndexCell.swift in Sources */,
 				1664989F1D6DB45500370655 /* AuthorRelatedViewController.swift in Sources */,
+				B6BAF4081D735D000095A5EE /* Comment.swift in Sources */,
 				1605B5B41D71915800A781AE /* SearchResultViewController.swift in Sources */,
-				A9AEAE6D1CE2033E00312C8B /* RecommandViewController.swift in Sources */,
+				A9AEAE6D1CE2033E00312C8B /* RecommendViewController.swift in Sources */,
 				16F6B7651D70402100286C43 /* UserNotifViewController.swift in Sources */,
 				A9A2348B1CE455BC008A8BAD /* PoemTextView.swift in Sources */,
+				B6BAF40F1D735E570095A5EE /* CommentCell.swift in Sources */,
 				16F6B7691D70475E00286C43 /* SettingViewController.swift in Sources */,
+				B6BAF4001D72FF1F0095A5EE /* Recommend.swift in Sources */,
 				B61BA4F91D6F6D9C001D2F31 /* CustomAlertViewTransitioner.swift in Sources */,
 				1605B5BB1D71AB2000A781AE /* LaunchViewController.swift in Sources */,
 				1664989B1D6DB42E00370655 /* AuthorDetailViewController.swift in Sources */,
 				A9C847871CE5EDBF0089D035 /* DictViewController.swift in Sources */,
+				B6BAF4021D73001B0095A5EE /* Poem.swift in Sources */,
 				166498991D6DB41C00370655 /* AuthorPoemListViewController.swift in Sources */,
 				A9C847811CE5AFB20089D035 /* PoemDetailViewController.swift in Sources */,
 				A9C847851CE5D0450089D035 /* UIGradientView.swift in Sources */,
@@ -668,12 +716,12 @@
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
-		A9DA87671CE20681007D4EBC /* Recommand.storyboard */ = {
+		A9DA87671CE20681007D4EBC /* Recommend.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				A9DA87681CE20681007D4EBC /* Base */,
 			);
-			name = Recommand.storyboard;
+			name = Recommend.storyboard;
 			sourceTree = "<group>";
 		};
 		A9DA876C1CE20789007D4EBC /* Chat.storyboard */ = {
@@ -795,6 +843,7 @@
 				INFOPLIST_FILE = poetry/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charsunny.poetry;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

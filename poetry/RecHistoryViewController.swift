@@ -103,7 +103,7 @@ class RecHistoryViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if let vc = segue.destinationViewController as? RecommandViewController {
+        if let vc = segue.destinationViewController as? RecommendViewController {
             let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)!
             vc.recInfo = recs[indexPath.section]
         }

@@ -18,6 +18,8 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         return tmpVC
     }()
     
+    var day:Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchController = UISearchController(searchResultsController: searchResultVC)
@@ -28,6 +30,8 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         searchController.definesPresentationContext = true
         searchController.searchBar.placeholder = "搜索诗人、诗词"
         self.navigationItem.titleView = searchController.searchBar
+        let calendaer = NSCalendar(identifier: NSCalendarIdentifierGregorian)
+        day = abs(calendaer?.components(.Day, fromDate: NSDate(), toDate: NSDate.init(timeIntervalSince1970: 0), options: .WrapComponents).day ?? 1)
     }
 
     
@@ -86,9 +90,15 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("hcell", forIndexPath: indexPath)
+           
             cell.textLabel?.text = titles[indexPath.section]
         } else if indexPath.section < 3 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! SearchIndexCell
+            if indexPath.section == 0 {
+                 cell.poem = DataManager.manager.poemByRowId(day%50000)
+            } else if indexPath.section == 2 {
+                 cell.poet = DataManager.manager.poetByRowId(day%2000)
+            }
             return cell
         } else if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCellWithIdentifier("pcell", forIndexPath: indexPath)

@@ -63,7 +63,7 @@
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="charsunny" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rGe-f5-hS5">
                                                                             <rect key="frame" x="0.0" y="0.0" width="526" height="31"/>
                                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2006-08-15" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ks-4A-jEZ">
@@ -116,7 +116,7 @@
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="静夜思" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KB7-I2-OIv">
                                                                             <rect key="frame" x="0.0" y="0.0" width="518" height="32"/>
                                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="唐 李白" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NWz-KR-tVU">
@@ -204,13 +204,13 @@
                                                                 <constraint firstAttribute="height" constant="50" id="tnY-aj-SgE"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9MH-c2-k6c">
                                                             <rect key="frame" x="12" y="58" width="552" height="184"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -280,7 +280,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="jsQ-MN-ikg" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="top" id="3Ne-oV-fpD"/>
                             <constraint firstItem="jsQ-MN-ikg" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" id="CJf-HX-wbc"/>
@@ -303,7 +303,7 @@
         <!--poemvc-->
         <scene sceneID="KCc-t0-Jlr">
             <objects>
-                <viewControllerPlaceholder storyboardName="Recommand" referencedIdentifier="poemvc" id="Z5O-Ts-mCZ" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Recommend" referencedIdentifier="poemvc" id="Z5O-Ts-mCZ" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="05d-wd-ucE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2058" y="54"/>
@@ -418,7 +418,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
-                            <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -437,7 +437,7 @@
     <resources>
         <image name="8.jpg" width="640" height="960"/>
         <image name="comment" width="16" height="16"/>
-        <image name="defaulticon" width="60" height="60"/>
+        <image name="defaulticon" width="80" height="80"/>
         <image name="heart" width="16" height="16"/>
         <image name="share" width="16" height="16"/>
     </resources>
