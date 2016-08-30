@@ -8,6 +8,7 @@
 
 import UIKit
 import PKHUD
+import SwiftyJSON
 
 class LaunchViewController: UIViewController, TencentSessionDelegate {
 
@@ -29,6 +30,8 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
     @IBOutlet weak var tipLabel: UILabel!
     
     var qqOAuth : TencentOAuth!
+    
+    var openId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +102,23 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
    
     func tencentDidLogin() {
         debugPrint(qqOAuth.appId)
+        if qqOAuth.getUserInfo() {
+            self.openId = qqOAuth.openId
+            HUD.show(.Progress)
+        } else {
+            HUD.flash(.LabeledError(title: "拉取授权信息失败", subtitle:""), delay: 1)
+        }
+    }
+    
+    func getUserInfoResponse(response: APIResponse!) {
+        guard let openId = self.openId else {return}
+        guard let dict = response.jsonResponse else {return}
+        Login.LoginWithSNS(dict["nickname"] as? String ?? "", gender: 1, avatar: (dict["figureurl_qq_2"] as? String ?? dict["figureurl_2"] as? String  ?? ""), userId: openId, snsType: 2, finish: { (login, err) in
+            HUD.hide()
+            if err != nil {
+                HUD.flash(.LabeledError(title: "登录失败", subtitle: String.ErrorString(err!)), delay: 1)
+            } 
+        })
     }
     
     func tencentDidNotLogin(cancelled: Bool) {

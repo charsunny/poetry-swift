@@ -20,18 +20,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loadtitle" translatesAutoresizingMaskIntoConstraints="NO" id="bCN-6o-vfN">
-                                <rect key="frame" x="269.5" y="208" width="61" height="184"/>
+                                <rect key="frame" x="269" y="208" width="61" height="184"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="uIb-CB-Euo">
                                 <rect key="frame" x="260" y="195" width="80" height="210"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="谁家新燕啄春泥" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abs-rn-h0E">
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="应似飞鸿踏雪泥" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abs-rn-h0E">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="210"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="几处早莺争暖树" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOi-sE-azi">
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="人生到处知何似" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOi-sE-azi">
                                         <rect key="frame" x="40" y="0.0" width="40" height="210"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -46,14 +46,14 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="JDB-aa-UcW">
                                 <rect key="frame" x="240" y="405" width="120" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kNA-0I-WJ7">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kNA-0I-WJ7">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
                                         <state key="normal" image="weibo"/>
                                         <connections>
                                             <action selector="loginWithWeibo:" destination="mja-cL-jzF" eventType="touchUpInside" id="T1I-74-7I2"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IoD-oD-nUs">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IoD-oD-nUs">
                                         <rect key="frame" x="60" y="0.0" width="60" height="50"/>
                                         <state key="normal" image="qq"/>
                                         <connections>
@@ -72,9 +72,12 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gtg-FR-wgH">
-                                <rect key="frame" x="270" y="165" width="60" height="30"/>
-                                <state key="normal" title="进入诗词"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gtg-FR-wgH">
+                                <rect key="frame" x="270" y="161" width="60" height="30"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <state key="normal" title="进入诗词">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="enterMainPage:" destination="mja-cL-jzF" eventType="touchUpInside" id="5Fq-pY-zAU"/>
                                 </connections>
@@ -92,7 +95,7 @@
                             <constraint firstItem="JDB-aa-UcW" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="3Xa-Zr-Kek"/>
                             <constraint firstItem="uIb-CB-Euo" firstAttribute="top" secondItem="Gtg-FR-wgH" secondAttribute="bottom" constant="8" id="6Up-ns-des"/>
                             <constraint firstItem="jdE-OI-cI0" firstAttribute="top" secondItem="bCN-6o-vfN" secondAttribute="bottom" constant="21" id="8gR-F1-7Y2"/>
-                            <constraint firstItem="uIb-CB-Euo" firstAttribute="top" secondItem="Gtg-FR-wgH" secondAttribute="bottom" id="AGQ-gH-ed9"/>
+                            <constraint firstItem="uIb-CB-Euo" firstAttribute="top" secondItem="Gtg-FR-wgH" secondAttribute="bottom" constant="4" id="AGQ-gH-ed9"/>
                             <constraint firstItem="jdE-OI-cI0" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="AO7-pP-yX1"/>
                             <constraint firstItem="bCN-6o-vfN" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="GQE-ys-yuY"/>
                             <constraint firstItem="Gtg-FR-wgH" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="Odq-wq-pOk"/>

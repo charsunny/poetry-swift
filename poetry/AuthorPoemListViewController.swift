@@ -56,7 +56,7 @@ class AuthorPoemListViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         if let poemVC = segue.destinationViewController as? PoemDetailViewController {
             let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)!
-            poemVC.poem = poems[indexPath.row]
+            poemVC.poemId = poems[indexPath.row].id
         }
     }
 

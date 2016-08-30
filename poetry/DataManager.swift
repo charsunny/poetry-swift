@@ -25,6 +25,7 @@ public typealias SQLStringExp = Expression<String>
 public typealias SQLStringOExp = Expression<String?>
 
 public typealias SQLIntExp = Expression<Int>
+public typealias SQLIntOExp = Expression<Int?>
 
 public typealias SQLiteRow = Row
 
@@ -34,6 +35,7 @@ public class DataManager: NSObject {
     
     private var db:Connection?
     private var poems:Table = Table("poem")
+    private var formats:Table = Table("poem_format")
     private var poets:Table = Table("poet")
     private var period:Table = Table("period")
     private var dict:Table = Table("dict")
@@ -44,6 +46,7 @@ public class DataManager: NSObject {
     private let desc = Expression<String?>("description_cn")
     private let content = Expression<String?>("text_cn")
     public var periods:[Int:String] = [:]
+    public var formatDict:[String:Int] = [:]
     
     private override init() {
         super.init()
@@ -57,20 +60,25 @@ public class DataManager: NSObject {
                     periods[p[id]] = p[name]
                 }
             }
-            dispatch_async(dispatch_get_global_queue(0, 0)) {
-                do {
-                    try self.db?.run(self.poemsearch.create(.FTS4([SQLIntExp("id"), SQLStringExp("name_cn"), SQLStringExp("text_cn"), SQLStringExp("poet_name")], tokenize : Tokenizer.Unicode61())))
-                    if let pm = try self.db?.prepare(self.poems) {
-                        for p in pm {
-                            let poem = Poem(p)
-                            poem.loadPoet()
-                            try self.db?.run(self.poemsearch.insert(SQLIntExp("id") <- poem.id, SQLStringExp("name_cn") <- poem.title, SQLStringExp("text_cn") <- poem.content, SQLStringExp("poet_name") <- (poem.poet?.name ?? "")))
-                        }
-                    }
-                } catch let e {
-                    print(e)
+            if let ps = try db?.prepare(formats.filter(SQLIntExp("type") == 0).filter(self.id == id)) {
+                for p in ps {
+                    formatDict[p[SQLStringExp("name_cn")]] = p[SQLIntExp("id")]
                 }
             }
+//            dispatch_async(dispatch_get_global_queue(0, 0)) {
+//                do {
+//                    try self.db?.run(self.poemsearch.create(.FTS4([SQLIntExp("id"), SQLStringExp("name_cn"), SQLStringExp("text_cn"), SQLStringExp("poet_name"), SQLIntExp("poet_id")], tokenize : Tokenizer.Simple)))
+//                    if let pm = try self.db?.prepare(self.poems) {
+//                        for p in pm {
+//                            let poem = Poem(p)
+//                            poem.loadPoet()
+//                            try self.db?.run(self.poemsearch.insert(SQLIntExp("id") <- poem.id, SQLStringExp("name_cn") <- poem.title, SQLStringExp("text_cn") <- poem.content, SQLStringExp("poet_name") <- (poem.poet?.name ?? ""),SQLIntExp("id") <- (poem.poet?.id ?? 0)))
+//                        }
+//                    }
+//                } catch let e {
+//                    print(e)
+//                }
+//            }
             return true
         } catch let e {
             print(e)
@@ -82,10 +90,9 @@ public class DataManager: NSObject {
         do {
             var list:[Poem] = []
             
-            if let ps = try db?.prepare(poemsearch.match(text)) {
+            if let ps = try db?.prepare(poemsearch.match(text).limit(20)) {
                 for p in ps {
-                    let poem = Poem(p)
-                    poem.loadPoet()
+                    let poem = Poem(p, hasName: true)
                     list.append(poem)
                 }
             }
@@ -94,6 +101,33 @@ public class DataManager: NSObject {
             return []
         }
     }
+    
+    public func searchFormat(text: String) -> [PoemFormat] {
+        return formatDict.keys.filter { $0.containsString(text)}.map { (key) -> PoemFormat in
+            return self.formatById(self.formatDict[key]!)!
+        }
+    }
+    
+    public func searchAuthor(text:String) -> [Poet] {
+        do {
+            var list:[Poet] = []
+            var pnames:Set<String> = []
+            if let ps = try db?.prepare(poemsearch.filter(SQLStringExp("poet_name").match(text)).limit(20)) {
+                for p in ps {
+                    let name = p[SQLStringExp("poet_name")]
+                    pnames.insert(name)
+                }
+            }
+            for name in pnames {
+                list.appendContentsOf(poetByName(name))
+            }
+            return list
+        } catch {
+            return []
+        }
+    }
+    
+    
     
     public func explain(key:String) -> String? {
         do {
@@ -108,6 +142,33 @@ public class DataManager: NSObject {
             return nil
         }
     }
+    
+    public func formatById(id: Int) -> PoemFormat? {
+        do {
+            if let ps = try db?.prepare(formats.filter(self.id == id)) {
+                for p in ps {
+                    return PoemFormat(p)
+                }
+            }
+            return nil
+        } catch {
+            return nil
+        }
+    }
+    
+    public func formatByRowId(id: Int) -> PoemFormat? {
+        do {
+            if let ps = try db?.prepare(formats.filter(SQLIntExp("type") == 0).limit(1, offset: id)) {
+                for p in ps {
+                    return PoemFormat(p)
+                }
+            }
+            return nil
+        } catch {
+            return nil
+        }
+    }
+
     
     public func poemById(id: Int) -> Poem? {
         do {
@@ -145,6 +206,20 @@ public class DataManager: NSObject {
             return nil
         } catch {
             return nil
+        }
+    }
+    
+    public func poetByName(str: String) -> [Poet] {
+        do {
+            var pts:[Poet] = []
+            if let ps = try db?.prepare(poets.filter(self.name == str)) {
+                for p in ps {
+                    pts.append(Poet(p))
+                }
+            }
+            return pts
+        } catch {
+            return []
         }
     }
     

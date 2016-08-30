@@ -31,10 +31,6 @@ class AuthorViewController: UIViewController {
             vc.poet = self.poet
             list.append(vc)
         }
-        if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("poemlist") as? AuthorPoemListViewController {
-            vc.poet = self.poet
-            list.append(vc)
-        }
         list.append(self.storyboard!.instantiateViewControllerWithIdentifier("relatevc"))
         return list
     }()
@@ -46,13 +42,12 @@ class AuthorViewController: UIViewController {
     var poet:Poet!
     
     enum AuthorColumn : Int {
-        case Hot = 0
+        case Intro = 0
         case Poem = 1
-        case Intro = 2
-        case Relative = 3
+        case Relative = 2
     }
     
-    var column:AuthorColumn = .Hot
+    var column:AuthorColumn = .Intro
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,7 +118,7 @@ extension AuthorViewController:UIPageViewControllerDelegate, UIPageViewControlle
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         let index = controllers.indexOf(viewController)!
-        if index == 3 {
+        if index == 2 {
             return nil
         }
         return controllers[index+1]

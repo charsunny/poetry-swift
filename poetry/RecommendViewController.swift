@@ -41,7 +41,7 @@ class RecommendViewController: UITableViewController {
         headerView.indicatorView.startAnimation()
         
         if !LocalDBExist {
-            let alertController = UIAlertController(title: "下载诗词数据", message: "检测到诗词数据库文件尚未下载，为了您更好的体验，请您先下载数据库文件(9.27MB)。", preferredStyle: .Alert)
+            let alertController = UIAlertController(title: "下载诗词数据", message: "检测到诗词数据库文件尚未下载，为了您更好的体验，请您先下载数据库文件(31.94MB)。", preferredStyle: .Alert)
             alertController.addAction(UIAlertAction(title: "暂不下载", style: .Cancel, handler: nil))
             alertController.addAction(UIAlertAction(title: "立即下载", style: .Default, handler: { (_) in
                 let statusBarView = JDStatusBarNotification.showWithStatus("正在下载诗词数据", styleName: JDStatusBarStyleDark)
@@ -81,7 +81,7 @@ class RecommendViewController: UITableViewController {
             self.isLoading = false
             self.needLoading = false
             if err != nil {
-                self.headerView.timeLabel.text = "错"
+                self.headerView.titleLabel.text = "错"
                 self.headerView.descLabel.text = "加载推荐失败，请重试..."
                 return
             }

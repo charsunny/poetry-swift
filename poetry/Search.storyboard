@@ -362,7 +362,7 @@
                                                     <rect key="frame" x="80" y="0.0" width="520" height="99"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="xxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q7h-FI-Efn">
-                                                            <rect key="frame" x="208.5" y="8" width="23" height="18"/>
+                                                            <rect key="frame" x="8" y="8" width="504" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -379,17 +379,19 @@
                                                         <constraint firstItem="Q7h-FI-Efn" firstAttribute="top" secondItem="ekj-k9-vVp" secondAttribute="top" constant="8" id="48n-Iz-Hov"/>
                                                         <constraint firstAttribute="bottom" secondItem="ebl-Nw-cde" secondAttribute="bottom" constant="8" id="Ci5-9k-X8b"/>
                                                         <constraint firstItem="ebl-Nw-cde" firstAttribute="leading" secondItem="ekj-k9-vVp" secondAttribute="leading" constant="8" id="Dgu-WN-bcC"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Q7h-FI-Efn" secondAttribute="trailing" constant="8" id="I6v-Ae-914"/>
                                                         <constraint firstAttribute="trailing" secondItem="ebl-Nw-cde" secondAttribute="trailing" constant="8" id="P4S-lv-URQ"/>
                                                         <constraint firstItem="Q7h-FI-Efn" firstAttribute="centerX" secondItem="ekj-k9-vVp" secondAttribute="centerX" id="PYj-tO-WAx"/>
+                                                        <constraint firstItem="Q7h-FI-Efn" firstAttribute="leading" secondItem="ekj-k9-vVp" secondAttribute="leading" constant="8" id="Ujs-3v-WpV"/>
                                                         <constraint firstItem="Q7h-FI-Efn" firstAttribute="centerX" secondItem="ebl-Nw-cde" secondAttribute="centerX" id="VVa-K9-Yei"/>
                                                         <constraint firstItem="ebl-Nw-cde" firstAttribute="top" secondItem="Q7h-FI-Efn" secondAttribute="bottom" constant="8" id="XOh-Zp-VZG"/>
                                                         <constraint firstItem="ebl-Nw-cde" firstAttribute="top" secondItem="ekj-k9-vVp" secondAttribute="top" constant="8" id="dxN-CX-XGh"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="dxN-CX-XGh"/>
                                                             <exclude reference="PYj-tO-WAx"/>
                                                             <exclude reference="VVa-K9-Yei"/>
+                                                            <exclude reference="dxN-CX-XGh"/>
                                                         </mask>
                                                     </variation>
                                                 </view>
@@ -403,6 +405,11 @@
                                         <constraint firstItem="Q7h-FI-Efn" firstAttribute="centerX" secondItem="pHF-QL-527" secondAttribute="centerX" id="l6m-rl-xV9"/>
                                         <constraint firstAttribute="trailing" secondItem="dm9-ev-wPE" secondAttribute="trailing" id="xyQ-fW-3Ts"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="l6m-rl-xV9"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="descLabel" destination="ebl-Nw-cde" id="yjX-wo-BN7"/>
@@ -418,6 +425,10 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Vlm-8S-OAG"/>
+                    <connections>
+                        <segue destination="T9E-bw-9uU" kind="show" identifier="showpoem" id="FHp-qB-fnh"/>
+                        <segue destination="Z2b-VW-MAE" kind="show" identifier="showpoet" id="jW0-AQ-rfD"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DHz-jw-WeB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -448,7 +459,7 @@
         <!--搜索结果-->
         <scene sceneID="MRN-l2-Mj9">
             <objects>
-                <viewController storyboardIdentifier="searchresult" id="IGX-cb-PSu" customClass="SearchResultViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="searchresult" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" id="IGX-cb-PSu" customClass="SearchResultViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qpL-yh-ItU"/>
                         <viewControllerLayoutGuide type="bottom" id="y8m-XS-cKY"/>
@@ -557,7 +568,7 @@
             </objects>
             <point key="canvasLocation" x="1807" y="244.5"/>
         </scene>
-        <!--Search Result List View Controller-->
+        <!--Empty Data Set Delegate-->
         <scene sceneID="ASt-gY-6xN">
             <objects>
                 <tableViewController storyboardIdentifier="searchlist" id="0IU-Y7-hXV" customClass="SearchResultListViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
@@ -578,12 +589,30 @@
                         <connections>
                             <outlet property="dataSource" destination="0IU-Y7-hXV" id="JUP-mM-0il"/>
                             <outlet property="delegate" destination="0IU-Y7-hXV" id="WMd-Nx-uaA"/>
+                            <outlet property="emptyDataSetDelegate" destination="0IU-Y7-hXV" id="g8L-7S-NAD"/>
+                            <outlet property="emptyDataSetSource" destination="0IU-Y7-hXV" id="VjP-4l-wOn"/>
                         </connections>
                     </tableView>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="61Y-9t-Ow7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2442" y="274"/>
+        </scene>
+        <!--poemvc-->
+        <scene sceneID="TlJ-q7-By2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Recommend" referencedIdentifier="poemvc" id="T9E-bw-9uU" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S03-nf-ljY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1641" y="730"/>
+        </scene>
+        <!--poetvc-->
+        <scene sceneID="lCL-9U-fS4">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Recommend" referencedIdentifier="poetvc" id="Z2b-VW-MAE" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LIw-g9-LEe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1651" y="894"/>
         </scene>
     </scenes>
     <resources>

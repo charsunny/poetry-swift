@@ -10,6 +10,28 @@ import UIKit
 import Alamofire
 import ObjectMapper
 
+public class PoemFormat: Mappable {
+    var id   : Int = 0
+    var name : String = ""
+    var desc	: String = ""
+    
+    required public init?(_ map: Map) {
+        
+    }
+    
+    public init(_ row:SQLiteRow) {
+        id = row.get(SQLIntExp("id"))
+        name = row.get(SQLStringExp("name_cn"))
+        desc = row.get(SQLStringOExp("description_cn")) ?? ""
+    }
+    
+    public func mapping(map: Map) {
+        id <- map["Id"]
+        name <- map["Name"]
+        desc <- map["Desc"]
+    }
+}
+
 public class Poem: Mappable {
     
     static func GetPoemDetail(id:Int, finish:(Poem?, BackendError?)->Void) {
@@ -31,21 +53,31 @@ public class Poem: Mappable {
     var isFav:Bool = false
     var poet : Poet?
     private var pid :Int = 0
-    
+    private var fid :Int = 0
+    var pname : String?
     required public init?(_ map: Map) {
         
     }
     
-    public init(_ row:SQLiteRow) {
+    public init(_ row:SQLiteRow, hasName name:Bool = false) {
         id = row.get(SQLIntExp("id"))
         title = row.get(SQLStringExp("name_cn"))
         content = row.get(SQLStringExp("text_cn"))
-        pid = row.get(SQLIntExp("poet_id"))
-        
+        if !name {
+            pid = row[SQLIntOExp("poet_id")] ?? 0
+            fid = row[SQLIntOExp("format_id")] ?? 0
+            format = DataManager.manager.formatById(fid)?.name ?? ""
+        } else {
+            pname = row[SQLStringOExp("poet_name")]
+        }
     }
     
     public func loadPoet() {
-        poet = DataManager.manager.poetById(pid)
+        if pid > 0 {
+            poet = DataManager.manager.poetById(pid)
+        } else if let pname = pname {
+            poet = DataManager.manager.poetByName(pname).first
+        }
     }
     
     public func mapping(map: Map) {

@@ -1575,7 +1575,7 @@
         <!--Author View Controller-->
         <scene sceneID="2TD-21-5QT">
             <objects>
-                <viewController id="h8R-ab-SMW" customClass="AuthorViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="poetvc" id="h8R-ab-SMW" customClass="AuthorViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Xd4-PJ-L5U"/>
                         <viewControllerLayoutGuide type="bottom" id="44E-dR-rtL"/>
@@ -1591,29 +1591,22 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="38"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I51-ZE-tn9">
-                                                <rect key="frame" x="0.0" y="0.0" width="150" height="38"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="38"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <state key="normal" title="简介">
                                                     <color key="titleColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bqa-wm-pd0">
-                                                <rect key="frame" x="150" y="0.0" width="150" height="38"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <state key="normal" title="热门">
-                                                    <color key="titleColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Xd-8R-553">
-                                                <rect key="frame" x="300" y="0.0" width="150" height="38"/>
+                                                <rect key="frame" x="200" y="0.0" width="200" height="38"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="作品">
                                                     <color key="titleColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqD-wN-jvk">
-                                                <rect key="frame" x="450" y="0.0" width="150" height="38"/>
+                                                <rect key="frame" x="400" y="0.0" width="200" height="38"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="相关">
                                                     <color key="titleColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
@@ -1625,7 +1618,7 @@
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XIh-uG-btX">
-                                        <rect key="frame" x="0.0" y="38" width="150" height="2"/>
+                                        <rect key="frame" x="0.0" y="38" width="200" height="2"/>
                                         <color key="backgroundColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="2" id="EzQ-Bh-Gkx"/>

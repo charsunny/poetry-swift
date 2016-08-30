@@ -17,7 +17,7 @@ enum Router : URLRequestConvertible {
 #if !DEBUG
     static let baseURLString = "https://api.classicpoem.com"
 #else
-    static let baseURLString = "http://192.168.3.9:8080"
+    static let baseURLString = "http://192.168.31.206:8080"
 #endif
    
     static let version = "v1"

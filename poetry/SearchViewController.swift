@@ -18,7 +18,22 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         return tmpVC
     }()
     
-    var day:Int = 0
+    lazy var recPoem : Poem? = {
+        return DataManager.manager.poemByRowId(self.day%50000)
+    }()
+    
+    lazy var recPoet : Poet? = {
+        return DataManager.manager.poetByRowId(self.day%2000)
+    }()
+    
+    lazy var recFormat : PoemFormat? = {
+        return DataManager.manager.formatByRowId(self.day%170)
+    }()
+    
+    lazy var day:Int =  {
+        let calendaer = NSCalendar(identifier: NSCalendarIdentifierGregorian)
+        return abs(calendaer?.components(.Day, fromDate: NSDate(), toDate: NSDate.init(timeIntervalSince1970: 0), options: .WrapComponents).day ?? 1)
+    } ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,24 +45,23 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         searchController.definesPresentationContext = true
         searchController.searchBar.placeholder = "搜索诗人、诗词"
         self.navigationItem.titleView = searchController.searchBar
-        let calendaer = NSCalendar(identifier: NSCalendarIdentifierGregorian)
-        day = abs(calendaer?.components(.Day, fromDate: NSDate(), toDate: NSDate.init(timeIntervalSince1970: 0), options: .WrapComponents).day ?? 1)
+        
     }
 
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         if searchController.searchBar.text?.characters.count == 0 {
-            searchController.searchResultsController?.view.hidden = false
+            searchResultVC.view.hidden = false
+            searchResultVC.searchText = nil
         } else {
-            let poems = DataManager.manager.search(searchController.searchBar.text!)
-            debugPrint(poems)
+            searchResultVC.searchText = searchController.searchBar.text
         }
     }
     
     func willPresentSearchController(searchController: UISearchController) {
         searchController.searchBar.showsCancelButton = true
         dispatch_async(dispatch_get_main_queue()) { 
-            searchController.searchResultsController?.view.hidden = false
+            self.searchResultVC.view.hidden = false
         }
     }
     
@@ -58,6 +72,7 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
     
     func willDismissSearchController(searchController: UISearchController) {
         searchController.searchBar.showsCancelButton = false
+        searchResultVC.searchText = nil
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -98,9 +113,11 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         } else if indexPath.section < 3 {
             let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! SearchIndexCell
             if indexPath.section == 0 {
-                 cell.poem = DataManager.manager.poemByRowId(day%50000)
+                 cell.poem = recPoem
             } else if indexPath.section == 2 {
-                 cell.poet = DataManager.manager.poetByRowId(day%2000)
+                 cell.poet = recPoet
+            } else {
+                cell.format = recFormat
             }
             return cell
         } else if indexPath.section == 3 {
@@ -109,14 +126,33 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         }
         return UITableViewCell()
     }
-    /*
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        if indexPath.section == 0 {
+            self.performSegueWithIdentifier("showpoem", sender: recPoem)
+        } else if indexPath.section == 2 {
+            self.performSegueWithIdentifier("showpoet", sender: recPoet)
+        } else {
+            //self.performSegueWithIdentifier("showpoem", sender: recPoem)
+        }
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if let vc = segue.destinationViewController as? PoemDetailViewController {
+            if let poem = sender as? Poem {
+                vc.poemId = poem.id
+            }
+        }
+        if let vc = segue.destinationViewController as? AuthorViewController {
+            let poet = sender as! Poet
+            vc.poet = poet
+        }
     }
-    */
 
 }

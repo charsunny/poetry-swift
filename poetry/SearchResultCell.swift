@@ -1,16 +1,15 @@
 //
-//  SearchIndexCell.swift
+//  SearchResultCell.swift
 //  poetry
 //
-//  Created by sunsing on 8/29/16.
+//  Created by sunsing on 8/30/16.
 //  Copyright © 2016 诺崇. All rights reserved.
 //
 
 import UIKit
-import AlamofireImage
 
-class SearchIndexCell: UITableViewCell {
-    
+class SearchResultCell: UITableViewCell {
+
     @IBOutlet var headImageView:UIImageView!
     
     @IBOutlet var imageLabel:UILabel!
@@ -18,13 +17,13 @@ class SearchIndexCell: UITableViewCell {
     @IBOutlet var titleLabel:UILabel!
     
     @IBOutlet var descLabel:UILabel!
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        imageLabel.font = UIFont.userFontWithSize(14)
-        titleLabel.font = UIFont.userFontWithSize(16)
-        descLabel.font = UIFont.userFontWithSize(15)
+        imageLabel.font = UIFont.userFontWithSize(13)
+        titleLabel.font = UIFont.userFontWithSize(15)
+        descLabel.font = UIFont.userFontWithSize(14)
     }
     
     var poem:Poem? {
@@ -66,4 +65,5 @@ class SearchIndexCell: UITableViewCell {
             }
         }
     }
+    
 }

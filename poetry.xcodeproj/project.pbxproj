@@ -18,7 +18,6 @@
 		161976401D70295F004197DA /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1619763D1D70295F004197DA /* Router.swift */; };
 		166498991D6DB41C00370655 /* AuthorPoemListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166498981D6DB41C00370655 /* AuthorPoemListViewController.swift */; };
 		1664989B1D6DB42E00370655 /* AuthorDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664989A1D6DB42E00370655 /* AuthorDetailViewController.swift */; };
-		1664989D1D6DB43F00370655 /* AuthorHotPoemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664989C1D6DB43F00370655 /* AuthorHotPoemViewController.swift */; };
 		1664989F1D6DB45500370655 /* AuthorRelatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664989E1D6DB45500370655 /* AuthorRelatedViewController.swift */; };
 		16F6B7651D70402100286C43 /* UserNotifViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F6B7641D70402100286C43 /* UserNotifViewController.swift */; };
 		16F6B7671D70405A00286C43 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F6B7661D70405A00286C43 /* MessageViewController.swift */; };
@@ -93,6 +92,8 @@
 		B61BA4F91D6F6D9C001D2F31 /* CustomAlertViewTransitioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61BA4F81D6F6D9C001D2F31 /* CustomAlertViewTransitioner.swift */; };
 		B61BA4FB1D6F7413001D2F31 /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61BA4FA1D6F7413001D2F31 /* LikeViewController.swift */; };
 		B61BA4FD1D6F7F6F001D2F31 /* PoemCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61BA4FC1D6F7F6F001D2F31 /* PoemCardCell.swift */; };
+		B658E5881D74A683005BCA8E /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B658E5861D74A683005BCA8E /* SearchResultCell.swift */; };
+		B658E5891D74A683005BCA8E /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B658E5871D74A683005BCA8E /* SearchResultCell.xib */; };
 		B6BAF3FE1D72B00A0095A5EE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF3FD1D72B00A0095A5EE /* User.swift */; };
 		B6BAF4001D72FF1F0095A5EE /* Recommend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF3FF1D72FF1F0095A5EE /* Recommend.swift */; };
 		B6BAF4021D73001B0095A5EE /* Poem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF4011D73001B0095A5EE /* Poem.swift */; };
@@ -122,7 +123,6 @@
 		1619763D1D70295F004197DA /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		166498981D6DB41C00370655 /* AuthorPoemListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorPoemListViewController.swift; sourceTree = "<group>"; };
 		1664989A1D6DB42E00370655 /* AuthorDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorDetailViewController.swift; sourceTree = "<group>"; };
-		1664989C1D6DB43F00370655 /* AuthorHotPoemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorHotPoemViewController.swift; sourceTree = "<group>"; };
 		1664989E1D6DB45500370655 /* AuthorRelatedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorRelatedViewController.swift; sourceTree = "<group>"; };
 		16F6B7601D70392700286C43 /* poetry-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "poetry-Bridging-Header.h"; sourceTree = "<group>"; };
 		16F6B7641D70402100286C43 /* UserNotifViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNotifViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +201,8 @@
 		B61BA4F81D6F6D9C001D2F31 /* CustomAlertViewTransitioner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlertViewTransitioner.swift; sourceTree = "<group>"; };
 		B61BA4FA1D6F7413001D2F31 /* LikeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		B61BA4FC1D6F7F6F001D2F31 /* PoemCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoemCardCell.swift; sourceTree = "<group>"; };
+		B658E5861D74A683005BCA8E /* SearchResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		B658E5871D74A683005BCA8E /* SearchResultCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		B6BAF3FD1D72B00A0095A5EE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B6BAF3FF1D72FF1F0095A5EE /* Recommend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recommend.swift; sourceTree = "<group>"; };
 		B6BAF4011D73001B0095A5EE /* Poem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poem.swift; sourceTree = "<group>"; };
@@ -288,6 +290,8 @@
 				A9DA876F1CE207A2007D4EBC /* Search.storyboard */,
 				B6BAF4131D7375A90095A5EE /* SearchIndexCell.swift */,
 				1605B5B51D71957600A781AE /* SearchResultListViewController.swift */,
+				B658E5861D74A683005BCA8E /* SearchResultCell.swift */,
+				B658E5871D74A683005BCA8E /* SearchResultCell.xib */,
 				1605B5B31D71915800A781AE /* SearchResultViewController.swift */,
 				A9DA87631CE205F2007D4EBC /* SearchViewController.swift */,
 			);
@@ -315,7 +319,6 @@
 				A912E0EE1CED6B6F007EB8AC /* AuthorViewController.swift */,
 				166498981D6DB41C00370655 /* AuthorPoemListViewController.swift */,
 				1664989A1D6DB42E00370655 /* AuthorDetailViewController.swift */,
-				1664989C1D6DB43F00370655 /* AuthorHotPoemViewController.swift */,
 				1664989E1D6DB45500370655 /* AuthorRelatedViewController.swift */,
 				B6BAF4051D735ACF0095A5EE /* PoemCommentViewController.swift */,
 				B6BAF4111D7371340095A5EE /* CommentMenuViewController.swift */,
@@ -594,6 +597,7 @@
 				A9AEAECB1CE2049D00312C8B /* fsongti.ttf in Resources */,
 				A9C847831CE5C4880089D035 /* iconfont.ttf in Resources */,
 				A9AEAED51CE2049D00312C8B /* GuZheng_7.mp3 in Resources */,
+				B658E5891D74A683005BCA8E /* SearchResultCell.xib in Resources */,
 				A9AEAEBA1CE2049D00312C8B /* 1.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -681,6 +685,7 @@
 				A9AEAE6D1CE2033E00312C8B /* RecommendViewController.swift in Sources */,
 				16F6B7651D70402100286C43 /* UserNotifViewController.swift in Sources */,
 				A9A2348B1CE455BC008A8BAD /* PoemTextView.swift in Sources */,
+				B658E5881D74A683005BCA8E /* SearchResultCell.swift in Sources */,
 				B6BAF40F1D735E570095A5EE /* CommentCell.swift in Sources */,
 				16F6B7691D70475E00286C43 /* SettingViewController.swift in Sources */,
 				B6BAF4001D72FF1F0095A5EE /* Recommend.swift in Sources */,
@@ -692,7 +697,6 @@
 				166498991D6DB41C00370655 /* AuthorPoemListViewController.swift in Sources */,
 				A9C847811CE5AFB20089D035 /* PoemDetailViewController.swift in Sources */,
 				A9C847851CE5D0450089D035 /* UIGradientView.swift in Sources */,
-				1664989D1D6DB43F00370655 /* AuthorHotPoemViewController.swift in Sources */,
 				A9DA87621CE205DF007D4EBC /* CreaterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
