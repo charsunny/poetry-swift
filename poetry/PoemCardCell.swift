@@ -49,9 +49,9 @@ class PoemCardCell: UITableViewCell {
         descNoPicTitleLabel.clipsToBounds = true
         userNameLabel.font = UIFont.userFontWithSize(16)
         userTimeLabel.font = UIFont.userFontWithSize(14)
-        descNoPicTitleLabel.font = UIFont.userFontWithSize(28)
+        descNoPicTitleLabel.font = UIFont.systemFontOfSize(28, weight: UIFontWeightMedium)
         contentDescLabel.font = UIFont.userFontWithSize(17)
-        poemTitleLabel.font = UIFont.userFontWithSize(16)
+        poemTitleLabel.font = UIFont.userFontWithSize(17)
         poemAuthorLabel.font = UIFont.userFontWithSize(14)
         poemContentLabel.font = UIFont.userFontWithSize(15)
         agreeButton.titleLabel?.font = UIFont.userFontWithSize(15)
@@ -68,7 +68,7 @@ class PoemCardCell: UITableViewCell {
                 poemTitleLabel.text = feed.poem?.title
                 feed.poem?.loadPoet()
                 poemAuthorLabel.text = feed.poem?.poet?.name
-                poemContentLabel.text = feed.poem?.content
+                poemContentLabel.text = feed.poem?.content.trimString()
                 agreeButton.setTitle("喜欢(\(feed.likeCount))", forState: .Normal)
                 commentButton.setTitle("评论(\(feed.commentCount))", forState: .Normal)
                 
@@ -84,7 +84,7 @@ class PoemCardCell: UITableViewCell {
                             self.contentImageView.hidden = false
                             self.contentImageView.image = res.result.value
                             self.descNoPicTitleLabel.hidden = true
-                            self.contentDescLabel.text = feed.content
+                            self.contentDescLabel.text = feed.content.trimString()
                             self.contentDescView.hidden = false
                         }
                     }
@@ -94,23 +94,38 @@ class PoemCardCell: UITableViewCell {
                     contentImageView.hidden = true
                     descNoPicTitleLabel.hidden = false
                     let attrStr = NSMutableAttributedString()
-                    let qutoeL = String.fontIconicIcon(code: "double-quote-serif-left")!
-                    let qutoeR = String.fontIconicIcon(code: "double-quote-serif-right")!
-                    let qfont = UIFont.icon(from: .Iconic, ofSize: 24)
-                    let qAttr = TextAttributes().font(qfont).foregroundColor(UIColor.lightGrayColor())
-                    let attrLStr = NSAttributedString(string: qutoeL, attributes: qAttr)
-                    let attrRStr = NSAttributedString(string: qutoeR, attributes: qAttr)
-                    attrStr.appendAttributedString(attrLStr)
-                    var content = feed.content
-                    if content.characters.count > 60 {
-                        content = (content as NSString).substringToIndex(60) + "..."
-                    }
-                    attrStr.appendAttributedString(NSAttributedString(string: content, attributes: TextAttributes().font(UIFont.userFontWithSize(24)).foregroundColor(UIColor.darkTextColor())))
-                    attrStr.appendAttributedString(attrRStr)
-                    attrStr.addAttributes(TextAttributes().headIndent(8).lineSpacing(8).firstLineHeadIndent(20))
+                    attrStr.appendAttributedString(NSAttributedString(string: feed.content.trimString(), attributes: TextAttributes().font(UIFont.userFontWithSize(24)).foregroundColor(UIColor.darkGrayColor())))
+                    attrStr.addAttributes(TextAttributes().headIndent(8).firstLineHeadIndent(20))
                     descNoPicTitleLabel.attributedText = attrStr
+                    descNoPicTitleLabel.adjustFontSizeToFit()
                 }
             }
         }
+    }
+}
+
+extension UILabel {
+    func adjustFontSizeToFit() {
+        var font = self.font;
+        let size = self.frame.size;
+        var maxSize = self.font.pointSize
+        
+        for ; maxSize >= self.minimumScaleFactor * self.font.pointSize; maxSize = maxSize - 1 {
+            font = font.fontWithSize(maxSize)
+            var constraintSize = CGSizeMake(size.width, CGFloat.max);
+            
+            if let textRect = self.text?.boundingRectWithSize(constraintSize, options:.UsesLineFragmentOrigin, attributes:[NSFontAttributeName:font], context:nil) {
+                let  labelSize = textRect.size;
+                if(labelSize.height <= size.height) {
+                    self.font = font
+                    self.setNeedsLayout()
+                    break
+                }
+            }
+            
+        }
+        // set the font to the minimum size anyway
+        self.font = font;
+        self.setNeedsLayout()
     }
 }
