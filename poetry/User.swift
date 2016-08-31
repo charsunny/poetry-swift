@@ -89,6 +89,42 @@ public class User: Mappable {
         }
     }
     
+    static func UploadPic(image:UIImage, finish:(Bool, String?)->Void) {
+        if let imagedata =
+            
+            UIImageJPEGRepresentation(image, 0.5) {
+            
+            let path = "\(CachePath)/\(image.hashValue).jpg"
+            imagedata.writeToFile(path, atomically: true)
+            Alamofire.upload(
+                .POST,
+                "\(Router.baseURLString)/v1/user/pic",
+                multipartFormData: { multipartFormData in
+                    multipartFormData.appendBodyPart(fileURL:NSURL(fileURLWithPath: path), name: "image")
+                },
+                encodingCompletion: { encodingResult in
+                    switch encodingResult {
+                    case .Success(let upload, _, _):
+                        upload.responseJSON { response in
+                            if let dict = response.result.value as? NSDictionary {
+                                if dict["errcode"] as? Int == 0 {
+                                    if let url = dict["data"] as? String {
+                                        debugPrint(url)
+                                        finish(true, url)
+                                        return
+                                    }
+                                }
+                            }
+                            finish(false, nil)
+                        }
+                    case .Failure:
+                        finish(false, nil)
+                    }
+                }
+            )
+        }
+    }
+    
     var id   : Int = 0
     var nick : String = ""
     var avatar	: String = ""

@@ -58,7 +58,7 @@ class SearchResultListViewController: UITableViewController {
         case .Poet:
             self.parentViewController?.parentViewController?.presentingViewController?.performSegueWithIdentifier("showpoet", sender: resultList[indexPath.row])
         default:
-            break
+            self.parentViewController?.parentViewController?.presentingViewController?.performSegueWithIdentifier("showformat", sender: resultList[indexPath.row])
         }
     }
 

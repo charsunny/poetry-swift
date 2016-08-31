@@ -428,6 +428,7 @@
                     <connections>
                         <segue destination="T9E-bw-9uU" kind="show" identifier="showpoem" id="FHp-qB-fnh"/>
                         <segue destination="Z2b-VW-MAE" kind="show" identifier="showpoet" id="jW0-AQ-rfD"/>
+                        <segue destination="0gP-Q4-MZn" kind="show" identifier="showformat" id="1Ee-Kf-QHM"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DHz-jw-WeB" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -613,6 +614,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LIw-g9-LEe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1651" y="894"/>
+        </scene>
+        <!--poetvc-->
+        <scene sceneID="tYR-b0-yoG">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Recommend" referencedIdentifier="poetvc" id="0gP-Q4-MZn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AgI-uj-aQ1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1651" y="1008"/>
         </scene>
     </scenes>
     <resources>

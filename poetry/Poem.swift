@@ -77,6 +77,10 @@ public class Poem: Mappable {
             poet = DataManager.manager.poetById(pid)
         } else if let pname = pname {
             poet = DataManager.manager.poetByName(pname).first
+        } else if let poet = poet {
+            if poet.name.characters.count == 0 {
+                self.poet = DataManager.manager.poetById(poet.id)
+            }
         }
     }
     

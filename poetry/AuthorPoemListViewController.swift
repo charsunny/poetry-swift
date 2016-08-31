@@ -10,13 +10,18 @@ import UIKit
 
 class AuthorPoemListViewController: UITableViewController {
     
-    var poet:Poet!
+    var poet:Poet?
+    var format:PoemFormat?
     var poems:[Poem] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         dispatch_async(dispatch_get_global_queue(0, 0)) {
-            self.poems = DataManager.manager.poemsByAuthor(self.poet.id)
+            if let poet = self.poet {
+                self.poems = DataManager.manager.poemsByAuthor(poet.id)
+            } else if let format = self.format {
+                self.poems = DataManager.manager.poemsByFormat(format.id)
+            }
             dispatch_async(dispatch_get_main_queue()){
                 self.tableView.reloadData()
             }

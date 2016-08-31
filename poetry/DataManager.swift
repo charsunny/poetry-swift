@@ -90,7 +90,7 @@ public class DataManager: NSObject {
         do {
             var list:[Poem] = []
             
-            if let ps = try db?.prepare(poemsearch.match(text).limit(20)) {
+            if let ps = try db?.prepare(poemsearch.match(text+"*").limit(20)) {
                 for p in ps {
                     let poem = Poem(p, hasName: true)
                     list.append(poem)
@@ -112,7 +112,7 @@ public class DataManager: NSObject {
         do {
             var list:[Poet] = []
             var pnames:Set<String> = []
-            if let ps = try db?.prepare(poemsearch.filter(SQLStringExp("poet_name").match(text)).limit(20)) {
+            if let ps = try db?.prepare(poemsearch.filter(SQLStringExp("poet_name").match(text+"*")).limit(20)) {
                 for p in ps {
                     let name = p[SQLStringExp("poet_name")]
                     pnames.insert(name)
@@ -240,6 +240,21 @@ public class DataManager: NSObject {
         var poemlist:[Poem] = []
         do {
             if let ps = try db?.prepare(poems.filter(Expression<Int>("poet_id") == id)) {
+                for p in ps {
+                    let poem = Poem(p)
+                    poemlist.append(poem)
+                }
+            }
+            return poemlist
+        } catch {
+            return poemlist
+        }
+    }
+    
+    public func poemsByFormat(id: Int) -> [Poem] {
+        var poemlist:[Poem] = []
+        do {
+            if let ps = try db?.prepare(poems.filter(Expression<Int>("format_id") == id)) {
                 for p in ps {
                     let poem = Poem(p)
                     poemlist.append(poem)

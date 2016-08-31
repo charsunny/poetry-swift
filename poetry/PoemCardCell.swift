@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TextAttributes
 
 class PoemCardCell: UITableViewCell {
 
@@ -40,6 +41,12 @@ class PoemCardCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        contentImageView.hidden = true
+        descNoPicTitleLabel.hidden = true
+        contentDescView.hidden = true
+        descNoPicTitleLabel.backgroundColor = UIColor.groupTableViewBackgroundColor()
+        descNoPicTitleLabel.layer.cornerRadius = 5
+        descNoPicTitleLabel.clipsToBounds = true
         userNameLabel.font = UIFont.userFontWithSize(16)
         userTimeLabel.font = UIFont.userFontWithSize(14)
         descNoPicTitleLabel.font = UIFont.userFontWithSize(28)
@@ -51,11 +58,54 @@ class PoemCardCell: UITableViewCell {
         commentButton.titleLabel?.font = UIFont.userFontWithSize(15)
         likeButton.titleLabel?.font = UIFont.userFontWithSize(15)
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    var feed:Feed? {
+        didSet {
+            if let feed = feed {
+                userImageView.af_setImageWithURL(NSURL(string:feed.user?.avatar ?? "") ?? NSURL(), placeholderImage: UIImage(named:"defaulticon"))
+                userNameLabel.text = feed.user?.nick ?? User.LoginUser?.nick ?? "匿名用户"
+                userTimeLabel.text = feed.time
+                poemTitleLabel.text = feed.poem?.title
+                feed.poem?.loadPoet()
+                poemAuthorLabel.text = feed.poem?.poet?.name
+                poemContentLabel.text = feed.poem?.content
+                agreeButton.setTitle("喜欢(\(feed.likeCount))", forState: .Normal)
+                commentButton.setTitle("评论(\(feed.commentCount))", forState: .Normal)
+                
+                let url = feed.poem?.poet?.name.iconURL() ?? ""
+                poemAuthorImageView.af_setImageWithURL(NSURL(string:url) ?? NSURL(), placeholderImage: UIImage(named:"defaulticon"))
+                
+                var hasPic = false
+                if let url = NSURL(string: feed.picture) {
+                    contentImageView.af_setImageWithURL(url) {
+                        res in
+                        if res.result.value != nil {
+                            hasPic = true
+                            self.contentImageView.hidden = false
+                            self.contentImageView.image = res.result.value
+                            self.descNoPicTitleLabel.hidden = true
+                            self.contentDescLabel.text = feed.content
+                            self.contentDescView.hidden = false
+                        }
+                    }
+                }
+                if !hasPic {
+                    contentImageView.hidden = true
+                    descNoPicTitleLabel.hidden = false
+                    let attrStr = NSMutableAttributedString()
+                    let qutoeL = String.fontIconicIcon(code: "double-quote-serif-left")!
+                    let qutoeR = String.fontIconicIcon(code: "double-quote-serif-right")!
+                    let qfont = UIFont.icon(from: .Iconic, ofSize: 24)
+                    let qAttr = TextAttributes().font(qfont).foregroundColor(UIColor.lightGrayColor())
+                    let attrLStr = NSAttributedString(string: qutoeL, attributes: qAttr)
+                    let attrRStr = NSAttributedString(string: qutoeR, attributes: qAttr)
+                    attrStr.appendAttributedString(attrLStr)
+                    attrStr.appendAttributedString(NSAttributedString(string: feed.content, attributes: TextAttributes().font(UIFont.userFontWithSize(24)).foregroundColor(UIColor.darkTextColor())))
+                    attrStr.appendAttributedString(attrRStr)
+                    attrStr.addAttributes(TextAttributes().headIndent(8).lineSpacing(8))
+                    descNoPicTitleLabel.attributedText = attrStr
+                }
+            }
+        }
     }
-
 }

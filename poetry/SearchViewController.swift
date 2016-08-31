@@ -134,7 +134,7 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         } else if indexPath.section == 2 {
             self.performSegueWithIdentifier("showpoet", sender: recPoet)
         } else {
-            //self.performSegueWithIdentifier("showpoem", sender: recPoem)
+            self.performSegueWithIdentifier("showformat", sender: recFormat)
         }
     }
     
@@ -150,8 +150,13 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
             }
         }
         if let vc = segue.destinationViewController as? AuthorViewController {
-            let poet = sender as! Poet
-            vc.poet = poet
+            if segue.identifier == "showpoet" {
+                let poet = sender as! Poet
+                vc.poet = poet
+            } else {
+                let format = sender as! PoemFormat
+                vc.format = format
+            }
         }
     }
 

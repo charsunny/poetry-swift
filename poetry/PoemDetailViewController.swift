@@ -214,6 +214,7 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    var transitioner:CAVTransitioner?
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
@@ -231,6 +232,17 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
         }
         if let vc = segue.destinationViewController as? PoemCommentViewController {
             vc.poem = self.poem
+        }
+        if let pvc = segue.destinationViewController as? ExploreAddViewController {
+            transitioner = CAVTransitioner()
+            if self.traitCollection.userInterfaceIdiom == .Pad {
+                pvc.preferredContentSize = CGSize(width: 320, height: 200)
+            } else {
+                pvc.preferredContentSize = CGSize(width: UIScreen.mainScreen().bounds.width - 40, height: 200)
+            }
+            pvc.poemId = self.poemId
+            pvc.modalPresentationStyle = UIModalPresentationStyle.Custom
+            pvc.transitioningDelegate = transitioner
         }
     }
     

@@ -25,10 +25,12 @@ class AuthorViewController: UIViewController {
         if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("authordetail") as? AuthorDetailViewController
         {
             vc.poet = self.poet
+            vc.format = self.format
             list.append(vc)
         }
         if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("poemlist") as? AuthorPoemListViewController {
             vc.poet = self.poet
+            vc.format = self.format
             list.append(vc)
         }
         list.append(self.storyboard!.instantiateViewControllerWithIdentifier("relatevc"))
@@ -37,9 +39,9 @@ class AuthorViewController: UIViewController {
     
     var pageController:UIPageViewController!
     
-    var poems:[Poem] = []
+    var poet:Poet?
     
-    var poet:Poet!
+    var format:PoemFormat?
     
     enum AuthorColumn : Int {
         case Intro = 0
@@ -52,15 +54,15 @@ class AuthorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = poet.name
+        if let poet = poet {
+            self.title = poet.name
+        } else if let format = format {
+            self.title = format.name
+        }
 
         for view in buttonStackView.arrangedSubviews where view is UIButton {
             let button = view as! UIButton
             button.addTarget(self, action: #selector(AuthorViewController.onClickButton(_:)), forControlEvents: .TouchUpInside)
-        }
-        
-        dispatch_async(dispatch_get_main_queue()) { 
-            self.poems = DataManager.manager.poemsByAuthor(self.poet.id)
         }
     }
     

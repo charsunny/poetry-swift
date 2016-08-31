@@ -25,6 +25,8 @@ public var UserFont = PoemFont.汉仪全唐诗简体.rawValue
 
 public let DocumentPath:String = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
 
+public let CachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first!
+
 public var LocalDBExist = false
 
 @UIApplicationMain
