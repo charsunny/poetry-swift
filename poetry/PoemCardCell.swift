@@ -100,9 +100,13 @@ class PoemCardCell: UITableViewCell {
                     let attrLStr = NSAttributedString(string: qutoeL, attributes: qAttr)
                     let attrRStr = NSAttributedString(string: qutoeR, attributes: qAttr)
                     attrStr.appendAttributedString(attrLStr)
-                    attrStr.appendAttributedString(NSAttributedString(string: feed.content, attributes: TextAttributes().font(UIFont.userFontWithSize(24)).foregroundColor(UIColor.darkTextColor())))
+                    var content = feed.content
+                    if content.characters.count > 60 {
+                        content = (content as NSString).substringToIndex(60) + "..."
+                    }
+                    attrStr.appendAttributedString(NSAttributedString(string: content, attributes: TextAttributes().font(UIFont.userFontWithSize(24)).foregroundColor(UIColor.darkTextColor())))
                     attrStr.appendAttributedString(attrRStr)
-                    attrStr.addAttributes(TextAttributes().headIndent(8).lineSpacing(8))
+                    attrStr.addAttributes(TextAttributes().headIndent(8).lineSpacing(8).firstLineHeadIndent(20))
                     descNoPicTitleLabel.attributedText = attrStr
                 }
             }

@@ -75,7 +75,9 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
                         self.tipLabel.hidden = false
                         HUD.flash(.LabeledError(title: "加载失败", subtitle: "请重新登录"), delay: 1.0)
                     } else {
-                        self.performSelector(#selector(LaunchViewController.enterMainPage(_:)), withObject: nil, afterDelay: 1)
+                        if UIApplication.sharedApplication().keyWindow?.rootViewController == self {
+                            self.performSelector(#selector(LaunchViewController.enterMainPage(_:)), withObject: nil, afterDelay: 1)
+                        }
                     }
                 })
             }
