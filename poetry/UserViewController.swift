@@ -10,6 +10,7 @@ import UIKit
 import AlamofireImage
 import DZNEmptyDataSet
 import TextAttributes
+import PKHUD
 
 class UserViewController: UITableViewController {
     
@@ -53,6 +54,20 @@ class UserViewController: UITableViewController {
             favCountLabel.text = "\(user.columnCount)"
             followCountLabel.text = "\(user.followCount)"
             followeeCountLabel.text = "\(user.followeeCount)"
+        }
+    }
+    
+    @IBAction func refresFeeds(sender: AnyObject) {
+        Feed.GetFeedsAfter(feedList.first?.id ?? -1) { (list, error) in
+            self.refreshControl?.endRefreshing()
+            if error == nil {
+                if list.count > 0 {
+                    self.feedList.insertContentsOf(list, at: 0)
+                    self.tableView.reloadData()
+                }
+            } else {
+                HUD.flash(.Label(String.ErrorString(error!)), delay: 1.0)
+            }
         }
     }
     

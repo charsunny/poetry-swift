@@ -393,6 +393,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="我的" id="D0q-jo-cTu"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="8lF-yp-j1m">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresFeeds:" destination="lWy-CG-zQc" eventType="valueChanged" id="JVD-Xk-VfO"/>
+                        </connections>
+                    </refreshControl>
                     <connections>
                         <outlet property="avatarImageView" destination="WI6-yQ-WsY" id="6dT-nw-UmX"/>
                         <outlet property="favCountLabel" destination="aIR-z3-fyK" id="roL-za-Q7D"/>

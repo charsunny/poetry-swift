@@ -53,6 +53,16 @@ class Feed: Mappable {
         }
     }
     
+    static func GetUserFeedsAfter(fid : Int, finish:([Feed], BackendError?)->Void) {
+        Alamofire.request(Router.User(.GET, "feeds", ["fid":fid])).responseArray { (res :Response<[Feed], BackendError>) in
+            res.result.success({ (value) in
+                finish(value, nil)
+            }).failure({ (error) in
+                finish([], error)
+            })
+        }
+    }
+    
     var id   : Int = 0
     var content : String = ""
     var picture	: String = ""
