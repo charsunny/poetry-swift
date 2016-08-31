@@ -11,7 +11,7 @@ import KCFloatingActionButton
 
 class ExploreAddViewController: UIViewController, UITextViewDelegate {
     
-    var poemId:Int = 0
+    var poem:Poem!
 
     @IBOutlet weak var imageView: UIImageView!
     
@@ -19,52 +19,50 @@ class ExploreAddViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var textView: UITextView!
     
-    @IBOutlet weak var floatingButton: KCFloatingActionButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.floatingButton.hidden = true
-        floatingButton.addItem("选择照片", icon: UIImage(named: "photo")) { (_) in
+        self.title = poem.title
+    }
+    
+    @IBAction func addPic(sender: AnyObject) {
+        let alertController = UIAlertController(title: "上传图片", message: nil, preferredStyle: .ActionSheet)
+        alertController.addAction(UIAlertAction(title: "选择照片", style: .Default, handler: { (_) in
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .PhotoLibrary
             imagePicker.allowsEditing = true
             self.presentViewController(imagePicker, animated: true, completion: nil)
-        }
-        floatingButton.addItem("拍摄照片", icon: UIImage(named: "camera")) { (_) in
+        }))
+        alertController.addAction(UIAlertAction(title: "拍摄照片", style: .Default, handler: { (_) in
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .Camera
             imagePicker.allowsEditing = true
             self.presentViewController(imagePicker, animated: true, completion: nil)
-        }
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .Cancel, handler: { (_) in
+            
+        }))
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.view.frame = CGRect(x: 20, y: UIScreen.mainScreen().bounds.height/2 - 100, width: UIScreen.mainScreen().bounds.width - 40, height: 200)
         dispatch_async(dispatch_get_main_queue()) { 
             self.textView.becomeFirstResponder()
         }
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        textView.resignFirstResponder()
+    }
+    
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        UIView.animateWithDuration(0.3, animations: { 
-            var frame = self.view.frame
-            frame.origin.y = frame.origin.y - 100
-            self.view.frame = frame
-        }) { (_) in
-            self.floatingButton.hidden = false
-        }
         return true
     }
     
     func textViewShouldEndEditing(textView: UITextView) -> Bool {
-        UIView.animateWithDuration(0.3) {
-            var frame = self.view.frame
-            frame.origin.y = frame.origin.y + 100
-            self.view.frame = frame
-        }
         return true
     }
     
@@ -73,7 +71,7 @@ class ExploreAddViewController: UIViewController, UITextViewDelegate {
             HUD.flash(.Label("请输入分享内容"), delay: 1)
             return
         }
-        Feed.AddFeed(poemId, content: textView.text, image: imageURL ?? "") { (success, error) in
+        Feed.AddFeed(poem.id, content: textView.text, image: imageURL ?? "") { (success, error) in
             if success {
                 HUD.flash(.LabeledSuccess(title: nil, subtitle: "分享成功"), delay: 1)
                 self.dismissViewControllerAnimated(true, completion: nil)
@@ -83,17 +81,6 @@ class ExploreAddViewController: UIViewController, UITextViewDelegate {
             }
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension ExploreAddViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate {

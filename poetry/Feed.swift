@@ -44,7 +44,7 @@ class Feed: Mappable {
     }
     
     static func GetUserFeeds(page : Int, finish:([Feed], BackendError?)->Void) {
-        Alamofire.request(Router.Feed(.GET, "list", ["page":page])).responseArray { (res :Response<[Feed], BackendError>) in
+        Alamofire.request(Router.User(.GET, "feeds", ["page":page])).responseArray { (res :Response<[Feed], BackendError>) in
             res.result.success({ (value) in
                 finish(value, nil)
             }).failure({ (error) in
@@ -68,6 +68,7 @@ class Feed: Mappable {
     
     func mapping(map: Map) {
         id <- map["Id"]
+        picture <- map["Picture"]
         content <- map["Content"]
         user <- map["User"]
         time <- map["Time"]

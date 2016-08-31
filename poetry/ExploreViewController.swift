@@ -57,7 +57,9 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
         if isLoading {
             return
         }
-        HUD.show(.Progress)
+        if page == 0 {
+            HUD.show(.Progress)
+        }
         isLoading = true
         Feed.GetFeeds(page) { (list, error) in
             HUD.hide()
@@ -76,6 +78,12 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
             } else {
                 HUD.flash(.Label(String.ErrorString(error!)), delay: 1.0)
             }
+        }
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if hasMore && scrollView.contentOffset.y > 100 && scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height {
+            self.loadData(self.page + 1)
         }
     }
     
@@ -113,7 +121,7 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 extension ExploreViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string:"暂无搜索结果", attributes: TextAttributes().foregroundColor(UIColor.darkGrayColor()).font(UIFont.userFontWithSize(15)).alignment(.Center))
+        return NSAttributedString(string:"暂无分享内容", attributes: TextAttributes().foregroundColor(UIColor.darkGrayColor()).font(UIFont.userFontWithSize(15)).alignment(.Center))
     }
     
     func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {

@@ -8,10 +8,14 @@
 
 import UIKit
 import AlamofireImage
+import DZNEmptyDataSet
+import TextAttributes
 
 class UserViewController: UITableViewController {
     
     var user : User?
+    
+    var feedList : [Feed] = []
 
     @IBOutlet weak var headerView: UIView!
     
@@ -34,6 +38,7 @@ class UserViewController: UITableViewController {
         }
         headerView.backgroundColor = UIColor.flatRedColor()
         showUserInfo()
+        loadFeeds()
     }
     
     func showUserInfo() {
@@ -48,6 +53,30 @@ class UserViewController: UITableViewController {
             favCountLabel.text = "\(user.columnCount)"
             followCountLabel.text = "\(user.followCount)"
             followeeCountLabel.text = "\(user.followeeCount)"
+        }
+    }
+    
+    var hasMore = false
+    var isLoading = false
+    var page = -1
+    func loadFeeds(page:Int = 0) {
+        if isLoading {
+            return
+        }
+        isLoading = true
+        Feed.GetUserFeeds(0) { (list, error) in
+            self.isLoading = false
+            if page != self.page + 1 {
+                return
+            }
+            if error == nil {
+                if list.count > 0 {
+                    self.feedList.appendContentsOf(list)
+                    self.tableView.reloadData()
+                } else {
+                    self.hasMore = false
+                }
+            }
         }
     }
     
@@ -67,8 +96,14 @@ class UserViewController: UITableViewController {
         headerView.frame = CGRect(x: 0, y: offset.y, width: headerView.frame.width, height: 230 - offset.y)
     }
     
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        if hasMore && scrollView.contentOffset.y > 100 && scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height {
+            self.loadFeeds(self.page + 1)
+        }
+    }
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 11
+        return feedList.count
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -80,8 +115,23 @@ class UserViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! PoemCardCell
+        cell.feed = feedList[indexPath.section]
         return cell
     }
     
+}
+
+extension UserViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string:"暂无分享内容", attributes: TextAttributes().foregroundColor(UIColor.darkGrayColor()).font(UIFont.userFontWithSize(15)).alignment(.Center))
+    }
+    
+    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "theme4")?.af_imageScaledToSize(CGSize(width: 120, height: 120)).af_imageWithRoundedCornerRadius(60)
+    }
+    
+    func verticalOffsetForEmptyDataSet(scrollView: UIScrollView!) -> CGFloat {
+        return 0
+    }
 }

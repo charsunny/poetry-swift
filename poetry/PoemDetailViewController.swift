@@ -232,16 +232,10 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
         if let vc = segue.destinationViewController as? PoemCommentViewController {
             vc.poem = self.poem
         }
-        if let pvc = segue.destinationViewController as? ExploreAddViewController {
-            transitioner = CAVTransitioner()
-            if self.traitCollection.userInterfaceIdiom == .Pad {
-                pvc.preferredContentSize = CGSize(width: 320, height: 200)
-            } else {
-                pvc.preferredContentSize = CGSize(width: UIScreen.mainScreen().bounds.width - 40, height: 200)
+        if let vc = segue.destinationViewController as? UINavigationController {
+            if let pvc = vc.viewControllers.first as? ExploreAddViewController {
+                pvc.poem = self.poem
             }
-            pvc.poemId = self.poemId
-            pvc.modalPresentationStyle = UIModalPresentationStyle.Custom
-            pvc.transitioningDelegate = transitioner
         }
     }
     

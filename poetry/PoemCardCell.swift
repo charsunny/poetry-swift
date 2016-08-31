@@ -76,11 +76,11 @@ class PoemCardCell: UITableViewCell {
                 poemAuthorImageView.af_setImageWithURL(NSURL(string:url) ?? NSURL(), placeholderImage: UIImage(named:"defaulticon"))
                 
                 var hasPic = false
-                if let url = NSURL(string: feed.picture) {
+                if let url = NSURL(string: feed.picture) where feed.picture.hasPrefix("http") {
+                    hasPic = true
                     contentImageView.af_setImageWithURL(url) {
                         res in
                         if res.result.value != nil {
-                            hasPic = true
                             self.contentImageView.hidden = false
                             self.contentImageView.image = res.result.value
                             self.descNoPicTitleLabel.hidden = true
@@ -90,6 +90,7 @@ class PoemCardCell: UITableViewCell {
                     }
                 }
                 if !hasPic {
+                    contentDescView.hidden = true
                     contentImageView.hidden = true
                     descNoPicTitleLabel.hidden = false
                     let attrStr = NSMutableAttributedString()
