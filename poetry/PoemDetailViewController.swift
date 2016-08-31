@@ -55,12 +55,7 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
                 })
             })
             Poem.GetPoemDetail(poemId, finish: { (p, err) in
-                if err != nil {
-                    HUD.flash(.LabeledError(title: "加载失败", subtitle: nil), delay: 1.0)
-                } else {
-                    self.setPoemContent()
-                    self.updateToolbar(p?.commentCount ?? 0, ft: p?.likeCount ?? 0, isFav: p?.isFav ?? false)
-                }
+                self.updateToolbar(p?.commentCount ?? 0, ft: p?.likeCount ?? 0, isFav: p?.isFav ?? false)
             })
         } else {
             Poem.GetPoemDetail(poemId, finish: { (p, err) in
@@ -128,6 +123,10 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
     }
     
     @IBAction func onLike(sender: UIButton) {
+        if User.LoginUser == nil {
+            HUD.flash(.Label("尚未登录"), delay: 1.0)
+            return
+        }
         guard let poem = self.poem else {return }
         poem.like({ (result, err) in
             if err != nil {
