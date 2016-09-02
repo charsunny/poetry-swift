@@ -10,6 +10,8 @@ import UIKit
 import TextAttributes
 
 class PoemCardCell: UITableViewCell {
+    
+    weak var viewController:UIViewController?
 
     @IBOutlet weak var userImageView: UIImageView!
     
@@ -57,6 +59,14 @@ class PoemCardCell: UITableViewCell {
         agreeButton.titleLabel?.font = UIFont.userFontWithSize(15)
         commentButton.titleLabel?.font = UIFont.userFontWithSize(15)
         likeButton.titleLabel?.font = UIFont.userFontWithSize(15)
+    }
+    
+    
+    @IBAction func gotoPoemDetail(sender: AnyObject) {
+        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewControllerWithIdentifier("poemvc") as? PoemDetailViewController {
+            poemVC.poem = feed?.poem
+            viewController?.navigationController?.pushViewController(poemVC, animated: true)
+        }
     }
     
     var feed:Feed? {
@@ -112,11 +122,11 @@ extension UILabel {
         
         for ; maxSize >= self.minimumScaleFactor * self.font.pointSize; maxSize = maxSize - 1 {
             font = font.fontWithSize(maxSize)
-            var constraintSize = CGSizeMake(size.width, CGFloat.max);
+            let constraintSize = CGSizeMake(size.width, CGFloat.max);
             
             if let textRect = self.text?.boundingRectWithSize(constraintSize, options:.UsesLineFragmentOrigin, attributes:[NSFontAttributeName:font], context:nil) {
                 let  labelSize = textRect.size;
-                if(labelSize.height <= size.height) {
+                if(labelSize.height <= size.height || maxSize < 13) {
                     self.font = font
                     self.setNeedsLayout()
                     break

@@ -131,6 +131,7 @@ class UserViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! PoemCardCell
+        cell.viewController = self
         cell.feed = feedList[indexPath.section]
         return cell
     }
@@ -147,6 +148,6 @@ extension UserViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     }
     
     func verticalOffsetForEmptyDataSet(scrollView: UIScrollView!) -> CGFloat {
-        return 0
+        return 40
     }
 }

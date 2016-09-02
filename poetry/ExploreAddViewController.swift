@@ -9,19 +9,44 @@ import UIKit
 import PKHUD
 import KCFloatingActionButton
 
-class ExploreAddViewController: UIViewController, UITextViewDelegate {
+class ExploreAddViewController: UITableViewController, UITextViewDelegate {
     
-    var poem:Poem!
+    var poem:Poem?
 
     @IBOutlet weak var imageView: UIImageView!
     
+    @IBOutlet  var poemCell: UITableViewCell!
+    
     var imageURL:String?
+    
+    @IBOutlet weak var tipLabel: UILabel!
     
     @IBOutlet weak var textView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = poem.title
+        self.title = poem?.title ?? "分享诗词"
+        if let poem = poem {
+            poem.loadPoet()
+            poemCell.textLabel?.text = poem.title
+            poemCell.detailTextLabel?.text = poem.poet?.name
+        }
+    }
+    
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if range.location == 0 && text == "\n" {
+            return false
+        }
+        if range.location == 0 && text == " " {
+            return false
+        }
+        if range.location == 0 && text.characters.count > 0 && textView.text == "" {
+            tipLabel.hidden = true
+        }
+        if range.location == 0 && range.length == 1 && text == "" && textView.text.characters.count > 0 {
+            tipLabel.hidden = false
+        }
+        return true
     }
     
     @IBAction func addPic(sender: AnyObject) {
@@ -71,7 +96,11 @@ class ExploreAddViewController: UIViewController, UITextViewDelegate {
             HUD.flash(.Label("请输入分享内容"), delay: 1)
             return
         }
-        Feed.AddFeed(poem.id, content: textView.text, image: imageURL ?? "") { (success, error) in
+        if poem == nil {
+            HUD.flash(.Label("请选择分享诗词"), delay: 1)
+            return
+        }
+        Feed.AddFeed(poem!.id, content: textView.text, image: imageURL ?? "") { (success, error) in
             if success {
                 HUD.flash(.LabeledSuccess(title: nil, subtitle: "分享成功"), delay: 1)
                 self.dismissViewControllerAnimated(true, completion: nil)

@@ -33,6 +33,9 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let poem = self.poem where poemId == 0 {
+            poemId = poem.id
+        }
         self.titleLabel.font = UIFont(name: UserFont, size: 18)
         self.authorLabel.font = UIFont(name: UserFont, size: 13)
         textView.editable = false
@@ -177,6 +180,9 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+        if self.parentViewController is UIPageViewController {
+            return
+        }
         self.navController?.navigationBar.setBackgroundImage(nil, forBarMetrics: .Default)
         self.navController?.navigationBar.shadowImage = nil
     }
@@ -199,13 +205,20 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if scrollView.contentOffset.y < 90 {
+            var parentTitleView:UIView? = nil
+            if let vc = self.parentViewController as? PoemWonderViewController {
+                parentTitleView = vc.titleView
+            }
             let alpha = scrollView.contentOffset.y/90.0
             if alpha < 0.3 {
                 self.titleView.hidden = true
+                parentTitleView?.hidden = true
             } else {
                 self.titleView.hidden = false
+                parentTitleView?.hidden = false
             }
             self.titleView.alpha = alpha
+            parentTitleView?.alpha = alpha
         }
     }
     

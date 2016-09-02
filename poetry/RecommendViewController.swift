@@ -35,6 +35,7 @@ class RecommendViewController: UITableViewController {
             headerView.descLabel.text = recInfo!["Desc"] as? String ?? ""
             loadPoemData(recInfo!["Id"] as! Int)
             navigationItem.rightBarButtonItem = nil
+            navigationItem.leftBarButtonItem = nil
         } else {
             loadPoemData()
         }
