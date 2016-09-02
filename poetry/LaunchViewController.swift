@@ -86,8 +86,7 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
     
     @IBAction func enterMainPage(sender: AnyObject?) {
         HUD.hide()
-        let mainVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-        UIApplication.sharedApplication().keyWindow?.rootViewController = mainVC
+        UIApplication.sharedApplication().windows.first?.makeKeyAndVisible()
     }
 
     @IBAction func loginWithWeibo(sender: AnyObject) {

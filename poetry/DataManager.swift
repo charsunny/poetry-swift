@@ -297,6 +297,9 @@ extension String {
 
 extension UIFont {
     public class func userFontWithSize(size:CGFloat) -> UIFont {
-        return UIFont(name: UserFont, size: size)!
+        if User.Font == "system" {
+            return UIFont.systemFontOfSize(size, weight: UIFontWeightRegular)
+        }
+        return UIFont(name: User.Font, size: size)!
     }
 }

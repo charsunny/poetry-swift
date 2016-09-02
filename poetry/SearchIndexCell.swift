@@ -25,6 +25,11 @@ class SearchIndexCell: UITableViewCell {
         imageLabel.font = UIFont.userFontWithSize(14)
         titleLabel.font = UIFont.userFontWithSize(16)
         descLabel.font = UIFont.userFontWithSize(15)
+        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            self.imageLabel.font = UIFont.userFontWithSize(14)
+            self.titleLabel.font = UIFont.userFontWithSize(16)
+            self.descLabel.font = UIFont.userFontWithSize(15)
+        }
     }
     
     var poem:Poem? {
@@ -57,12 +62,11 @@ class SearchIndexCell: UITableViewCell {
     var format:PoemFormat? {
         didSet {
             if let data = format {
-                let url = data.name.iconURL()
-                headImageView.af_setImageWithURL(NSURL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
+                headImageView.image = UIImage.imageWithString(data.name, size: CGSize(width: 80, height: 80))
                 titleLabel.text = nil
                 descLabel.text = data.desc
                 titleLabel.text = nil
-                imageLabel.text = data.name
+                imageLabel.text = nil
             }
         }
     }

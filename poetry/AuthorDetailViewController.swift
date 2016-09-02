@@ -44,6 +44,15 @@ class AuthorDetailViewController: UIViewController, UITextViewDelegate {
                     attrStr.addAttributes(TextAttributes().alignment(.Center), range: NSMakeRange(0, 1))
                     textView.attributedText = attrStr
                 }
+            } else if let format = format {
+                let attachImage = NSTextAttachment()
+                attachImage.image = UIImage.imageWithString(format.name, size: CGSize(width: 80, height: 80))
+                let attachStr = NSAttributedString(attachment: attachImage)
+                attrStr.insertAttributedString(attachStr, atIndex: 0)
+                attrStr.insertAttributedString(NSAttributedString(string:"\n\n\n"), atIndex: 1)
+                attrStr.addAttributes(TextAttributes().alignment(.Center), range: NSMakeRange(0, 1))
+                textView.attributedText = attrStr
+                
             }
             textView.attributedText = attrStr
             

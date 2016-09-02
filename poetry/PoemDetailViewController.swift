@@ -36,8 +36,8 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
         if let poem = self.poem where poemId == 0 {
             poemId = poem.id
         }
-        self.titleLabel.font = UIFont(name: UserFont, size: 18)
-        self.authorLabel.font = UIFont(name: UserFont, size: 13)
+        self.titleLabel.font = UIFont.userFontWithSize(18)
+        self.authorLabel.font = UIFont.userFontWithSize(13)
         textView.editable = false
         textView.delegate = self
         textView.alpha = 0
@@ -102,17 +102,17 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
         let textStr = NSMutableAttributedString()
         
         let titleAttributes = TextAttributes()
-        titleAttributes.font(name: UserFont, size: 28).lineSpacing(20).alignment(.Center).foregroundColor(UIColor.whiteColor())
+        titleAttributes.font(UIFont.userFontWithSize(28)).lineSpacing(20).alignment(.Center).foregroundColor(UIColor.whiteColor())
         textStr.appendAttributedString(NSAttributedString(string: poem?.title ?? "", attributes: titleAttributes))
         textStr.appendAttributedString(NSAttributedString(string: "\n"))
         
         let authorAttributes = TextAttributes()
-        authorAttributes.font(name: UserFont, size: 18).lineSpacing(8).alignment(.Right).foregroundColor(UIColor.whiteColor())
+        authorAttributes.font(UIFont.userFontWithSize(16)).lineSpacing(8).alignment(.Right).foregroundColor(UIColor.whiteColor())
         textStr.appendAttributedString(NSAttributedString(string: poem?.poet?.name ?? "", attributes: authorAttributes))
         textStr.appendAttributedString(NSAttributedString(string: "\n"))
         
         let textAttributes = TextAttributes()
-        textAttributes.font(name: UserFont, size: 24).lineHeightMultiple(1.4).alignment(.Center).baselineOffset(8).foregroundColor(UIColor.whiteColor()).headIndent(8)
+        textAttributes.font(UIFont.userFontWithSize(24)).lineHeightMultiple(1.4).alignment(.Center).baselineOffset(8).foregroundColor(UIColor.whiteColor()).headIndent(8)
         textStr.appendAttributedString(NSAttributedString(string: poem?.content ?? "", attributes: textAttributes))
         
         self.textView.attributedText = textStr

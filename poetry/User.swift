@@ -54,6 +54,24 @@ public class User: Mappable {
     
     static var LoginUser : User?
     
+    static var Font : String {
+        get {
+            if let font = NSUserDefaults.standardUserDefaults().objectForKey("font") as? String {
+                return font
+            } else {
+                return "HYQuanTangShiJ"
+            }
+        }
+        set {
+            if newValue == "" {
+                 NSUserDefaults.standardUserDefaults().setObject("system", forKey: "font")
+            } else {
+                NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "font")
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName("UserFontChangeNotif", object: nil)
+        }
+    }
+    
     static var Token : String? {
         get {
             return NSUserDefaults.standardUserDefaults().objectForKey("token") as? String

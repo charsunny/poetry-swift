@@ -26,6 +26,22 @@ class ChatListViewController: RCConversationListViewController {
             RCConversationType.ConversationType_GROUP.rawValue])
         self.conversationListTableView.tableFooterView = UIView()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if RCIM.sharedRCIM().getConnectionStatus() == RCConnectionStatus.ConnectionStatus_Unconnected {
+            if User.LoginUser?.rongToken.characters.count > 0 {
+                RCIM.sharedRCIM().connectWithToken(User.LoginUser?.rongToken ?? "",
+                    success: { (userId) -> Void in
+                        print("登陆成功。当前登录的用户ID：\(userId)")
+                    }, error: { (status) -> Void in
+                        print("登陆的错误码为:\(status.rawValue)")
+                    }, tokenIncorrect: {
+                        print("token错误")
+                })
+            }
+        }
+    }
 
     
     // MARK: - Navigation

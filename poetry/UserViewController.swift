@@ -34,8 +34,12 @@ class UserViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.registerNib(UINib(nibName: "PoemExploreCell", bundle:nil), forCellReuseIdentifier: "cell")
         NSNotificationCenter.defaultCenter().addObserverForName("LoginSuccess", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
             self.showUserInfo()
+        }
+        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            self.tableView.reloadData()
         }
         headerView.backgroundColor = UIColor.flatRedColor()
         showUserInfo()
@@ -130,7 +134,7 @@ class UserViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! PoemCardCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! PoemExploreCell
         cell.viewController = self
         cell.feed = feedList[indexPath.section]
         return cell

@@ -20,19 +20,19 @@
                                 <rect key="frame" x="0.0" y="0.0" width="60" height="79"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="木兰花" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L1G-WG-5gT">
-                                        <rect key="frame" x="0.0" y="52" width="60" height="16"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <rect key="frame" x="0.0" y="59.5" width="60" height="14.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaulticon" translatesAutoresizingMaskIntoConstraints="NO" id="wcU-Rb-1XY">
-                                        <rect key="frame" x="12" y="12" width="36" height="36"/>
+                                        <rect key="frame" x="6" y="11.5" width="48" height="48"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="36" id="8ol-JB-0Hs"/>
+                                            <constraint firstAttribute="height" constant="48" id="8ol-JB-0Hs"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="18"/>
+                                                <integer key="value" value="24"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
@@ -41,25 +41,32 @@
                                 <constraints>
                                     <constraint firstItem="L1G-WG-5gT" firstAttribute="centerX" secondItem="7XY-Qf-hQ3" secondAttribute="centerX" id="8vE-fc-cu1"/>
                                     <constraint firstAttribute="trailing" secondItem="L1G-WG-5gT" secondAttribute="trailing" id="Eel-4Z-B8e"/>
-                                    <constraint firstItem="wcU-Rb-1XY" firstAttribute="leading" secondItem="7XY-Qf-hQ3" secondAttribute="leading" constant="12" id="O1l-jX-g9Q"/>
+                                    <constraint firstItem="wcU-Rb-1XY" firstAttribute="centerX" secondItem="7XY-Qf-hQ3" secondAttribute="centerX" id="Ld0-Xe-sRa"/>
+                                    <constraint firstItem="wcU-Rb-1XY" firstAttribute="leading" secondItem="7XY-Qf-hQ3" secondAttribute="leading" constant="6" id="O1l-jX-g9Q"/>
                                     <constraint firstItem="L1G-WG-5gT" firstAttribute="leading" secondItem="7XY-Qf-hQ3" secondAttribute="leading" id="P84-L4-OW6"/>
-                                    <constraint firstAttribute="trailing" secondItem="wcU-Rb-1XY" secondAttribute="trailing" constant="12" id="XaL-5V-Uyy"/>
+                                    <constraint firstAttribute="trailing" secondItem="wcU-Rb-1XY" secondAttribute="trailing" constant="6" id="XaL-5V-Uyy"/>
                                     <constraint firstAttribute="width" constant="60" id="rfC-b2-YzN"/>
-                                    <constraint firstItem="L1G-WG-5gT" firstAttribute="top" secondItem="wcU-Rb-1XY" secondAttribute="bottom" constant="4" id="uRB-IX-YSb"/>
+                                    <constraint firstItem="L1G-WG-5gT" firstAttribute="top" secondItem="wcU-Rb-1XY" secondAttribute="bottom" id="uRB-IX-YSb"/>
                                     <constraint firstItem="wcU-Rb-1XY" firstAttribute="top" secondItem="7XY-Qf-hQ3" secondAttribute="top" constant="12" id="yrS-Zk-VEA"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Ld0-Xe-sRa"/>
+                                        <exclude reference="yrS-Zk-VEA"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="66E-gE-5Pu">
                                 <rect key="frame" x="60" y="0.0" width="254" height="79"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" misplaced="YES" text="xxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dek-rq-lke">
-                                        <rect key="frame" x="8" y="8" width="271" height="18"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="xxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dek-rq-lke">
+                                        <rect key="frame" x="8" y="8" width="238" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNv-Zt-Myz">
-                                        <rect key="frame" x="8" y="34" width="271" height="37"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNv-Zt-Myz">
+                                        <rect key="frame" x="8" y="34" width="238" height="37"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -89,6 +96,9 @@
                                 </variation>
                             </view>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="wcU-Rb-1XY" firstAttribute="centerY" secondItem="66E-gE-5Pu" secondAttribute="centerY" constant="-4" id="GUU-T8-CCC"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>

@@ -329,8 +329,8 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="80" height="99"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="木兰花" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDr-57-hA7">
-                                                            <rect key="frame" x="0.0" y="72" width="80" height="17"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <rect key="frame" x="0.0" y="72" width="80" height="16"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -368,7 +368,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebl-Nw-cde">
-                                                            <rect key="frame" x="8" y="34" width="504" height="57"/>
+                                                            <rect key="frame" x="8" y="26" width="504" height="65"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -384,7 +384,7 @@
                                                         <constraint firstItem="Q7h-FI-Efn" firstAttribute="centerX" secondItem="ekj-k9-vVp" secondAttribute="centerX" id="PYj-tO-WAx"/>
                                                         <constraint firstItem="Q7h-FI-Efn" firstAttribute="leading" secondItem="ekj-k9-vVp" secondAttribute="leading" constant="8" id="Ujs-3v-WpV"/>
                                                         <constraint firstItem="Q7h-FI-Efn" firstAttribute="centerX" secondItem="ebl-Nw-cde" secondAttribute="centerX" id="VVa-K9-Yei"/>
-                                                        <constraint firstItem="ebl-Nw-cde" firstAttribute="top" secondItem="Q7h-FI-Efn" secondAttribute="bottom" constant="8" id="XOh-Zp-VZG"/>
+                                                        <constraint firstItem="ebl-Nw-cde" firstAttribute="top" secondItem="Q7h-FI-Efn" secondAttribute="bottom" id="XOh-Zp-VZG"/>
                                                         <constraint firstItem="ebl-Nw-cde" firstAttribute="top" secondItem="ekj-k9-vVp" secondAttribute="top" constant="8" id="dxN-CX-XGh"/>
                                                     </constraints>
                                                     <variation key="default">

@@ -19,9 +19,14 @@ class PoemSummaryCell: UITableViewCell {
     @IBOutlet var descLabel: UILabel!
 
     override func awakeFromNib() {
-        titleLabel.font = UIFont(name: UserFont, size: 18)
-        descLabel.font = UIFont(name: UserFont, size: 15)
-        authorLabel.font = UIFont(name: UserFont, size: 14)
+        titleLabel.font = UIFont.userFontWithSize(18)
+        descLabel.font = UIFont.userFontWithSize(15)
+        authorLabel.font = UIFont.userFontWithSize(14)
+        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            self.titleLabel.font = UIFont.userFontWithSize(18)
+            self.descLabel.font = UIFont.userFontWithSize(15)
+            self.authorLabel.font = UIFont.userFontWithSize(14)
+        }
     }
     
     var data:Poem! {

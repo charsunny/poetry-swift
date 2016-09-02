@@ -22,8 +22,8 @@ class PoemWonderViewController: UIPageViewController, UIPageViewControllerDelega
         self.delegate = self
         self.dataSource = self
         self.titleView.alpha = 0
-        self.titleLabel.font = UIFont(name: UserFont, size: 18)
-        self.authorLabel.font = UIFont(name: UserFont, size: 13)
+        self.titleLabel.font = UIFont.userFontWithSize(18)
+        self.authorLabel.font = UIFont.userFontWithSize(13)
         if let poemVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewControllerWithIdentifier("poemvc") as? PoemDetailViewController {
             poemVC.poem = DataManager.manager.poemByRowId(Int(rand())%50000 + 1)
             self.titleLabel.text = poemVC.poem?.title

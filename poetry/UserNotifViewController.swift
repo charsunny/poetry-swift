@@ -15,10 +15,9 @@ class UserNotifViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.tableFooterView = UIView()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            self.tableView.reloadData()
+        }
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 

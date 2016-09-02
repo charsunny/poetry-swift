@@ -45,7 +45,9 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         searchController.definesPresentationContext = true
         searchController.searchBar.placeholder = "搜索诗人、诗词"
         self.navigationItem.titleView = searchController.searchBar
-        
+        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            self.tableView.reloadData()
+        }
     }
 
     
@@ -151,10 +153,10 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         }
         if let vc = segue.destinationViewController as? AuthorViewController {
             if segue.identifier == "showpoet" {
-                let poet = sender as! Poet
+                let poet = sender as? Poet
                 vc.poet = poet
             } else {
-                let format = sender as! PoemFormat
+                let format = sender as? PoemFormat
                 vc.format = format
             }
         }

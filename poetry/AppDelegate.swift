@@ -12,16 +12,6 @@ import PKHUD
 
 let ServerURL = "http://ansinlee.com/"
 
-public enum PoemFont : String {
-    case 汉仪全唐诗简体 = "HYQuanTangShiJ"
-    case 汉仪全唐诗繁体 = "HYQuanTangShiF"
-    case 方正宋刻本秀楷简体 = "FZSongKeBenXiuKaiS-R-GB"
-    case 方正宋刻本秀楷繁体 = "FZSongKeBenXiuKaiT-R-GB"
-    case 方正北魏楷书简体 = "FZBeiWeiKaiShu-S19S"
-    case 方正北魏楷书繁体 = "FZBeiWeiKaiShu-Z15T"
-}
-
-public var UserFont = PoemFont.汉仪全唐诗简体.rawValue
 
 public let DocumentPath:String = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
 
@@ -36,9 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        if let font = NSUserDefaults.standardUserDefaults().objectForKey("font") as? String {
-            UserFont = font
-        }
         if NSFileManager.defaultManager().fileExistsAtPath(DocumentPath.stringByAppendingString("/poem.db")) {
             LocalDBExist = DataManager.manager.connect()
         }
@@ -46,6 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RCIM.sharedRCIM().initWithAppKey("8w7jv4qb77vey")
         WeiboSDK.enableDebugMode(true)
         WeiboSDK.registerApp("4225157019")
+        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.rootViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
+        window?.makeKeyAndVisible()
+        
         return true
     }
 

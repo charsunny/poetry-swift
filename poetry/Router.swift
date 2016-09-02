@@ -14,8 +14,9 @@ typealias RequestMethod = Alamofire.Method
 
 enum Router : URLRequestConvertible {
     
-#if !DEBUG
-    static let baseURLString = "https://api.classicpoem.com"
+#if DEBUG
+    //static let baseURLString = "http://api.classicpoem.cn"
+    static let baseURLString = "http://121.41.112.242:8080"
 #else
     static let baseURLString = "http://192.168.31.206:8080"
 #endif

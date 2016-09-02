@@ -25,6 +25,9 @@ class RecommendViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            self.tableView.reloadData()
+        }
         self.navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: .Default)
         self.navigationController?.navigationBar.shadowImage = nil
         headerView.titleLabel.text = " "
@@ -146,10 +149,16 @@ class RecommandHeaderView : UIView {
     @IBOutlet var indicatorView:NVActivityIndicatorView!
     
     override func awakeFromNib() {
-        titleLabel.font = UIFont(name: UserFont, size: 64)
-        descLabel.font = UIFont(name: UserFont, size: 17)
+        titleLabel.font = UIFont.userFontWithSize(64)
+        descLabel.font = UIFont.userFontWithSize(17)
         descLabel.adjustsFontSizeToFitWidth = true
-        timeLabel.font = UIFont(name: UserFont, size: 15)
+        timeLabel.font = UIFont.userFontWithSize(15)
+        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            self.titleLabel.font = UIFont.userFontWithSize(64)
+            self.descLabel.font = UIFont.userFontWithSize(17)
+            self.descLabel.adjustsFontSizeToFitWidth = true
+            self.timeLabel.font = UIFont.userFontWithSize(15)
+        }
     }
     
     var data:Recommend! {
@@ -176,9 +185,14 @@ class RecommadCell: AnimatableTableViewCell {
     @IBOutlet var descLabel: UILabel!
     
     override func awakeFromNib() {
-        titleLabel.font = UIFont(name: UserFont, size: 18)
-        descLabel.font = UIFont(name: UserFont, size: 15)
-        authorLabel.font = UIFont(name: UserFont, size: 14)
+        titleLabel.font = UIFont.userFontWithSize(18)
+        descLabel.font = UIFont.userFontWithSize(15)
+        authorLabel.font = UIFont.userFontWithSize(14)
+        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            self.titleLabel.font = UIFont.userFontWithSize(18)
+            self.descLabel.font = UIFont.userFontWithSize(15)
+            self.authorLabel.font = UIFont.userFontWithSize(14)
+        }
     }
     
     var data:Poem! {

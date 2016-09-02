@@ -24,13 +24,16 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.registerNib(UINib(nibName: "PoemExploreCell", bundle:nil), forCellReuseIdentifier: "cell")
         tableView.addSubview(refreshControl)
         refreshControl.addTarget(self, action: #selector(ExploreViewController.refresh), forControlEvents: .ValueChanged)
         tableView.sendSubviewToBack(refreshControl)
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
         loadData()
+        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -92,7 +95,7 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! PoemCardCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! PoemExploreCell
         cell.viewController = self
         cell.feed = feedList[indexPath.row]
         return cell
@@ -100,11 +103,6 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     //var transitioner:CAVTransitioner?
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let vc = segue.destinationViewController as? PoemDetailViewController {
-            if let view = sender as? PoemTextView {
-                vc.poem = view.poem
-            }
-        }
 //        if let pvc = segue.destinationViewController as? ExploreAddViewController {
 //            transitioner = CAVTransitioner()
 //            if self.traitCollection.userInterfaceIdiom == .Pad {
