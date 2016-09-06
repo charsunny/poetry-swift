@@ -12,14 +12,19 @@ class SettingViewController: UITableViewController {
 
     @IBOutlet weak var fontChooseCell: UITableViewCell!
     
+    @IBOutlet weak var bgMusicCell: UITableViewCell!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        let switcher = UISwitch()
+        switcher.onTintColor = UIColor.flatRedColorDark()
+        switcher.addTarget(self, action: #selector(switchBgMusic(_:)), forControlEvents: .ValueChanged)
+        switcher.on = !User.BgMusicOff
+        bgMusicCell.accessoryView = switcher
+    }
+    
+    func switchBgMusic(swicther:UISwitch) {
+        User.BgMusicOff = !User.BgMusicOff
     }
     
     override func viewWillAppear(animated: Bool) {

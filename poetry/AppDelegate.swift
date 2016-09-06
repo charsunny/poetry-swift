@@ -23,6 +23,8 @@ public var LocalDBExist = false
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    var audioPlayer: AudioPlayer?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -37,7 +39,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.rootViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
         window?.makeKeyAndVisible()
-        
+        do {
+            audioPlayer = try AudioPlayer(fileName: "bg.mp3")
+            audioPlayer?.numberOfLoops = -1
+            audioPlayer?.volume = 1
+            if !User.BgMusicOff {
+                audioPlayer?.play()
+            }
+        } catch {
+            debugPrint("play failed")
+        }
+        NSNotificationCenter.defaultCenter().addObserverForName("BGMusicChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            if User.BgMusicOff {
+                self.audioPlayer?.stop()
+            } else {
+                self.audioPlayer?.play()
+            }
+        }
         return true
     }
 

@@ -72,6 +72,20 @@ public class User: Mappable {
         }
     }
     
+    static var BgMusicOff : Bool {
+        get {
+            return NSUserDefaults.standardUserDefaults().boolForKey("BgMusicOff")
+        }
+        set {
+            if newValue == true {
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "BgMusicOff")
+            } else {
+                NSUserDefaults.standardUserDefaults().setBool(false, forKey: "BgMusicOff")
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName("BGMusicChangeNotif", object: nil)
+        }
+    }
+    
     static var Token : String? {
         get {
             return NSUserDefaults.standardUserDefaults().objectForKey("token") as? String

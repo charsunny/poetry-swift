@@ -89,6 +89,7 @@
 		B65DBCC81D78A07D00069D1D /* PoemSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65DBCC71D78A07D00069D1D /* PoemSearchViewController.swift */; };
 		B65DBCCB1D78ACE500069D1D /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B65DBCC91D78ACE500069D1D /* Setting.storyboard */; };
 		B65DBCCD1D78AFA200069D1D /* UserColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65DBCCC1D78AFA200069D1D /* UserColumnViewController.swift */; };
+		B65DBCCF1D7F36BE00069D1D /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65DBCCE1D7F36BE00069D1D /* AudioPlayer.swift */; };
 		B6BAF3FE1D72B00A0095A5EE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF3FD1D72B00A0095A5EE /* User.swift */; };
 		B6BAF4001D72FF1F0095A5EE /* Recommend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF3FF1D72FF1F0095A5EE /* Recommend.swift */; };
 		B6BAF4021D73001B0095A5EE /* Poem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF4011D73001B0095A5EE /* Poem.swift */; };
@@ -193,6 +194,7 @@
 		B65DBCC71D78A07D00069D1D /* PoemSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoemSearchViewController.swift; sourceTree = "<group>"; };
 		B65DBCCA1D78ACE500069D1D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Setting.storyboard; sourceTree = "<group>"; };
 		B65DBCCC1D78AFA200069D1D /* UserColumnViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserColumnViewController.swift; sourceTree = "<group>"; };
+		B65DBCCE1D7F36BE00069D1D /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		B6BAF3FD1D72B00A0095A5EE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B6BAF3FF1D72FF1F0095A5EE /* Recommend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recommend.swift; sourceTree = "<group>"; };
 		B6BAF4011D73001B0095A5EE /* Poem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poem.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 		A912E0EC1CED6B07007EB8AC /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B65DBCCE1D7F36BE00069D1D /* AudioPlayer.swift */,
 				B61BA4FC1D6F7F6F001D2F31 /* UIUtils.swift */,
 				A9C847841CE5D0450089D035 /* UIGradientView.swift */,
 			);
@@ -665,6 +668,7 @@
 				B65DBCC61D789E1600069D1D /* RecommendAddViewController.swift in Sources */,
 				16C057831D7954C900B3AC93 /* ColumnAddViewController.swift in Sources */,
 				B6BAF4141D7375A90095A5EE /* SearchIndexCell.swift in Sources */,
+				B65DBCCF1D7F36BE00069D1D /* AudioPlayer.swift in Sources */,
 				1664989F1D6DB45500370655 /* AuthorRelatedViewController.swift in Sources */,
 				B6BAF4081D735D000095A5EE /* Comment.swift in Sources */,
 				1605B5B41D71915800A781AE /* SearchResultViewController.swift in Sources */,
