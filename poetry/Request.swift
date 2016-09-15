@@ -41,11 +41,21 @@ extension DataRequest {
             let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
             let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
             
+            if let errcode = (result.value as AnyObject?)?.value(forKeyPath: "errcode") as? Int {
+                if errcode > 0 {
+                    let failureReason = (result.value as AnyObject?)?.value(forKeyPath: "errmsg") as? String ?? "服务器异常，请稍候再试"
+                    let error = newError(.noData, failureReason: failureReason)
+                    return .failure(error)
+                }
+            }
+            
+            let resultData = (result.value as AnyObject?)?.value(forKeyPath: "data") as AnyObject?
+            
             let JSONToMap: Any?
             if let keyPath = keyPath , keyPath.isEmpty == false {
-                JSONToMap = (result.value as AnyObject?)?.value(forKeyPath: keyPath)
+                JSONToMap = resultData?.value(forKeyPath: keyPath)
             } else {
-                JSONToMap = result.value
+                JSONToMap = resultData
             }
             
             if let object = object {
@@ -91,11 +101,21 @@ extension DataRequest {
             let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
             let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
             
+            if let errcode = (result.value as AnyObject?)?.value(forKeyPath: "errcode") as? Int {
+                if errcode > 0 {
+                    let failureReason = (result.value as AnyObject?)?.value(forKeyPath: "errmsg") as? String ?? "服务器异常，请稍候再试"
+                    let error = newError(.noData, failureReason: failureReason)
+                    return .failure(error)
+                }
+            }
+            
+            let resultData = (result.value as AnyObject?)?.value(forKeyPath: "data") as AnyObject?
+            
             let JSONToMap: Any?
             if let keyPath = keyPath, keyPath.isEmpty == false {
-                JSONToMap = (result.value as AnyObject?)?.value(forKeyPath: keyPath)
+                JSONToMap = resultData?.value(forKeyPath: keyPath)
             } else {
-                JSONToMap = result.value
+                JSONToMap = resultData
             }
             
             if let parsedObject = Mapper<T>(context: context).mapArray(JSONObject: JSONToMap){

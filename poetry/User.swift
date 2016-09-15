@@ -147,16 +147,14 @@ open class User: Mappable {
         if let imagedata =
             
             UIImageJPEGRepresentation(image, 0.5) {
-            
+
             let path = "\(CachePath)/\(image.hashValue).jpg"
             try? imagedata.write(to: URL(fileURLWithPath: path), options: [.atomic])
-
-            /*Alamofire.upload(
-                "\(Router.baseURLString)/v1/user/pic",
-                method : .post,
+            Alamofire.upload(
                 multipartFormData: { multipartFormData in
-                    multipartFormData.appendBodyPart(fileURL:URL(fileURLWithPath: path), name: "image")
+                    multipartFormData.append(URL(fileURLWithPath: path), withName: "image")
                 },
+                to: "\(Router.baseURLString)/v1/user/pic",
                 encodingCompletion: { encodingResult in
                     switch encodingResult {
                     case .success(let upload, _, _):
@@ -172,11 +170,12 @@ open class User: Mappable {
                             }
                             finish(false, nil)
                         }
-                    case .failure:
+                    case .failure(let encodingError):
+                        print(encodingError)
                         finish(false, nil)
                     }
                 }
-            )*/
+            )
         }
     }
     

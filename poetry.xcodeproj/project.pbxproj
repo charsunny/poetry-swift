@@ -13,7 +13,6 @@
 		1605B5BB1D71AB2000A781AE /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1605B5BA1D71AB2000A781AE /* LaunchViewController.swift */; };
 		1605B5BE1D71B1B600A781AE /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1605B5BC1D71B1B600A781AE /* TencentOpenAPI.framework */; };
 		1605B5BF1D71B1B600A781AE /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1605B5BD1D71B1B600A781AE /* TencentOpenApi_IOS_Bundle.bundle */; };
-		1619763E1D70295F004197DA /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1619763B1D70295F004197DA /* Error.swift */; };
 		1619763F1D70295F004197DA /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1619763C1D70295F004197DA /* Request.swift */; };
 		161976401D70295F004197DA /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1619763D1D70295F004197DA /* Router.swift */; };
 		1640AF9E1D797F9400F6E895 /* FontChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1640AF9D1D797F9400F6E895 /* FontChooseViewController.swift */; };
@@ -114,7 +113,6 @@
 		1605B5BA1D71AB2000A781AE /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		1605B5BC1D71B1B600A781AE /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		1605B5BD1D71B1B600A781AE /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
-		1619763B1D70295F004197DA /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		1619763C1D70295F004197DA /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		1619763D1D70295F004197DA /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		1640AF9D1D797F9400F6E895 /* FontChooseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontChooseViewController.swift; sourceTree = "<group>"; };
@@ -262,7 +260,6 @@
 		1619763A1D70294C004197DA /* net */ = {
 			isa = PBXGroup;
 			children = (
-				1619763B1D70295F004197DA /* Error.swift */,
 				1619763C1D70295F004197DA /* Request.swift */,
 				1619763D1D70295F004197DA /* Router.swift */,
 			);
@@ -653,7 +650,6 @@
 				B6BAF3FE1D72B00A0095A5EE /* User.swift in Sources */,
 				161976401D70295F004197DA /* Router.swift in Sources */,
 				A9DA87661CE20600007D4EBC /* UserViewController.swift in Sources */,
-				1619763E1D70295F004197DA /* Error.swift in Sources */,
 				B61BA4FB1D6F7413001D2F31 /* ExploreAddViewController.swift in Sources */,
 				A9AEAE6F1CE2033E00312C8B /* ExploreViewController.swift in Sources */,
 				B61BA4FD1D6F7F6F001D2F31 /* UIUtils.swift in Sources */,

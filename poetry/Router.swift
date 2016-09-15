@@ -12,32 +12,28 @@ import Alamofire
 typealias PoemUser = User
 
 enum Router : URLRequestConvertible {
-    /// Returns a URL request or throws if an `Error` was encountered.
-    ///
-    /// - throws: An `Error` if the underlying `URLRequest` is `nil`.
-    ///
-    /// - returns: A URL request.
+    
+    #if !DEBUG
+    static let baseURLString = "http://api.charsunny.com"
+    //static let baseURLString = "http://121.41.112.242:8080"
+    #else
+    static let baseURLString = "http://192.168.31.206:8080"
+    #endif
+    
     public func asURLRequest() throws -> URLRequest {
         let URL = Foundation.URL(string: Router.baseURLString)!
         let mutableURLRequest = NSMutableURLRequest(url: URL.appendingPathComponent(req.path))
         mutableURLRequest.httpMethod = req.method.rawValue
         mutableURLRequest.timeoutInterval = 15
-        let parm = preDealWithParam(req.param)
+        let parameters = preDealWithParam(req.param)
         let md5:String? = ""//BMHTTPRequest.sign(parm, path: req.path)
         if md5 != nil {
             mutableURLRequest.setValue(md5, forHTTPHeaderField: "md5")
         }
-        //let encodedURLRequest = ParameterEncoding.url.encode(mutableURLRequest, parameters: parm).0
-        return mutableURLRequest as URLRequest
+        let urlRequest = try URLEncoding.default.encode(mutableURLRequest as URLRequest, with: parameters)
+        return urlRequest
     }
-
     
-#if DEBUG
-    static let baseURLString = "http://api.charsunny.com"
-    //static let baseURLString = "http://121.41.112.242:8080"
-#else
-    static let baseURLString = "http://192.168.31.206:8080"
-#endif
    
     static let version = "v1"
     static let pageSize = 30

@@ -49,26 +49,26 @@ class RecommendViewController: UITableViewController {
             alertController.addAction(UIAlertAction(title: "立即下载", style: .default, handler: { (_) in
                 let statusBarView = JDStatusBarNotification.show(withStatus: "正在下载诗词数据", styleName: JDStatusBarStyleDark)
                 let path = "\(DocumentPath)/poem.zip"
-               /* Alamofire.download(.get, "http://classicpoem.oss-cn-shanghai.aliyuncs.com/poem.zip", parameters: nil, destination: { (_, _) -> URL in
+                Alamofire.download("http://classicpoem.oss-cn-shanghai.aliyuncs.com/poem.zip", to: { (_, _) in
                     if FileManager.default.fileExists(atPath: path) {
                         try! FileManager.default.removeItem(atPath: path)
                     }
-                    return URL(fileURLWithPath: path)
-                }).progress({ (s, d, f) in
-                    DispatchQueue.main.async(execute: { 
-                        statusBarView.textLabel.text = String(format: "正在下载诗词数据%.1f%%", CGFloat(d)/CGFloat(f)*100)
+                    return (URL(fileURLWithPath: path), [.removePreviousFile, .createIntermediateDirectories])
+                }).downloadProgress(closure: { (p) in
+                    DispatchQueue.main.async(execute: {
+                        statusBarView?.textLabel.text = String(format: "正在下载诗词数据%.1f%%", p.fractionCompleted*100)
                     })
-                }).response(completionHandler: { (_, _, _, error) in
-                    if error == nil {
-                        statusBarView.textLabel.text = "下载成功"
+                }).response(completionHandler: { (res) in
+                    if res.error != nil {
+                        statusBarView?.textLabel.text = "下载失败"
+                    } else {
+                        statusBarView?.textLabel.text = "下载成功"
                         SSZipArchive.unzipFile(atPath: path, toDestination: DocumentPath)
                         try! FileManager.default.removeItem(atPath: path)
                         LocalDBExist = DataManager.manager.connect()
-                    } else {
-                        statusBarView.textLabel.text = "下载失败"
                     }
                     JDStatusBarNotification.dismiss(after: 1.0)
-                })*/
+                })
             }))
             self.present(alertController, animated: true, completion: nil)
         }
@@ -80,7 +80,7 @@ class RecommendViewController: UITableViewController {
         }
         isLoading = true
         Recommend.GetRec(id) { (rec, err) in
-            self.headerView.indicatorView.stopAnimation()
+            self.headerView.indicatorView.stopAnimating()
             self.isLoading = false
             self.needLoading = false
             if err != nil {
