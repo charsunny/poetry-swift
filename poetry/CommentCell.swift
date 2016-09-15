@@ -18,7 +18,7 @@ class CommentCell: UITableViewCell {
     
     @IBOutlet weak var thumbButton: UIButton!
     
-    @IBAction func clickThumb(sender: UIButton) {
+    @IBAction func clickThumb(_ sender: UIButton) {
     }
     
      @IBOutlet weak var contentTextLabel: UILabel!

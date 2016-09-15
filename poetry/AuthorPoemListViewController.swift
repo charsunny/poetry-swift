@@ -16,39 +16,39 @@ class AuthorPoemListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dispatch_async(dispatch_get_global_queue(0, 0)) {
+        DispatchQueue.global(qos: .default).async {
             if let poet = self.poet {
                 self.poems = DataManager.manager.poemsByAuthor(poet.id)
             } else if let format = self.format {
                 self.poems = DataManager.manager.poemsByFormat(format.id)
             }
-            dispatch_async(dispatch_get_main_queue()){
+            DispatchQueue.main.async{
                 self.tableView.reloadData()
             }
         }
         
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - Table view data source
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.poems.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
-        let poem = poems[indexPath.row]
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let poem = poems[(indexPath as NSIndexPath).row]
         cell.textLabel?.text = poem.title
-        cell.textLabel?.font = UIFont.userFontWithSize(16)
-        cell.detailTextLabel?.font = UIFont.userFontWithSize(14)
+        cell.textLabel?.font = UIFont.userFont(size:16)
+        cell.detailTextLabel?.font = UIFont.userFont(size:14)
         if poem.content.characters.count > 40 {
-            cell.detailTextLabel?.text = ((poem.content as NSString?)?.substringToIndex(40).stringByReplacingOccurrencesOfString("\r\n", withString: "") ?? "") + "..."
+            cell.detailTextLabel?.text = ((poem.content as NSString?)?.substring(to: 40).replacingOccurrences(of: "\r\n", with: "") ?? "") + "..."
         } else {
-            cell.detailTextLabel?.text = poem.content.stringByReplacingOccurrencesOfString("\r\n", withString: "")
+            cell.detailTextLabel?.text = poem.content.replacingOccurrences(of: "\r\n", with: "")
         }
         return cell
     }
@@ -56,12 +56,12 @@ class AuthorPoemListViewController: UITableViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if let poemVC = segue.destinationViewController as? PoemDetailViewController {
-            let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)!
-            poemVC.poemId = poems[indexPath.row].id
+        if let poemVC = segue.destination as? PoemDetailViewController {
+            let indexPath = tableView.indexPath(for: sender as! UITableViewCell)!
+            poemVC.poemId = poems[(indexPath as NSIndexPath).row].id
         }
     }
 

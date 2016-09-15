@@ -15,11 +15,12 @@ extension UILabel {
         let size = self.frame.size;
         var maxSize = self.font.pointSize
         
-        for ; maxSize >= self.minimumScaleFactor * self.font.pointSize; maxSize = maxSize - 1 {
-            font = font.fontWithSize(maxSize)
-            let constraintSize = CGSizeMake(size.width, CGFloat.max);
+        while maxSize >= self.minimumScaleFactor * self.font.pointSize {
             
-            if let textRect = self.text?.boundingRectWithSize(constraintSize, options:.UsesLineFragmentOrigin, attributes:[NSFontAttributeName:font], context:nil) {
+            font = font?.withSize(maxSize)
+            let constraintSize = CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude);
+            
+            if let textRect = self.text?.boundingRect(with: constraintSize, options:.usesLineFragmentOrigin, attributes:[NSFontAttributeName:font], context:nil) {
                 let  labelSize = textRect.size;
                 if(labelSize.height <= size.height || maxSize < 13) {
                     self.font = font
@@ -27,7 +28,7 @@ extension UILabel {
                     break
                 }
             }
-            
+            maxSize = maxSize - 1
         }
         // set the font to the minimum size anyway
         self.font = font;
@@ -39,23 +40,23 @@ let FlatDarkColors : [UIColor] = [UIColor.flatBlackColorDark(), UIColor.flatBlue
 
 extension UIImage {
 
-    static func imageWithString(string: String, size: CGSize) -> UIImage {
+    static func imageWithString(_ string: String, size: CGSize) -> UIImage {
         
         let label = UILabel(frame: CGRect(x: 0, y:  0, width: 2*size.width/3, height: 2*size.height/3))
         label.numberOfLines = 0
-        label.textColor = UIColor.whiteColor()
-        label.font = UIFont.userFontWithSize(size.width/2)
+        label.textColor = UIColor.white
+        label.font = UIFont.userFont(size:size.width/2)
         label.text = string
-        label.textAlignment = .Center
+        label.textAlignment = .center
         label.adjustFontSizeToFit()
-        UIColor.flatBlackColor()
+        UIColor.flatBlack()
         
         UIGraphicsBeginImageContextWithOptions(size, true, 0)
         FlatDarkColors[string.hash % FlatDarkColors.count].set()
-        UIRectFill(CGRect(origin: CGPointZero, size: size))
-        label.drawTextInRect(CGRect(x: size.width/6, y:  size.height/6, width: 2*size.width/3, height: 2*size.height/3))
+        UIRectFill(CGRect(origin: CGPoint.zero, size: size))
+        label.drawText(in: CGRect(x: size.width/6, y:  size.height/6, width: 2*size.width/3, height: 2*size.height/3))
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image.af_imageRoundedIntoCircle()
+        return image!.af_imageRoundedIntoCircle()
     }
 }

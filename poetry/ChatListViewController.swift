@@ -9,6 +9,26 @@
 import UIKit
 import IBAnimatable
 import TextAttributes
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ChatListViewController: RCConversationListViewController {
 
@@ -27,11 +47,11 @@ class ChatListViewController: RCConversationListViewController {
         self.conversationListTableView.tableFooterView = UIView()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if RCIM.sharedRCIM().getConnectionStatus() == RCConnectionStatus.ConnectionStatus_Unconnected {
+        if RCIM.shared().getConnectionStatus() == RCConnectionStatus.ConnectionStatus_Unconnected {
             if User.LoginUser?.rongToken.characters.count > 0 {
-                RCIM.sharedRCIM().connectWithToken(User.LoginUser?.rongToken ?? "",
+                RCIM.shared().connect(withToken: User.LoginUser?.rongToken ?? "",
                     success: { (userId) -> Void in
                         print("登陆成功。当前登录的用户ID：\(userId)")
                     }, error: { (status) -> Void in
@@ -47,7 +67,7 @@ class ChatListViewController: RCConversationListViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }

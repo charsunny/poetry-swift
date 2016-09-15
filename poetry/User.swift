@@ -9,6 +9,26 @@
 import UIKit
 import Alamofire
 import ObjectMapper
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class Login: Mappable {
     
@@ -16,7 +36,7 @@ class Login: Mappable {
     
     var user:User?
     
-    required init?(_ map: Map) {
+    required init?(map: Map) {
         
     }
     
@@ -25,17 +45,18 @@ class Login: Mappable {
         user <- map["user"]
     }
     
-    static func LoginWithSNS(nick:String, gender:Int, avatar:String, userId:String, snsType:Int,  finish:(Login?, BackendError?)->Void) {
-        let param:[String:AnyObject] = ["userid":userId, "nick":nick, "avatar":avatar, "type":snsType, "gender":gender]
-        Alamofire.request(Router.Base(.POST, "login", param)).responseObject { (res :Response<Login, BackendError>) in
-            res.result.success({ (value) in
+    static func LoginWithSNS(_ nick:String, gender:Int, avatar:String, userId:String, snsType:Int,  finish:@escaping (Login?, Error?)->Void) {
+        let param:[String:AnyObject] = ["userid":userId as AnyObject, "nick":nick as AnyObject, "avatar":avatar as AnyObject, "type":snsType as AnyObject, "gender":gender as AnyObject]
+        Alamofire.request(Router.base(.post, "login", param)).responseObject { (res :DataResponse<Login>) in
+            switch res.result {
+            case let .success(value):
                 User.LoginUser = value.user
                 User.Token = value.token
-                NSNotificationCenter.defaultCenter().postNotificationName("LoginSuccess", object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "LoginSuccess"), object: nil)
                 if value.user?.rongToken.characters.count > 0 {
-                    RCIM.sharedRCIM().connectWithToken(value.user?.rongToken ?? "",
-                        success: { (userId) -> Void in
-                            print("登陆成功。当前登录的用户ID：\(userId)")
+                    RCIM.shared().connect(withToken: value.user?.rongToken ?? "",
+                                          success: { (userId) -> Void in
+                                            print("登陆成功。当前登录的用户ID：\(userId)")
                         }, error: { (status) -> Void in
                             print("登陆的错误码为:\(status.rawValue)")
                         }, tokenIncorrect: {
@@ -43,20 +64,20 @@ class Login: Mappable {
                     })
                 }
                 finish(value, nil)
-            }).failure({ (error) in
-                finish(nil, error)
-            })
+            case let .failure(error):
+                 finish(nil, error)
+            }
         }
     }
 }
 
-public class User: Mappable {
+open class User: Mappable {
     
     static var LoginUser : User?
     
     static var Font : String {
         get {
-            if let font = NSUserDefaults.standardUserDefaults().objectForKey("font") as? String {
+            if let font = UserDefaults.standard.object(forKey: "font") as? String {
                 return font
             } else {
                 return "HYQuanTangShiJ"
@@ -64,50 +85,51 @@ public class User: Mappable {
         }
         set {
             if newValue == "" {
-                 NSUserDefaults.standardUserDefaults().setObject("system", forKey: "font")
+                 UserDefaults.standard.set("system", forKey: "font")
             } else {
-                NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "font")
+                UserDefaults.standard.set(newValue, forKey: "font")
             }
-            NSNotificationCenter.defaultCenter().postNotificationName("UserFontChangeNotif", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "UserFontChangeNotif"), object: nil)
         }
     }
     
     static var BgMusicOff : Bool {
         get {
-            return NSUserDefaults.standardUserDefaults().boolForKey("BgMusicOff")
+            return UserDefaults.standard.bool(forKey: "BgMusicOff")
         }
         set {
             if newValue == true {
-                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "BgMusicOff")
+                UserDefaults.standard.set(true, forKey: "BgMusicOff")
             } else {
-                NSUserDefaults.standardUserDefaults().setBool(false, forKey: "BgMusicOff")
+                UserDefaults.standard.set(false, forKey: "BgMusicOff")
             }
-            NSNotificationCenter.defaultCenter().postNotificationName("BGMusicChangeNotif", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "BGMusicChangeNotif"), object: nil)
         }
     }
     
     static var Token : String? {
         get {
-            return NSUserDefaults.standardUserDefaults().objectForKey("token") as? String
+            return UserDefaults.standard.object(forKey: "token") as? String
         }
         set {
             if newValue == nil {
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("token")
+                UserDefaults.standard.removeObject(forKey: "token")
             } else {
-                NSUserDefaults.standardUserDefaults().setObject(newValue!, forKey: "token")
+                UserDefaults.standard.set(newValue!, forKey: "token")
             }
         }
     }
     
-    static func GetUserInfo(finish:(User?, BackendError?)->Void) {
-        Alamofire.request(Router.User(.GET, "info", [:])).responseObject { (res :Response<User, BackendError>) in
-            res.result.success({ (value) in
+    static func GetUserInfo(_ finish:@escaping (User?, Error?)->Void) {
+        Alamofire.request(Router.user(.get, "info", [:])).responseObject { (res :DataResponse<User>) in
+            switch res.result {
+            case let .success(value) :
                 User.LoginUser = value
-                NSNotificationCenter.defaultCenter().postNotificationName("LoginSuccess", object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "LoginSuccess"), object: nil)
                 if value.rongToken.characters.count > 0 {
-                    RCIM.sharedRCIM().connectWithToken(value.rongToken ?? "",
-                        success: { (userId) -> Void in
-                            print("登陆成功。当前登录的用户ID：\(userId)")
+                    RCIM.shared().connect(withToken: value.rongToken ,
+                                          success: { (userId) -> Void in
+                                            print("登陆成功。当前登录的用户ID：\(userId)")
                         }, error: { (status) -> Void in
                             print("登陆的错误码为:\(status.rawValue)")
                         }, tokenIncorrect: {
@@ -115,28 +137,29 @@ public class User: Mappable {
                     })
                 }
                 finish(value, nil)
-            }).failure({ (error) in
+            case let .failure(error):
                 finish(nil, error)
-            })
+            }
         }
     }
     
-    static func UploadPic(image:UIImage, finish:(Bool, String?)->Void) {
+    static func UploadPic(_ image:UIImage, finish:@escaping (Bool, String?)->Void) {
         if let imagedata =
             
             UIImageJPEGRepresentation(image, 0.5) {
             
             let path = "\(CachePath)/\(image.hashValue).jpg"
-            imagedata.writeToFile(path, atomically: true)
-            Alamofire.upload(
-                .POST,
+            try? imagedata.write(to: URL(fileURLWithPath: path), options: [.atomic])
+
+            /*Alamofire.upload(
                 "\(Router.baseURLString)/v1/user/pic",
+                method : .post,
                 multipartFormData: { multipartFormData in
-                    multipartFormData.appendBodyPart(fileURL:NSURL(fileURLWithPath: path), name: "image")
+                    multipartFormData.appendBodyPart(fileURL:URL(fileURLWithPath: path), name: "image")
                 },
                 encodingCompletion: { encodingResult in
                     switch encodingResult {
-                    case .Success(let upload, _, _):
+                    case .success(let upload, _, _):
                         upload.responseJSON { response in
                             if let dict = response.result.value as? NSDictionary {
                                 if dict["errcode"] as? Int == 0 {
@@ -149,11 +172,11 @@ public class User: Mappable {
                             }
                             finish(false, nil)
                         }
-                    case .Failure:
+                    case .failure:
                         finish(false, nil)
                     }
                 }
-            )
+            )*/
         }
     }
     
@@ -168,11 +191,11 @@ public class User: Mappable {
     var rongUser : String = ""// rongyun用户名
     var rongToken : String = ""// rong token
     
-    required public init?(_ map: Map) {
+    required public init?(map: Map) {
         
     }
     
-    public func mapping(map: Map) {
+    open func mapping(map: Map) {
         id <- map["Id"]
         nick <- map["Nick"]
         avatar <- map["Avatar"]

@@ -9,35 +9,37 @@
 import UIKit
 import DZNEmptyDataSet
 import TextAttributes
+import ChameleonFramework
+import AlamofireImage
 
 class SearchResultListViewController: UITableViewController {
     
     var resultList:[AnyObject] = []
     
-    var searchType : SearchType = .Poem
+    var searchType : SearchType = .poem
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         tableView.tableFooterView = UIView()
-        tableView.registerNib(UINib(nibName: "SearchResultCell", bundle : nil),forCellReuseIdentifier: "cell")
+        tableView.register(UINib(nibName: "SearchResultCell", bundle : nil),forCellReuseIdentifier: "cell")
     }
 
     // MARK: - Table view data source
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return resultList.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! SearchResultCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchResultCell
         
-        let data = resultList[indexPath.row]
+        let data = resultList[(indexPath as NSIndexPath).row]
         
         switch searchType {
-        case .Poem:
+        case .poem:
             cell.poem = data as? Poem
-        case .Poet:
+        case .poet:
             cell.poet = data as? Poet
         default:
             cell.format = data as? PoemFormat
@@ -46,34 +48,34 @@ class SearchResultListViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         switch searchType {
-        case .Poem:
-            self.parentViewController?.parentViewController?.presentingViewController?.performSegueWithIdentifier("showpoem", sender: resultList[indexPath.row])
-        case .Poet:
-            self.parentViewController?.parentViewController?.presentingViewController?.performSegueWithIdentifier("showpoet", sender: resultList[indexPath.row])
+        case .poem:
+            self.parent?.parent?.presentingViewController?.performSegue(withIdentifier: "showpoem", sender: resultList[(indexPath as NSIndexPath).row])
+        case .poet:
+            self.parent?.parent?.presentingViewController?.performSegue(withIdentifier: "showpoet", sender: resultList[(indexPath as NSIndexPath).row])
         default:
-            self.parentViewController?.parentViewController?.presentingViewController?.performSegueWithIdentifier("showformat", sender: resultList[indexPath.row])
+            self.parent?.parent?.presentingViewController?.performSegue(withIdentifier: "showformat", sender: resultList[(indexPath as NSIndexPath).row])
         }
     }
 
 }
 
 extension SearchResultListViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string:"暂无搜索结果", attributes: TextAttributes().foregroundColor(UIColor.darkGrayColor()).font(UIFont.userFontWithSize(15)).alignment(.Center))
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string:"暂无搜索结果", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:15)).alignment(.center))
     }
     
-    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "theme\(searchType.rawValue+1)")?.af_imageScaledToSize(CGSize(width: 120, height: 120)).af_imageWithRoundedCornerRadius(60)
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "theme\(searchType.rawValue+1)")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius: 60)
     }
     
-    func verticalOffsetForEmptyDataSet(scrollView: UIScrollView!) -> CGFloat {
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
         return -100
     }
 }

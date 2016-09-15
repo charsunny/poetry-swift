@@ -13,7 +13,7 @@ class PoemTabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBar.tintColor = UIColor.flatRedColor()
+        self.tabBar.tintColor = UIColor.flatRed()
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,15 +23,15 @@ class PoemTabBarViewController: UITabBarController {
     
     let icons = ["spreadsheet", "magnifying-glass", "eye",  "chat",  "person"]
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         var i:Int = 0
         for item in self.tabBar.items! {
             if i != 2 {
-                item.icon(from: .Iconic, code: icons[i], imageSize: CGSizeMake(28, 28), ofSize: 20)
+                item.icon(from: .Iconic, code: icons[i], imageSize: CGSize(width: 28, height: 28), ofSize: 20)
                 item.imageInsets = UIEdgeInsetsMake(10, 0, -10, 0)
             } else {
-                item.icon(from: .Iconic, code: icons[i], imageSize: CGSizeMake(34, 34), ofSize: 30)
+                item.icon(from: .Iconic, code: icons[i], imageSize: CGSize(width: 34, height: 34), ofSize: 30)
                 item.imageInsets = UIEdgeInsetsMake(8, 0, -8, 0)
             }
             

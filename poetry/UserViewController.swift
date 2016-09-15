@@ -10,7 +10,6 @@ import UIKit
 import AlamofireImage
 import DZNEmptyDataSet
 import TextAttributes
-import PKHUD
 
 class UserViewController: UITableViewController {
     
@@ -34,14 +33,14 @@ class UserViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.registerNib(UINib(nibName: "PoemExploreCell", bundle:nil), forCellReuseIdentifier: "cell")
-        NSNotificationCenter.defaultCenter().addObserverForName("LoginSuccess", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        tableView.register(UINib(nibName: "PoemExploreCell", bundle:nil), forCellReuseIdentifier: "cell")
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "LoginSuccess"), object: nil, queue: OperationQueue.main) { (_) in
             self.showUserInfo()
         }
-        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.tableView.reloadData()
         }
-        headerView.backgroundColor = UIColor.flatRedColor()
+        headerView.backgroundColor = UIColor.flatRed()
         showUserInfo()
         loadFeeds()
     }
@@ -52,7 +51,7 @@ class UserViewController: UITableViewController {
             userinfo = User.LoginUser
         }
         if let user = userinfo  {
-            avatarImageView.af_setImageWithURL(NSURL(string: user.avatar) ?? NSURL(), placeholderImage: UIImage(named: "defaulticon"))
+            avatarImageView.af_setImage(withURL:URL(string: user.avatar) ?? URL(string:"")!, placeholderImage: UIImage(named: "defaulticon"))
             nameLabel.text = user.nick
             likeCountLabel.text = "\(user.likeCount)"
             favCountLabel.text = "\(user.columnCount)"
@@ -61,16 +60,16 @@ class UserViewController: UITableViewController {
         }
     }
     
-    @IBAction func refresFeeds(sender: AnyObject) {
+    @IBAction func refresFeeds(_ sender: AnyObject) {
         Feed.GetFeedsAfter(feedList.first?.id ?? -1) { (list, error) in
             self.refreshControl?.endRefreshing()
             if error == nil {
                 if list.count > 0 {
-                    self.feedList.insertContentsOf(list, at: 0)
+                    self.feedList.insert(contentsOf: list, at: 0)
                     self.tableView.reloadData()
                 }
             } else {
-                HUD.flash(.Label(String.ErrorString(error!)), delay: 1.0)
+                //HUD.flash(.label(String.ErrorString(error!)), delay: 1.0)
             }
         }
     }
@@ -78,7 +77,7 @@ class UserViewController: UITableViewController {
     var hasMore = false
     var isLoading = false
     var page = -1
-    func loadFeeds(page:Int = 0) {
+    func loadFeeds(_ page:Int = 0) {
         if isLoading {
             return
         }
@@ -90,7 +89,7 @@ class UserViewController: UITableViewController {
             }
             if error == nil {
                 if list.count > 0 {
-                    self.feedList.appendContentsOf(list)
+                    self.feedList.append(contentsOf: list)
                     self.tableView.reloadData()
                 } else {
                     self.hasMore = false
@@ -99,14 +98,14 @@ class UserViewController: UITableViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.navigationBar.hidden = true
+        self.navigationController?.navigationBar.isHidden = true
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        self.navigationController?.navigationBar.hidden = false
+        self.navigationController?.navigationBar.isHidden = false
     }
     
 
@@ -115,43 +114,43 @@ class UserViewController: UITableViewController {
         headerView.frame = CGRect(x: 0, y: offset.y, width: headerView.frame.width, height: 230 - offset.y)
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if hasMore && scrollView.contentOffset.y > 100 && scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height {
             self.loadFeeds(self.page + 1)
         }
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return feedList.count
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 424
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! PoemExploreCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PoemExploreCell
         cell.viewController = self
-        cell.feed = feedList[indexPath.section]
+        cell.feed = feedList[(indexPath as NSIndexPath).section]
         return cell
     }
     
 }
 
 extension UserViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string:"暂无分享内容", attributes: TextAttributes().foregroundColor(UIColor.darkGrayColor()).font(UIFont.userFontWithSize(15)).alignment(.Center))
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string:"暂无分享内容", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:15)).alignment(.center))
     }
     
-    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "theme4")?.af_imageScaledToSize(CGSize(width: 120, height: 120)).af_imageWithRoundedCornerRadius(60)
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "theme4")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
     }
     
-    func verticalOffsetForEmptyDataSet(scrollView: UIScrollView!) -> CGFloat {
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
         return 40
     }
 }

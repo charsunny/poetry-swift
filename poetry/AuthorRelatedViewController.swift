@@ -22,12 +22,12 @@ class AuthorRelatedViewController: UITableViewController {
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 2
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         if section == 0 {
             return 2
@@ -35,29 +35,29 @@ class AuthorRelatedViewController: UITableViewController {
         return 2
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == 0 {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).row == 0 {
             return 32
         }
-        if indexPath.section == 0 {
+        if (indexPath as NSIndexPath).section == 0 {
             return 200
         }
         return 70
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("hcell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "hcell", for: indexPath)
             
             // Configure the cell...
             
             return cell
         }
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("pcell", forIndexPath: indexPath)
+        if (indexPath as NSIndexPath).section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "pcell", for: indexPath)
             return cell
         }
-        let cell = tableView.dequeueReusableCellWithIdentifier("ucell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ucell", for: indexPath)
         return cell
     }
 

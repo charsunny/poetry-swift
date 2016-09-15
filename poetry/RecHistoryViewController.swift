@@ -8,7 +8,6 @@
 
 import UIKit
 import Alamofire
-import SwiftyJSON
 
 class RecHistoryCell : UITableViewCell {
     
@@ -17,8 +16,8 @@ class RecHistoryCell : UITableViewCell {
     @IBOutlet var descLabel: UILabel!
     
     override func awakeFromNib() {
-        nameLabel.font = UIFont.userFontWithSize(64)
-        descLabel.font = UIFont.userFontWithSize(17)
+        nameLabel.font = UIFont.userFont(size:64)
+        descLabel.font = UIFont.userFont(size:17)
     }
     
     var data:NSDictionary! {
@@ -45,12 +44,12 @@ class RecHistoryViewController: UITableViewController {
     }
     
     var isLoading = false
-    func loadData(page:Int, isReload:Bool = false) {
+    func loadData(_ page:Int, isReload:Bool = false) {
         if isLoading {
             return
         }
         isLoading = true
-        Alamofire.request(.GET, "\(ServerURL)his", parameters: ["type":"json", "page":page, "count":30]).responseJSON {
+        /*Alamofire.request(.get, "\(ServerURL)his", parameters: ["type":"json", "page":page, "count":30]).responseJSON {
             self.isLoading = false
             self.refreshControl?.endRefreshing()
             guard let data = $0.result.value else {
@@ -61,38 +60,38 @@ class RecHistoryViewController: UITableViewController {
                     self.recs = json
                 } else {
                     if page == self.page + 1 {
-                        self.recs.appendContentsOf(json)
+                        self.recs.append(contentsOf: json)
                         self.page = page + 1
                     }
                 }
                 self.tableView.reloadData()
             }
-        }
+        }*/
     }
 
-    @IBAction func refresh(sender: AnyObject) {
+    @IBAction func refresh(_ sender: AnyObject) {
         loadData(1, isReload: true)
     }
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return recs.count
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return recs[section]["Time"] as? String ?? ""
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! RecHistoryCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RecHistoryCell
 
-        cell.data = recs[indexPath.section]
+        cell.data = recs[(indexPath as NSIndexPath).section]
 
         return cell
     }
@@ -100,12 +99,12 @@ class RecHistoryViewController: UITableViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if let vc = segue.destinationViewController as? RecommendViewController {
-            let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)!
-            vc.recInfo = recs[indexPath.section]
+        if let vc = segue.destination as? RecommendViewController {
+            let indexPath = tableView.indexPath(for: sender as! UITableViewCell)!
+            vc.recInfo = recs[(indexPath as NSIndexPath).section]
         }
     }
 

@@ -10,37 +10,38 @@ import UIKit
 import Alamofire
 import ObjectMapper
 
-public class PoemFormat: Mappable {
+open class PoemFormat: Mappable {
     var id   : Int = 0
     var name : String = ""
     var desc	: String = ""
     
-    required public init?(_ map: Map) {
+    required public init?(map: Map) {
         
     }
     
     public init(_ row:SQLiteRow) {
-        id = row.get(SQLIntExp("id"))
+       /* id = row.get(SQLIntExp("id"))
         name = row.get(SQLStringExp("name_cn"))
-        desc = row.get(SQLStringOExp("description_cn")) ?? ""
+        desc = row.get(SQLStringOExp("description_cn")) ?? ""*/
     }
     
-    public func mapping(map: Map) {
+    open func mapping(map: Map) {
         id <- map["Id"]
         name <- map["Name"]
         desc <- map["Desc"]
     }
 }
 
-public class Poem: Mappable {
+open class Poem: Mappable {
     
-    static func GetPoemDetail(id:Int, finish:(Poem?, BackendError?)->Void) {
-        Alamofire.request(Router.Poem(.GET, "\(id)", ["local":LocalDBExist])).responseObject { (res:Response<Poem, BackendError>) in
-            res.result.success({ (value) in
+    static func GetPoemDetail(_ id:Int, finish:@escaping (Poem?, Error?)->Void) {
+        Alamofire.request(Router.poem(.get, "\(id)", ["local":LocalDBExist])).responseObject { (res:DataResponse<Poem>) in
+            switch res.result {
+            case let .success(value):
                 finish(value, nil)
-            }).failure({ (error) in
+            case let .failure(error):
                 finish(nil, error)
-            })
+            }
         }
     }
     
@@ -52,15 +53,15 @@ public class Poem: Mappable {
     var likeCount : Int = 0
     var isFav:Bool = false
     var poet : Poet?
-    private var pid :Int = 0
-    private var fid :Int = 0
+    fileprivate var pid :Int = 0
+    fileprivate var fid :Int = 0
     var pname : String?
-    required public init?(_ map: Map) {
+    required public init?(map: Map) {
         
     }
     
     public init(_ row:SQLiteRow, hasName name:Bool = false) {
-        id = row.get(SQLIntExp("id"))
+        /*id = row.get(SQLIntExp("id"))
         title = row.get(SQLStringExp("name_cn"))
         content = row.get(SQLStringExp("text_cn"))
         if !name {
@@ -69,10 +70,10 @@ public class Poem: Mappable {
             format = DataManager.manager.formatById(fid)?.name ?? ""
         } else {
             pname = row[SQLStringOExp("poet_name")]
-        }
+        }*/
     }
     
-    public func loadPoet() {
+    open func loadPoet() {
         if pid > 0 {
             poet = DataManager.manager.poetById(pid)
         } else if let pname = pname {
@@ -84,7 +85,7 @@ public class Poem: Mappable {
         }
     }
     
-    public func mapping(map: Map) {
+    open func mapping(map: Map) {
         id <- map["Id"]
         title <- map["Name"]
         content <- map["Text"]
@@ -95,10 +96,11 @@ public class Poem: Mappable {
         isFav <- map["IsFav"]
     }
     
-    func like(finish:(String, BackendError?)->Void) {
-        Alamofire.request(Router.Poem(.POST, "like", ["pid":self.id])).responseString { (res:Response<String, BackendError>) in
-            res.result.success({ (value) in
-                if value.containsString("取消") {
+    func like(_ finish:@escaping (String, Error?)->Void) {
+        Alamofire.request(Router.poem(.post, "like", ["pid":self.id])).responseString { (res:DataResponse<String>) in
+            switch res.result {
+            case let .success(value):
+                if value.contains("取消") {
                     self.isFav = false
                     if self.likeCount > 0 {
                         self.likeCount = self.likeCount - 1
@@ -107,10 +109,10 @@ public class Poem: Mappable {
                     self.isFav = true
                     self.likeCount = self.likeCount + 1
                 }
-                 finish(value, nil)
-            }).failure({ (error) in
+                finish(value, nil)
+            case let .failure(error):
                 finish("", error)
-            })
+            }
         }
     }
 }

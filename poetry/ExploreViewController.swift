@@ -10,7 +10,6 @@ import UIKit
 import ChameleonFramework
 import DZNEmptyDataSet
 import TextAttributes
-import PKHUD
 
 class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -24,19 +23,19 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.registerNib(UINib(nibName: "PoemExploreCell", bundle:nil), forCellReuseIdentifier: "cell")
+        tableView.register(UINib(nibName: "PoemExploreCell", bundle:nil), forCellReuseIdentifier: "cell")
         tableView.addSubview(refreshControl)
-        refreshControl.addTarget(self, action: #selector(ExploreViewController.refresh), forControlEvents: .ValueChanged)
-        tableView.sendSubviewToBack(refreshControl)
+        refreshControl.addTarget(self, action: #selector(ExploreViewController.refresh), for: .valueChanged)
+        tableView.sendSubview(toBack: refreshControl)
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
         loadData()
-        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.tableView.reloadData()
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
     }
     
@@ -45,27 +44,27 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.refreshControl.endRefreshing()
             if error == nil {
                 if list.count > 0 {
-                    self.feedList.insertContentsOf(list, at: 0)
+                    self.feedList.insert(contentsOf: list, at: 0)
                     self.tableView.reloadData()
                 }
             } else {
-                HUD.flash(.Label(String.ErrorString(error!)), delay: 1.0)
+                //HUD.flash(.label(String.ErrorString(error!)), delay: 1.0)
             }
         }
     }
 
     var isLoading = false
     var hasMore = true
-    func loadData(page:Int = 0) {
+    func loadData(_ page:Int = 0) {
         if isLoading {
             return
         }
         if page == 0 {
-            HUD.show(.Progress)
+            //HUD.show(.progress)
         }
         isLoading = true
         Feed.GetFeeds(page) { (list, error) in
-            HUD.hide()
+            //HUD.hide()
             self.isLoading = false
             if page != self.page + 1 {
                 return
@@ -73,36 +72,36 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
             if error == nil {
                 if list.count > 0 {
                     self.page = page
-                    self.feedList.appendContentsOf(list)
+                    self.feedList.append(contentsOf: list)
                     self.tableView.reloadData()
                 } else {
                     self.hasMore = false
                 }
             } else {
-                HUD.flash(.Label(String.ErrorString(error!)), delay: 1.0)
+               // HUD.flash(.label(String.ErrorString(error!)), delay: 1.0)
             }
         }
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if hasMore && scrollView.contentOffset.y > 100 && scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height {
             self.loadData(self.page + 1)
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return feedList.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! PoemExploreCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PoemExploreCell
         cell.viewController = self
-        cell.feed = feedList[indexPath.row]
+        cell.feed = feedList[(indexPath as NSIndexPath).row]
         return cell
     }
     
     //var transitioner:CAVTransitioner?
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if let pvc = segue.destinationViewController as? ExploreAddViewController {
 //            transitioner = CAVTransitioner()
 //            if self.traitCollection.userInterfaceIdiom == .Pad {
@@ -119,15 +118,15 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
 }
 
 extension ExploreViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string:"暂无分享内容", attributes: TextAttributes().foregroundColor(UIColor.darkGrayColor()).font(UIFont.userFontWithSize(15)).alignment(.Center))
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string:"暂无分享内容", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:15)).alignment(.center))
     }
     
-    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "theme4")?.af_imageScaledToSize(CGSize(width: 120, height: 120)).af_imageWithRoundedCornerRadius(60)
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "theme4")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
     }
     
-    func verticalOffsetForEmptyDataSet(scrollView: UIScrollView!) -> CGFloat {
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
         return -40
     }
 }

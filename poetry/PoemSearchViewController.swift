@@ -9,13 +9,13 @@
 import UIKit
 
 enum PoemSearchType {
-    case Poem
-    case Dict
+    case poem
+    case dict
 }
 
 class PoemSearchViewController: UITableViewController, UISearchResultsUpdating, UISearchControllerDelegate {
     
-    var poemSearchType:PoemSearchType = .Poem
+    var poemSearchType:PoemSearchType = .poem
     
     var searchController:UISearchController!
 
@@ -28,21 +28,21 @@ class PoemSearchViewController: UITableViewController, UISearchResultsUpdating, 
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.definesPresentationContext = true
         searchController.searchBar.showsCancelButton = true
-        searchController.searchBar.placeholder = poemSearchType == .Poem ? "搜索诗词" : "搜索关键字"
+        searchController.searchBar.placeholder = poemSearchType == .poem ? "搜索诗词" : "搜索关键字"
         self.navigationItem.titleView = searchController.searchBar
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        searchController.active = true
-        dispatch_async(dispatch_get_main_queue()) { 
+        searchController.isActive = true
+        DispatchQueue.main.async { 
             self.searchController.searchBar.becomeFirstResponder()
         }
     }
     
      // MARK: - search controller delegate
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text?.characters.count == 0 {
             
         } else {
@@ -52,12 +52,12 @@ class PoemSearchViewController: UITableViewController, UISearchResultsUpdating, 
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
     }

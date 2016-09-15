@@ -18,16 +18,16 @@ class SettingViewController: UITableViewController {
         super.viewDidLoad()
         let switcher = UISwitch()
         switcher.onTintColor = UIColor.flatRedColorDark()
-        switcher.addTarget(self, action: #selector(switchBgMusic(_:)), forControlEvents: .ValueChanged)
-        switcher.on = !User.BgMusicOff
+        switcher.addTarget(self, action: #selector(switchBgMusic(_:)), for: .valueChanged)
+        switcher.isOn = !User.BgMusicOff
         bgMusicCell.accessoryView = switcher
     }
     
-    func switchBgMusic(swicther:UISwitch) {
+    func switchBgMusic(_ swicther:UISwitch) {
         User.BgMusicOff = !User.BgMusicOff
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let font = CustomFonts.filter({$0.1 == User.Font}).first?.0 {
             fontChooseCell.detailTextLabel?.text = font
@@ -36,8 +36,8 @@ class SettingViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     /*

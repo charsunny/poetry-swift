@@ -19,7 +19,7 @@ class Comment: Mappable {
     var likeCount : Int = 0
     var comment : Comment?
     
-    required init?(_ map: Map) {
+    required init?(map: Map) {
         
     }
     

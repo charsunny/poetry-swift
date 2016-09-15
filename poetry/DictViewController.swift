@@ -19,8 +19,8 @@ class DictViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         keyLabel.text = keyword
-        keyLabel.font = UIFont.userFontWithSize(48)
-        textView.font = UIFont.systemFontOfSize(13, weight: UIFontWeightThin)
+        keyLabel.font = UIFont.userFont(size:48)
+        textView.font = UIFont.systemFont(ofSize: 13, weight: UIFontWeightThin)
         if let explain = DataManager.manager.explain(keyword) {
             textView.text = explain
         } else {

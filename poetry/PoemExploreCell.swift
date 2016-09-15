@@ -43,63 +43,63 @@ class PoemExploreCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        contentImageView.hidden = true
-        descNoPicTitleLabel.hidden = true
-        contentDescView.hidden = true
-        descNoPicTitleLabel.backgroundColor = UIColor.groupTableViewBackgroundColor()
+        contentImageView.isHidden = true
+        descNoPicTitleLabel.isHidden = true
+        contentDescView.isHidden = true
+        descNoPicTitleLabel.backgroundColor = UIColor.groupTableViewBackground
         descNoPicTitleLabel.layer.cornerRadius = 5
         descNoPicTitleLabel.clipsToBounds = true
-        userNameLabel.font = UIFont.userFontWithSize(16)
-        userTimeLabel.font = UIFont.userFontWithSize(14)
-        descNoPicTitleLabel.font = UIFont.systemFontOfSize(28, weight: UIFontWeightMedium)
-        contentDescLabel.font = UIFont.userFontWithSize(17)
-        poemTitleLabel.font = UIFont.userFontWithSize(17)
-        poemAuthorLabel.font = UIFont.userFontWithSize(14)
-        poemContentLabel.font = UIFont.userFontWithSize(15)
-        shareButton.titleLabel?.font = UIFont.userFontWithSize(15)
-        commentButton.titleLabel?.font = UIFont.userFontWithSize(15)
-        likeButton.titleLabel?.font = UIFont.userFontWithSize(15)
+        userNameLabel.font = UIFont.userFont(size:16)
+        userTimeLabel.font = UIFont.userFont(size:14)
+        descNoPicTitleLabel.font = UIFont.systemFont(ofSize: 28, weight: UIFontWeightMedium)
+        contentDescLabel.font = UIFont.userFont(size:17)
+        poemTitleLabel.font = UIFont.userFont(size:17)
+        poemAuthorLabel.font = UIFont.userFont(size:14)
+        poemContentLabel.font = UIFont.userFont(size:15)
+        shareButton.titleLabel?.font = UIFont.userFont(size:15)
+        commentButton.titleLabel?.font = UIFont.userFont(size:15)
+        likeButton.titleLabel?.font = UIFont.userFont(size:15)
         contentImageView.backgroundColor = UIColor.init(red: 0xa0/225.0, green: 0xa0/225.0, blue: 0xa0/225.0, alpha: 1.0)
-        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.descNoPicTitleLabel.layer.cornerRadius = 5
             self.descNoPicTitleLabel.clipsToBounds = true
-            self.userNameLabel.font = UIFont.userFontWithSize(16)
-            self.userTimeLabel.font = UIFont.userFontWithSize(14)
-            self.descNoPicTitleLabel.font = UIFont.systemFontOfSize(28, weight: UIFontWeightMedium)
-            self.contentDescLabel.font = UIFont.userFontWithSize(17)
-            self.poemTitleLabel.font = UIFont.userFontWithSize(17)
-            self.poemAuthorLabel.font = UIFont.userFontWithSize(14)
-            self.poemContentLabel.font = UIFont.userFontWithSize(15)
-            self.shareButton.titleLabel?.font = UIFont.userFontWithSize(15)
-            self.commentButton.titleLabel?.font = UIFont.userFontWithSize(15)
-            self.likeButton.titleLabel?.font = UIFont.userFontWithSize(15)
+            self.userNameLabel.font = UIFont.userFont(size:16)
+            self.userTimeLabel.font = UIFont.userFont(size:14)
+            self.descNoPicTitleLabel.font = UIFont.systemFont(ofSize: 28, weight: UIFontWeightMedium)
+            self.contentDescLabel.font = UIFont.userFont(size:17)
+            self.poemTitleLabel.font = UIFont.userFont(size:17)
+            self.poemAuthorLabel.font = UIFont.userFont(size:14)
+            self.poemContentLabel.font = UIFont.userFont(size:15)
+            self.shareButton.titleLabel?.font = UIFont.userFont(size:15)
+            self.commentButton.titleLabel?.font = UIFont.userFont(size:15)
+            self.likeButton.titleLabel?.font = UIFont.userFont(size:15)
         }
     }
     
     
-    @IBAction func gotoPoemDetail(sender: AnyObject) {
-        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewControllerWithIdentifier("poemvc") as? PoemDetailViewController {
+    @IBAction func gotoPoemDetail(_ sender: AnyObject) {
+        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
             poemVC.poem = feed?.poem
             viewController?.navigationController?.pushViewController(poemVC, animated: true)
         }
     }
     
-    @IBAction func gotoComment(sender: AnyObject) {
-        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewControllerWithIdentifier("poemvc") as? PoemDetailViewController {
+    @IBAction func gotoComment(_ sender: AnyObject) {
+        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
             poemVC.poem = feed?.poem
             viewController?.navigationController?.pushViewController(poemVC, animated: true)
         }
     }
     
-    @IBAction func gotoShare(sender: AnyObject) {
-        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewControllerWithIdentifier("poemvc") as? PoemDetailViewController {
+    @IBAction func gotoShare(_ sender: AnyObject) {
+        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
             poemVC.poem = feed?.poem
             viewController?.navigationController?.pushViewController(poemVC, animated: true)
         }
     }
     
-    @IBAction func onLike(sender: AnyObject) {
-        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewControllerWithIdentifier("poemvc") as? PoemDetailViewController {
+    @IBAction func onLike(_ sender: AnyObject) {
+        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
             poemVC.poem = feed?.poem
             viewController?.navigationController?.pushViewController(poemVC, animated: true)
         }
@@ -108,34 +108,34 @@ class PoemExploreCell: UITableViewCell {
     var feed:Feed? {
         didSet {
             if let feed = feed {
-                userImageView.af_setImageWithURL(NSURL(string:feed.user?.avatar ?? "") ?? NSURL(), placeholderImage: UIImage(named:"defaulticon"))
+                userImageView.af_setImage(withURL:URL(string:feed.user?.avatar ?? "")!, placeholderImage: UIImage(named:"defaulticon"))
                 userNameLabel.text = feed.user?.nick ?? User.LoginUser?.nick ?? "匿名用户"
                 userTimeLabel.text = feed.time
                 poemTitleLabel.text = feed.poem?.title
                 feed.poem?.loadPoet()
                 poemAuthorLabel.text = feed.poem?.poet?.name
                 poemContentLabel.text = feed.poem?.content.trimString()
-                likeButton.setTitle("喜欢(\(feed.likeCount))", forState: .Normal)
-                commentButton.setTitle("评论(\(feed.commentCount))", forState: .Normal)
+                likeButton.setTitle("喜欢(\(feed.likeCount))", for: UIControlState())
+                commentButton.setTitle("评论(\(feed.commentCount))", for: UIControlState())
                 
                 let url = feed.poem?.poet?.name.iconURL() ?? ""
-                poemAuthorImageView.af_setImageWithURL(NSURL(string:url) ?? NSURL(), placeholderImage: UIImage(named:"defaulticon"))
+                poemAuthorImageView.af_setImage(withURL:URL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
                 
                 var hasPic = false
-                if let url = NSURL(string: feed.picture) where feed.picture.hasPrefix("http") {
+                if let url = URL(string: feed.picture) , feed.picture.hasPrefix("http") {
                     hasPic = true
-                    self.contentImageView.hidden = false
-                    self.descNoPicTitleLabel.hidden = true
+                    self.contentImageView.isHidden = false
+                    self.descNoPicTitleLabel.isHidden = true
                     self.contentDescLabel.text = feed.content.trimString()
-                    self.contentDescView.hidden = false
-                    contentImageView.af_setImageWithURL(url)
+                    self.contentDescView.isHidden = false
+                    contentImageView.af_setImage(withURL:url)
                 }
                 if !hasPic {
-                    contentDescView.hidden = true
-                    contentImageView.hidden = true
-                    descNoPicTitleLabel.hidden = false
+                    contentDescView.isHidden = true
+                    contentImageView.isHidden = true
+                    descNoPicTitleLabel.isHidden = false
                     let attrStr = NSMutableAttributedString()
-                    attrStr.appendAttributedString(NSAttributedString(string: feed.content.trimString(), attributes: TextAttributes().font(UIFont.userFontWithSize(24)).foregroundColor(UIColor.darkGrayColor())))
+                    attrStr.append(NSAttributedString(string: feed.content.trimString(), attributes: TextAttributes().font(UIFont.userFont(size:24)).foregroundColor(UIColor.darkGray)))
                     attrStr.addAttributes(TextAttributes().headIndent(8).firstLineHeadIndent(20))
                     descNoPicTitleLabel.attributedText = attrStr
                     descNoPicTitleLabel.adjustFontSizeToFit()

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite
+import FMDB
 
 public typealias Period = (
     id : Int,
@@ -20,51 +20,52 @@ public typealias Dict = (
     note : String
 )
 
-public typealias SQLStringExp = Expression<String>
+public typealias SQLiteRow = FMResultSet
 
-public typealias SQLStringOExp = Expression<String?>
-
-public typealias SQLIntExp = Expression<Int>
-public typealias SQLIntOExp = Expression<Int?>
-
-public typealias SQLiteRow = Row
-
-public class DataManager: NSObject {
+open class DataManager: NSObject {
     
-    public static var manager:DataManager = DataManager()
+    open static var manager:DataManager = DataManager()
     
-    private var db:Connection?
-    private var poems:Table = Table("poem")
-    private var formats:Table = Table("poem_format")
-    private var poets:Table = Table("poet")
-    private var period:Table = Table("period")
-    private var dict:Table = Table("dict")
-    private let poemsearch:VirtualTable = VirtualTable("ps")
+    fileprivate var db:FMDatabase?
     
-    private let id = Expression<Int>("id")
-    private let name = Expression<String>("name_cn")
-    private let desc = Expression<String?>("description_cn")
-    private let content = Expression<String?>("text_cn")
-    public var periods:[Int:String] = [:]
-    public var formatDict:[String:Int] = [:]
+    open var periods:[Int:String] = [:]
+    open var formatDict:[String:Int] = [:]
     
-    private override init() {
+    fileprivate override init() {
         super.init()
     }
     
-    public func connect() -> Bool {
+    open func connect() -> Bool {
+        
+        guard let db = FMDatabase(path: "\(DocumentPath)/poem.db") else {
+            print("unable to create database")
+            return false
+        }
+        guard db.open() else {
+            print("Unable to open database")
+            return false
+        }
+        self.db = db
         do {
-            db = try Connection("\(DocumentPath)/poem.db")
-            if let ps = try db?.prepare(period) {
-                for p in ps {
-                    periods[p[id]] = p[name]
-                }
+            let rs = try db.executeQuery("select * from period where id > 0", values: nil)
+            while rs.next() {
+                let id = rs.long(forColumn: "id")
+                let name = rs.string(forColumn: "name") ?? ""
+                periods[id] = name
             }
-            if let ps = try db?.prepare(formats.filter(SQLIntExp("type") == 0).filter(self.id == id)) {
-                for p in ps {
-                    formatDict[p[SQLStringExp("name_cn")]] = p[SQLIntExp("id")]
-                }
+            let ps = try db.executeQuery("select * from poem_format where type = ?", values: [0])
+            while ps.next() {
+                let id = rs.long(forColumn: "id")
+                let name = rs.string(forColumn: "name_cn") ?? ""
+                formatDict[name] = id
             }
+        } catch let (e) {
+            debugPrint(e)
+            return false
+        }
+       
+        /*
+        do {
 //            dispatch_async(dispatch_get_global_queue(0, 0)) {
 //                do {
 //                    try self.db?.run(self.poemsearch.create(.FTS4([SQLIntExp("id"), SQLStringExp("name_cn"), SQLStringExp("text_cn"), SQLStringExp("poet_name"), SQLIntExp("poet_id")], tokenize : Tokenizer.Simple)))
@@ -83,16 +84,16 @@ public class DataManager: NSObject {
         } catch let e {
             print(e)
             return false
-        }
+        }*/
+        return true
     }
     
-    public func search(text:String) -> [Poem] {
+    open func search(_ text:String) -> [Poem] {
         do {
             var list:[Poem] = []
-            
-            if let ps = try db?.prepare(poemsearch.match(text+"*").limit(20)) {
-                for p in ps {
-                    let poem = Poem(p, hasName: true)
+            if let ps = try db?.executeQuery("select * from ps where text_cn match ? limit 20", values: [text+"*"]) {
+                while ps.next() {
+                    let poem = Poem(ps, hasName: true)
                     list.append(poem)
                 }
             }
@@ -102,24 +103,24 @@ public class DataManager: NSObject {
         }
     }
     
-    public func searchFormat(text: String) -> [PoemFormat] {
-        return formatDict.keys.filter { $0.containsString(text)}.map { (key) -> PoemFormat in
+    open func searchFormat(_ text: String) -> [PoemFormat] {
+        return formatDict.keys.filter { $0.contains(text)}.map { (key) -> PoemFormat in
             return self.formatById(self.formatDict[key]!)!
         }
     }
     
-    public func searchAuthor(text:String) -> [Poet] {
+    open func searchAuthor(_ text:String) -> [Poet] {
         do {
             var list:[Poet] = []
             var pnames:Set<String> = []
-            if let ps = try db?.prepare(poemsearch.filter(SQLStringExp("poet_name").match(text+"*")).limit(20)) {
-                for p in ps {
-                    let name = p[SQLStringExp("poet_name")]
+            if let ps = try db?.executeQuery("select * from ps where poet_name match ? limit 20", values: [text+"*"]) {
+                while ps.next() {
+                    let name = ps.string(forColumn: "poet_name") ?? ""
                     pnames.insert(name)
                 }
             }
             for name in pnames {
-                list.appendContentsOf(poetByName(name))
+                list.append(contentsOf: poetByName(name))
             }
             return list
         } catch {
@@ -129,25 +130,25 @@ public class DataManager: NSObject {
     
     
     
-    public func explain(key:String) -> String? {
+    open func explain(_ key:String) -> String? {
         do {
-            if let ps = try db?.prepare(dict.filter(Expression<String>("zi") == key)) {
+            /*if let ps = try db?.prepare(dict.filter(Expression<String>("zi") == key)) {
                 for p in ps {
                     let str = p[Expression<String?>("jijie")]
                     return str?.stringByReplacingOccurrencesOfString("<br />", withString: "\n")
                 }
-            }
+            }*/
             return nil
         } catch {
             return nil
         }
     }
     
-    public func formatById(id: Int) -> PoemFormat? {
+    open func formatById(_ id: Int) -> PoemFormat? {
         do {
-            if let ps = try db?.prepare(formats.filter(self.id == id)) {
-                for p in ps {
-                    return PoemFormat(p)
+            if let ps = try db?.executeQuery("select * from poem_format where id = ?", values: [id]) {
+                while ps.next() {
+                    return PoemFormat(ps)
                 }
             }
             return nil
@@ -156,13 +157,14 @@ public class DataManager: NSObject {
         }
     }
     
-    public func formatByRowId(id: Int) -> PoemFormat? {
+    open func formatByRowId(_ id: Int) -> PoemFormat? {
         do {
-            if let ps = try db?.prepare(formats.filter(SQLIntExp("type") == 0).limit(1, offset: id)) {
-                for p in ps {
-                    return PoemFormat(p)
+            if let ps = try db?.executeQuery("select * from poem_format where row_id = ?", values: [id]) {
+                while ps.next() {
+                    return PoemFormat(ps)
                 }
             }
+            return nil
             return nil
         } catch {
             return nil
@@ -170,11 +172,11 @@ public class DataManager: NSObject {
     }
 
     
-    public func poemById(id: Int) -> Poem? {
+    open func poemById(_ id: Int) -> Poem? {
         do {
-            if let ps = try db?.prepare(poems.filter(self.id == id)) {
-                for p in ps {
-                    return Poem(p)
+            if let ps = try db?.executeQuery("select * from poem where id = ?", values: [id]) {
+                while ps.next() {
+                    return Poem(ps)
                 }
             }
             return nil
@@ -183,11 +185,11 @@ public class DataManager: NSObject {
         }
     }
     
-    public func poemByRowId(id: Int) -> Poem? {
+    open func poemByRowId(_ id: Int) -> Poem? {
         do {
-            if let ps = try db?.prepare(poems.limit(1, offset: id)) {
-                for p in ps {
-                    return Poem(p)
+            if let ps = try db?.executeQuery("select * from poem where row_id = ?", values: [id]) {
+                while ps.next() {
+                    return Poem(ps)
                 }
             }
             return nil
@@ -196,11 +198,11 @@ public class DataManager: NSObject {
         }
     }
     
-    public func poetById(id: Int) -> Poet? {
+    open func poetById(_ id: Int) -> Poet? {
         do {
-            if let ps = try db?.prepare(poets.filter(self.id == id)) {
-                for p in ps {
-                    return Poet(p)
+            if let ps = try db?.executeQuery("select * from poet where id = ?", values: [id]) {
+                while ps.next() {
+                    return Poet(ps)
                 }
             }
             return nil
@@ -209,12 +211,12 @@ public class DataManager: NSObject {
         }
     }
     
-    public func poetByName(str: String) -> [Poet] {
+    open func poetByName(_ str: String) -> [Poet] {
         do {
             var pts:[Poet] = []
-            if let ps = try db?.prepare(poets.filter(self.name == str)) {
-                for p in ps {
-                    pts.append(Poet(p))
+            if let ps = try db?.executeQuery("select * from poet where name_cn = ?", values: [str]) {
+                while ps.next() {
+                    pts.append(Poet(ps))
                 }
             }
             return pts
@@ -223,11 +225,11 @@ public class DataManager: NSObject {
         }
     }
     
-    public func poetByRowId(id: Int) -> Poet? {
+    open func poetByRowId(_ id: Int) -> Poet? {
         do {
-            if let ps = try db?.prepare(poets.limit(1, offset: id)) {
-                for p in ps {
-                    return Poet(p)
+            if let ps = try db?.executeQuery("select * from poet where row_id = ?", values: [id]) {
+                while ps.next() {
+                    return Poet(ps)
                 }
             }
             return nil
@@ -236,12 +238,12 @@ public class DataManager: NSObject {
         }
     }
     
-    public func poemsByAuthor(id: Int) -> [Poem] {
+    open func poemsByAuthor(_ id: Int) -> [Poem] {
         var poemlist:[Poem] = []
         do {
-            if let ps = try db?.prepare(poems.filter(Expression<Int>("poet_id") == id)) {
-                for p in ps {
-                    let poem = Poem(p)
+            if let ps = try db?.executeQuery("select * from poem where poet_id = ?", values: [id]) {
+                while ps.next() {
+                    let poem = Poem(ps)
                     poemlist.append(poem)
                 }
             }
@@ -251,12 +253,12 @@ public class DataManager: NSObject {
         }
     }
     
-    public func poemsByFormat(id: Int) -> [Poem] {
+    open func poemsByFormat(_ id: Int) -> [Poem] {
         var poemlist:[Poem] = []
         do {
-            if let ps = try db?.prepare(poems.filter(Expression<Int>("format_id") == id)) {
-                for p in ps {
-                    let poem = Poem(p)
+            if let ps = try db?.executeQuery("select * from poem where format_id = ?", values: [id]) {
+                while ps.next() {
+                    let poem = Poem(ps)
                     poemlist.append(poem)
                 }
             }
@@ -272,7 +274,7 @@ extension String {
         let mstr = NSMutableString(string:self)
         CFStringTransform(mstr, nil, kCFStringTransformMandarinLatin, false)
         CFStringTransform(mstr, nil, kCFStringTransformStripCombiningMarks, false)
-        return mstr.stringByReplacingOccurrencesOfString(" ", withString: "")
+        return mstr.replacingOccurrences(of: " ", with: "")
     }
     
     func iconURL() -> String {
@@ -289,16 +291,16 @@ extension String {
     }
     
     func trimString() -> String {
-        var str = self.stringByReplacingOccurrencesOfString("\r\n", withString: "")
-        str = str.stringByReplacingOccurrencesOfString("\n", withString: "")
+        var str = self.replacingOccurrences(of: "\r\n", with: "")
+        str = str.replacingOccurrences(of: "\n", with: "")
         return str
     }
 }
 
 extension UIFont {
-    public class func userFontWithSize(size:CGFloat) -> UIFont {
+    public class func userFont(size:CGFloat) -> UIFont {
         if User.Font == "system" {
-            return UIFont.systemFontOfSize(size, weight: UIFontWeightRegular)
+            return UIFont.systemFont(ofSize: size, weight: UIFontWeightRegular)
         }
         return UIFont(name: User.Font, size: size)!
     }

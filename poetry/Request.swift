@@ -6,165 +6,119 @@
 //  Copyright © 2016年 诺崇. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import Alamofire
 import ObjectMapper
 
-
-extension Result {
-    func success(@noescape success: (value: Value) -> Void) -> Result<Value, Error> {
-        switch self {
-        case let .Success(value):
-            success(value: value)
-        default:
-            break
-        }
-        return self
+extension DataRequest {
+    
+    enum ErrorCode: Int {
+        case noData = 1
+        case dataSerializationFailed = 2
     }
     
-    func failure(@noescape failure:(error: Error) -> Void) -> Result<Value, Error> {
-        switch self {
-        case let .Failure(error):
-            failure(error:  error)
-        default:
-            break
-        }
-        return self
-    }
-}
-
-extension Request {
-    /**
-     请求参数一个对象
-     */
-    
-    func responseObject<T: Mappable>(queue queue: dispatch_queue_t? = nil, keyPath: String? = nil, mapToObject object: T? = nil, completionHandler: Response<T, BackendError> -> Void) -> Self {
-        return response(queue: queue, responseSerializer: Request.S4SMapperSerializer(keyPath, mapToObject: object), completionHandler: completionHandler)
+    internal static func newError(_ code: ErrorCode, failureReason: String) -> NSError {
+        let errorDomain = "com.alamofireobjectmapper.error"
+        
+        let userInfo = [NSLocalizedFailureReasonErrorKey: failureReason]
+        let returnError = NSError(domain: errorDomain, code: code.rawValue, userInfo: userInfo)
+        
+        return returnError
     }
     
-    /**
-     请求一个数组对象
-     */
-    func responseArray<T: Mappable>(queue queue: dispatch_queue_t? = nil, keyPath: String? = nil, completionHandler: Response<[T], BackendError> -> Void) -> Self {
-        return response(queue: queue, responseSerializer: Request.ObjectMapperArraySerializer(keyPath), completionHandler: completionHandler)
-    }
-    
-    func responseString(queue queue: dispatch_queue_t? = nil, keyPath: String? = nil, completionHandler: Response<String, BackendError> -> Void) -> Self {
-        return response(queue: queue, responseSerializer: Request.S4SStringSearializer(keyPath), completionHandler: completionHandler)
-    }
-    
-    static func S4SStringSearializer(keyPath: String?) -> ResponseSerializer<String, BackendError> {
-        return ResponseSerializer { request, response, data, error in
-            guard error == nil else { return .Failure(.Network(error: error!)) }
+    public static func ObjectMapperSerializer<T: BaseMappable>(_ keyPath: String?, mapToObject object: T? = nil, context: MapContext? = nil) -> DataResponseSerializer<T> {
+        return DataResponseSerializer { request, response, data, error in
+            guard error == nil else {
+                return .failure(error!)
+            }
             
             guard let _ = data else {
                 let failureReason = "Data could not be serialized. Input data was nil."
-                return .Failure(.DataSerialization(reason: failureReason))
+                let error = newError(.noData, failureReason: failureReason)
+                return .failure(error)
             }
             
-            let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
-            let result = JSONResponseSerializer.serializeResponse(request, response, data, error)
+            let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
+            let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
             
-            guard let code = result.value?.valueForKeyPath("errcode") as? Int else {return .Failure(.DataSerialization(reason:"sever replay error"))}
-            
-            let msg = result.value?.valueForKeyPath("errmsg") as? String ?? "unknow server error"
-            
-            if code > 0 {
-                if code > 40000 && code < 50000 {
-                    NSNotificationCenter.defaultCenter().postNotificationName("NeedLoginNotif", object: nil)
-                }
-                return .Failure(.BussinessError(code:code, msg:msg))
-            }
-            
-            if let string = result.value?.valueForKeyPath("data") as? String {
-                return .Success(string)
-            }
-            
-            return .Failure(.DataSerialization(reason: "object mapper failed"))
-        }
-    }
-    
-    static func S4SMapperSerializer<T: Mappable>(keyPath: String?, mapToObject object: T? = nil) -> ResponseSerializer<T, BackendError> {
-        return ResponseSerializer { request, response, data, error in
-            guard error == nil else { return .Failure(.Network(error: error!)) }
-            
-            guard let _ = data else {
-                let failureReason = "Data could not be serialized. Input data was nil."
-                return .Failure(.DataSerialization(reason: failureReason))
-            }
-
-            let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
-            let result = JSONResponseSerializer.serializeResponse(request, response, data, error)
-            
-            guard let code = result.value?.valueForKeyPath("errcode") as? Int else {return .Failure(.DataSerialization(reason:"sever replay error"))}
-            
-            let msg = result.value?.valueForKeyPath("errmsg") as? String ?? "unknow server error"
-            
-            if code > 0 {
-                if code > 40000 && code < 50000 {
-                    NSNotificationCenter.defaultCenter().postNotificationName("NeedLoginNotif", object: nil)
-                }
-                return .Failure(.BussinessError(code:code, msg:msg))
-            }
-            
-            let JSONToMap: AnyObject?
-            if let keyPath = keyPath where keyPath.isEmpty == false {
-                JSONToMap = result.value?.valueForKeyPath("data")?.valueForKeyPath(keyPath)
+            let JSONToMap: Any?
+            if let keyPath = keyPath , keyPath.isEmpty == false {
+                JSONToMap = (result.value as AnyObject?)?.value(forKeyPath: keyPath)
             } else {
-                JSONToMap = result.value?.valueForKeyPath("data")
+                JSONToMap = result.value
             }
             
             if let object = object {
-                Mapper<T>().map(JSONToMap, toObject: object)
-                return .Success(object)
-            } else if let parsedObject = Mapper<T>().map(JSONToMap){
-                return .Success(parsedObject)
+                _ = Mapper<T>().map(JSONObject: JSONToMap, toObject: object)
+                return .success(object)
+            } else if let parsedObject = Mapper<T>(context: context).map(JSONObject: JSONToMap){
+                return .success(parsedObject)
             }
             
-            return .Failure(.DataSerialization(reason: "object mapper failed"))
+            let failureReason = "ObjectMapper failed to serialize response."
+            let error = newError(.dataSerializationFailed, failureReason: failureReason)
+            return .failure(error)
         }
     }
     
+    /**
+     Adds a handler to be called once the request has finished.
+     
+     - parameter queue:             The queue on which the completion handler is dispatched.
+     - parameter keyPath:           The key path where object mapping should be performed
+     - parameter object:            An object to perform the mapping on to
+     - parameter completionHandler: A closure to be executed once the request has finished and the data has been mapped by ObjectMapper.
+     
+     - returns: The request.
+     */
+    @discardableResult
+    public func responseObject<T: BaseMappable>(queue: DispatchQueue? = nil, keyPath: String? = nil, mapToObject object: T? = nil, context: MapContext? = nil, completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
+        return response(queue: queue, responseSerializer: DataRequest.ObjectMapperSerializer(keyPath, mapToObject: object, context: context), completionHandler: completionHandler)
+    }
     
-    static func ObjectMapperArraySerializer<T: Mappable>(keyPath: String?) -> ResponseSerializer<[T], BackendError> {
-        return ResponseSerializer { request, response, data, error in
+    public static func ObjectMapperArraySerializer<T: BaseMappable>(_ keyPath: String?, context: MapContext? = nil) -> DataResponseSerializer<[T]> {
+        return DataResponseSerializer { request, response, data, error in
             guard error == nil else {
-                return .Failure(.Network(error: error!))
+                return .failure(error!)
             }
             
             guard let _ = data else {
                 let failureReason = "Data could not be serialized. Input data was nil."
-                return .Failure(.DataSerialization(reason: failureReason))
+                let error = newError(.dataSerializationFailed, failureReason: failureReason)
+                return .failure(error)
             }
             
-            let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
-            let result = JSONResponseSerializer.serializeResponse(request, response, data, error)
+            let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
+            let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
             
-            guard let code = result.value?.valueForKeyPath("errcode") as? Int else {return .Failure(.DataSerialization(reason:"sever replay error"))}
-            
-            let msg = result.value?.valueForKeyPath("errmsg") as? String ?? "unknow server error"
-            
-            if code > 0 {
-                if code > 40000 && code < 50000 {
-                    NSNotificationCenter.defaultCenter().postNotificationName("NeedLoginNotif", object: nil)
-                }
-                return .Failure(.BussinessError(code:code, msg:msg))
-            }
-            
-            let JSONToMap: AnyObject?
-            if let keyPath = keyPath where keyPath.isEmpty == false {
-                JSONToMap = result.value?.valueForKeyPath("data")?.valueForKeyPath(keyPath)
+            let JSONToMap: Any?
+            if let keyPath = keyPath, keyPath.isEmpty == false {
+                JSONToMap = (result.value as AnyObject?)?.value(forKeyPath: keyPath)
             } else {
-                JSONToMap = result.value?.valueForKeyPath("data")
+                JSONToMap = result.value
             }
             
-            if JSONToMap is NSNull {
-                 return .Success([])
+            if let parsedObject = Mapper<T>(context: context).mapArray(JSONObject: JSONToMap){
+                return .success(parsedObject)
             }
-            if let parsedObject = Mapper<T>().mapArray(JSONToMap){
-                return .Success(parsedObject)
-            }
-            return .Failure(.DataSerialization(reason: "ObjectMapper failed to serialize response"))
+            
+            let failureReason = "ObjectMapper failed to serialize response."
+            let error = newError(.dataSerializationFailed, failureReason: failureReason)
+            return .failure(error)
         }
+    }
+    
+    /**
+     Adds a handler to be called once the request has finished.
+     
+     - parameter queue: The queue on which the completion handler is dispatched.
+     - parameter keyPath: The key path where object mapping should be performed
+     - parameter completionHandler: A closure to be executed once the request has finished and the data has been mapped by ObjectMapper.
+     
+     - returns: The request.
+     */
+    @discardableResult
+    public func responseArray<T: BaseMappable>(queue: DispatchQueue? = nil, keyPath: String? = nil, context: MapContext? = nil, completionHandler: @escaping (DataResponse<[T]>) -> Void) -> Self {
+        return response(queue: queue, responseSerializer: DataRequest.ObjectMapperArraySerializer(keyPath, context: context), completionHandler: completionHandler)
     }
 }

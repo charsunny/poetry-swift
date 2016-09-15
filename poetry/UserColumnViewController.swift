@@ -7,6 +7,17 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class UserColumnViewController: UICollectionViewController {
     
@@ -17,8 +28,8 @@ class UserColumnViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView?.addSubview(refreshControl)
-        self.collectionView?.sendSubviewToBack(refreshControl)
-        refreshControl.addTarget(self, action: #selector(UserColumnViewController.refresh), forControlEvents: .ValueChanged)
+        self.collectionView?.sendSubview(toBack: refreshControl)
+        refreshControl.addTarget(self, action: #selector(UserColumnViewController.refresh), for: .valueChanged)
     }
     
     func refresh() {
@@ -37,12 +48,12 @@ class UserColumnViewController: UICollectionViewController {
         }
     }
 
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 6
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         return cell
     }
 

@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import PKHUD
-import SwiftyJSON
 
 class LaunchViewController: UIViewController, TencentSessionDelegate {
 
@@ -35,48 +33,48 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.qqButton.hidden = true
-        self.weiboButton.hidden = true
-        indicatorView.hidden = true
-        firstLineLabel.font = UIFont.userFontWithSize(24)
-        secondLineLabel.font = UIFont.userFontWithSize(24)
-        enterButton.hidden = true
+        self.qqButton.isHidden = true
+        self.weiboButton.isHidden = true
+        indicatorView.isHidden = true
+        firstLineLabel.font = UIFont.userFont(size:24)
+        secondLineLabel.font = UIFont.userFont(size:24)
+        enterButton.isHidden = true
         qqOAuth = TencentOAuth(appId: "1105650150", andDelegate: self)
-        NSNotificationCenter.defaultCenter().addObserverForName("LoginSuccess", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
-            self.performSelector(#selector(LaunchViewController.enterMainPage(_:)), withObject: nil, afterDelay: 1)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "LoginSuccess"), object: nil, queue: OperationQueue.main) { (_) in
+            self.perform(#selector(LaunchViewController.enterMainPage(_:)), with: nil, afterDelay: 1)
         }
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIView.animateKeyframesWithDuration(2.0, delay: 0.5, options: .LayoutSubviews, animations: {
-            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.3, animations: {
+        UIView.animateKeyframes(withDuration: 2.0, delay: 0.5, options: .layoutSubviews, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.3, animations: {
                 self.titleImageView.center = CGPoint(x: self.view.frame.width/2 + 100, y: self.view.frame.height/2)
             })
-            UIView.addKeyframeWithRelativeStartTime(0.3, relativeDuration: 0.7, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.7, animations: {
                 self.firstLineLabel.alpha = 1.0
                 self.secondLineLabel.alpha = 1.0
             })
         }) { (_) in
             self.centerLayout.constant = 100
-            self.enterButton.hidden = false
+            self.enterButton.isHidden = false
             if User.Token == nil {
-                self.qqButton.hidden = false
-                self.weiboButton.hidden = false
-                self.tipLabel.hidden = false
+                self.qqButton.isHidden = false
+                self.weiboButton.isHidden = false
+                self.tipLabel.isHidden = false
             } else {
-                self.indicatorView.hidden = false
+                self.indicatorView.isHidden = false
                 self.indicatorView.startAnimating()
                 User.GetUserInfo({ (u, error) in
-                    self.indicatorView.hidden = true
+                    self.indicatorView.isHidden = true
                     if error != nil {
-                        self.qqButton.hidden = false
-                        self.weiboButton.hidden = false
-                        self.tipLabel.hidden = false
-                        HUD.flash(.LabeledError(title: "加载失败", subtitle: "请重新登录"), delay: 1.0)
+                        self.qqButton.isHidden = false
+                        self.weiboButton.isHidden = false
+                        self.tipLabel.isHidden = false
+                       // HUD.flash(.labeledError(title: "加载失败", subtitle: "请重新登录"), delay: 1.0)
                     } else {
-                        if UIApplication.sharedApplication().keyWindow?.rootViewController == self {
-                            self.performSelector(#selector(LaunchViewController.enterMainPage(_:)), withObject: nil, afterDelay: 1)
+                        if UIApplication.shared.keyWindow?.rootViewController == self {
+                            self.perform(#selector(LaunchViewController.enterMainPage(_:)), with: nil, afterDelay: 1)
                         }
                     }
                 })
@@ -84,20 +82,20 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
         }
     }
     
-    @IBAction func enterMainPage(sender: AnyObject?) {
-        HUD.hide()
-        UIApplication.sharedApplication().windows.first?.makeKeyAndVisible()
+    @IBAction func enterMainPage(_ sender: AnyObject?) {
+        //HUD.hide()
+        UIApplication.shared.windows.first?.makeKeyAndVisible()
     }
 
-    @IBAction func loginWithWeibo(sender: AnyObject) {
+    @IBAction func loginWithWeibo(_ sender: AnyObject) {
         let request = WBAuthorizeRequest()
         request.redirectURI = "http://classicpoem.cn"
         request.scope = "all"
         request.userInfo = ["SSO_From":"LaunchViewController"]
-        WeiboSDK.sendRequest(request)
+        WeiboSDK.send(request)
     }
     
-    @IBAction func loginWithQQ(sender: AnyObject) {
+    @IBAction func loginWithQQ(_ sender: AnyObject) {
         qqOAuth.authorize([kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO], inSafari: false)
     }
    
@@ -105,24 +103,24 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
         debugPrint(qqOAuth.appId)
         if qqOAuth.getUserInfo() {
             self.openId = qqOAuth.openId
-            HUD.show(.Progress)
+            //HUD.show(.progress)
         } else {
-            HUD.flash(.LabeledError(title: "拉取授权信息失败", subtitle:""), delay: 1)
+            //HUD.flash(.labeledError(title: "拉取授权信息失败", subtitle:""), delay: 1)
         }
     }
     
-    func getUserInfoResponse(response: APIResponse!) {
+    func getUserInfoResponse(_ response: APIResponse!) {
         guard let openId = self.openId else {return}
         guard let dict = response.jsonResponse else {return}
         Login.LoginWithSNS(dict["nickname"] as? String ?? "", gender: 1, avatar: (dict["figureurl_qq_2"] as? String ?? dict["figureurl_2"] as? String  ?? ""), userId: openId, snsType: 2, finish: { (login, err) in
-            HUD.hide()
+            //HUD.hide()
             if err != nil {
-                HUD.flash(.LabeledError(title: "登录失败", subtitle: String.ErrorString(err!)), delay: 1)
+               // HUD.flash(.labeledError(title: "登录失败", subtitle: String.ErrorString(err!)), delay: 1)
             } 
         })
     }
     
-    func tencentDidNotLogin(cancelled: Bool) {
+    func tencentDidNotLogin(_ cancelled: Bool) {
         
     }
     

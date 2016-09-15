@@ -20,37 +20,37 @@ class FontChooseViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleLabel.font = UIFont.userFontWithSize(28)
-        descLabel.font = UIFont.userFontWithSize(17)
+        titleLabel.font = UIFont.userFont(size:28)
+        descLabel.font = UIFont.userFont(size:17)
     }
 
     // MARK: - Table view data source
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return CustomFonts.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 
-        cell.textLabel?.font = UIFont.userFontWithSize(17)
-        cell.textLabel?.text = CustomFonts[indexPath.row].0
+        cell.textLabel?.font = UIFont.userFont(size:17)
+        cell.textLabel?.text = CustomFonts[(indexPath as NSIndexPath).row].0
         
-        if User.Font == CustomFonts[indexPath.row].1 {
-            cell.accessoryType = .Checkmark
+        if User.Font == CustomFonts[(indexPath as NSIndexPath).row].1 {
+            cell.accessoryType = .checkmark
         } else {
-            cell.accessoryType = .None
+            cell.accessoryType = .none
         }
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        User.Font = CustomFonts[indexPath.row].1
-        titleLabel.font = UIFont.userFontWithSize(28)
-        descLabel.font = UIFont.userFontWithSize(17)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        User.Font = CustomFonts[(indexPath as NSIndexPath).row].1
+        titleLabel.font = UIFont.userFont(size:28)
+        descLabel.font = UIFont.userFont(size:17)
         tableView.reloadData()
     }
     

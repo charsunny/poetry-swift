@@ -10,25 +10,27 @@ import UIKit
 import Alamofire
 import ObjectMapper
 
-public class Recommend: Mappable {
+open class Recommend: Mappable {
     
-    static func GetRec(id:Int = 0, finish:(Recommend?, BackendError?)->Void) {
-        Alamofire.request(Router.Recommend(.GET, "info", ["rid":id])).responseObject { (res:Response<Recommend, BackendError>) in
-            res.result.success({ (value) in
+    static func GetRec(_ id:Int = 0, finish:@escaping (Recommend?, Error?)->Void) {
+        Alamofire.request(Router.recommend(.get, "info", ["rid":id])).responseObject { (res:DataResponse<Recommend>) in
+            switch res.result {
+            case let .success(value):
                 finish(value, nil)
-            }).failure({ (error) in
+            case let .failure(error):
                 finish(nil, error)
-            })
+            }
         }
     }
     
-    static func GetRecList(page:Int, finish:([Recommend], BackendError?)->Void) {
-        Alamofire.request(Router.Recommend(.GET, "list", ["page":page])).responseArray { (res:Response<[Recommend], BackendError>) in
-            res.result.success({ (value) in
+    static func GetRecList(_ page:Int, finish:@escaping ([Recommend], Error?)->Void) {
+        Alamofire.request(Router.recommend(.get, "list", ["page":page])).responseArray { (res:DataResponse<[Recommend]>) in
+            switch res.result {
+            case let .success(value):
                 finish(value, nil)
-            }).failure({ (error) in
+            case let .failure(error):
                 finish([], error)
-            })
+            }
         }
     }
     
@@ -38,11 +40,11 @@ public class Recommend: Mappable {
     var time  : String = ""
     var poems : [Poem] = []
     
-    required public init?(_ map: Map) {
+    required public init?(map: Map) {
         
     }
     
-    public func mapping(map: Map) {
+    open func mapping(map: Map) {
         id <- map["Id"]
         title <- map["Title"]
         desc <- map["Desc"]

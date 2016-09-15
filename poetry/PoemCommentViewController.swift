@@ -15,8 +15,8 @@ class PoemCommentViewController: SLKTextViewController, UIPopoverPresentationCon
     
     var comments:[Comment] = []
     
-    override class func tableViewStyleForCoder(decoder: NSCoder) -> UITableViewStyle {
-        return .Plain
+    override class func tableViewStyle(for decoder: NSCoder) -> UITableViewStyle {
+        return .plain
     }
 
     override func viewDidLoad() {
@@ -24,18 +24,18 @@ class PoemCommentViewController: SLKTextViewController, UIPopoverPresentationCon
         self.tableView?.delaysContentTouches = false
         self.tableView?.estimatedRowHeight = 80
         self.tableView?.rowHeight = UITableViewAutomaticDimension
-        self.tableView?.registerNib(UINib(nibName: "PoemSummaryCell", bundle: nil), forCellReuseIdentifier: "hcell")
-        self.tableView?.registerNib(UINib(nibName: "CommentCell", bundle: nil), forCellReuseIdentifier: "cell")
+        self.tableView?.register(UINib(nibName: "PoemSummaryCell", bundle: nil), forCellReuseIdentifier: "hcell")
+        self.tableView?.register(UINib(nibName: "CommentCell", bundle: nil), forCellReuseIdentifier: "cell")
         self.textInputbar.textView.placeholder = "请输入评论内容"
-        self.textInputbar.rightButton.setTitle("评论", forState: .Normal)
-        self.inverted = false
+        self.textInputbar.rightButton.setTitle("评论", for: UIControlState())
+        self.isInverted = false
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 1 {
             if comments.count == 0 {
                 return nil
@@ -45,67 +45,67 @@ class PoemCommentViewController: SLKTextViewController, UIPopoverPresentationCon
         return nil
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
         }
         return 10
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        if indexPath.section == 1 {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if (indexPath as NSIndexPath).section == 1 {
 //            let cell = tableView.cellForRowAtIndexPath(indexPath)
 //            self.performSegueWithIdentifier("popmenu", sender: cell)
-            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-            alertController.addAction(UIAlertAction(title: "取消", style: .Cancel, handler: { (_) in
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (_) in
                 
             }))
-            alertController.addAction(UIAlertAction(title: "回复", style: .Default, handler: { (_) in
+            alertController.addAction(UIAlertAction(title: "回复", style: .default, handler: { (_) in
                 
             }))
-            alertController.addAction(UIAlertAction(title: "复制", style: .Default, handler: { (_) in
+            alertController.addAction(UIAlertAction(title: "复制", style: .default, handler: { (_) in
                 
             }))
-            alertController.addAction(UIAlertAction(title: "分享", style: .Default, handler: { (_) in
+            alertController.addAction(UIAlertAction(title: "分享", style: .default, handler: { (_) in
                 
             }))
-            alertController.addAction(UIAlertAction(title: "举报", style: .Default, handler: { (_) in
+            alertController.addAction(UIAlertAction(title: "举报", style: .default, handler: { (_) in
                 
             }))
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("hcell", forIndexPath: indexPath) as! PoemSummaryCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "hcell", for: indexPath) as! PoemSummaryCell
             cell.data = self.poem
             return cell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CommentCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CommentCell
             cell.contentTextLabel.text = "abcdf"
             cell.commentTextLabel?.text = "xxxasds\nsdfjklsfjskljfalksdjaslkd\nsdakdjaskldjlsdj"
             return cell
         }
     }
     
-    override func didPressRightButton(sender: AnyObject?) {
-        if let text = textInputbar.textView.text {
-            debugPrint(text)
-        }
-    }
+//    override func didPressRightButton(sender: AnyObject?) {
+//        if let text = textInputbar.textView.text {
+//            debugPrint(text)
+ //       }
+ //   }
     
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if let vc = segue.destinationViewController as? CommentMenuViewController {
+        if let vc = segue.destination as? CommentMenuViewController {
             if let cell = sender as? UITableViewCell {
-                vc.popoverPresentationController?.backgroundColor = UIColor.whiteColor()
+                vc.popoverPresentationController?.backgroundColor = UIColor.white
                 vc.popoverPresentationController?.sourceRect = cell.bounds
                 vc.popoverPresentationController?.sourceView = cell
                 vc.popoverPresentationController?.delegate = self
@@ -113,8 +113,8 @@ class PoemCommentViewController: SLKTextViewController, UIPopoverPresentationCon
         }
     }
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
 
 }

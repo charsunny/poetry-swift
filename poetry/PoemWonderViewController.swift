@@ -22,35 +22,35 @@ class PoemWonderViewController: UIPageViewController, UIPageViewControllerDelega
         self.delegate = self
         self.dataSource = self
         self.titleView.alpha = 0
-        self.titleLabel.font = UIFont.userFontWithSize(18)
-        self.authorLabel.font = UIFont.userFontWithSize(13)
-        if let poemVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewControllerWithIdentifier("poemvc") as? PoemDetailViewController {
-            poemVC.poem = DataManager.manager.poemByRowId(Int(rand())%50000 + 1)
+        self.titleLabel.font = UIFont.userFont(size:18)
+        self.authorLabel.font = UIFont.userFont(size:13)
+        if let poemVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
+            poemVC.poem = DataManager.manager.poemByRowId(Int(arc4random())%50000 + 1)
             self.titleLabel.text = poemVC.poem?.title
             self.authorLabel.text = poemVC.poem?.poet?.name ?? ""
-            self.setViewControllers([poemVC], direction: .Forward, animated:false, completion: nil)
+            self.setViewControllers([poemVC], direction: .forward, animated:false, completion: nil)
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.titleView.frame = CGRectMake(30, 7, UIScreen.mainScreen().bounds.width - 88, 30)
+        self.titleView.frame = CGRect(x: 30, y: 7, width: UIScreen.main.bounds.width - 88, height: 30)
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        if let poemVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewControllerWithIdentifier("poemvc") as? PoemDetailViewController {
-            poemVC.poem = DataManager.manager.poemByRowId(Int(rand())%50000 + 1)
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        if let poemVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
+            poemVC.poem = DataManager.manager.poemByRowId(Int(arc4random())%50000 + 1)
             return poemVC
         }
         return nil
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         return nil
     }
     
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if let poemVC = pageViewController.viewControllers?.first as? PoemDetailViewController {
             self.titleLabel.text = poemVC.poem?.title
             self.authorLabel.text = poemVC.poem?.poet?.name ?? ""

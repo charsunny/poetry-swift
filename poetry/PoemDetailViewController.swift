@@ -9,7 +9,6 @@
 import UIKit
 import TextAttributes
 import AlamofireImage
-import PKHUD
 
 class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverPresentationControllerDelegate {
     
@@ -33,27 +32,27 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let poem = self.poem where poemId == 0 {
+        if let poem = self.poem , poemId == 0 {
             poemId = poem.id
         }
-        self.titleLabel.font = UIFont.userFontWithSize(18)
-        self.authorLabel.font = UIFont.userFontWithSize(13)
-        textView.editable = false
+        self.titleLabel.font = UIFont.userFont(size:18)
+        self.authorLabel.font = UIFont.userFont(size:13)
+        textView.isEditable = false
         textView.delegate = self
         textView.alpha = 0
         indicator.startAnimating()
         self.titleView.alpha = 0
-        self.titleView.hidden = true
-        self.titleView.frame = CGRectMake(30, 7, UIScreen.mainScreen().bounds.width - 88, 30)
+        self.titleView.isHidden = true
+        self.titleView.frame = CGRect(x: 30, y: 7, width: UIScreen.main.bounds.width - 88, height: 30)
         textView.textContainerInset = UIEdgeInsets(top: 20, left: 8, bottom: 12, right: 8)
-        textView.userInteractionEnabled = true
+        textView.isUserInteractionEnabled = true
         self.addParallaxEffect(textView, depth: 10)
         textView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(PoemDetailViewController.onTapText(_:))))
         if LocalDBExist {
-            dispatch_async(dispatch_get_main_queue(), { 
+            DispatchQueue.main.async(execute: { 
                 self.poem = DataManager.manager.poemById(self.poemId)
                 self.poem?.loadPoet()
-                dispatch_async(dispatch_get_main_queue(), { 
+                DispatchQueue.main.async(execute: { 
                     self.setPoemContent()
                 })
             })
@@ -63,7 +62,7 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
         } else {
             Poem.GetPoemDetail(poemId, finish: { (p, err) in
                 if err != nil {
-                    HUD.flash(.LabeledError(title: "加载失败", subtitle: nil), delay: 1.0)
+                    //HUD.flash(.labeledError(title: "加载失败", subtitle: nil), delay: 1.0)
                 } else {
                     self.poem = p
                     self.setPoemContent()
@@ -75,23 +74,23 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
     
     var tapIndex:Int = -1
     var keyword:String = ""
-    func onTapText(gesture:UITapGestureRecognizer) {
+    func onTapText(_ gesture:UITapGestureRecognizer) {
         let textView = gesture.view as! UITextView
-        var point = gesture.locationInView(textView)
+        var point = gesture.location(in: textView)
         point.x -= textView.textContainerInset.left
         point.y -= textView.textContainerInset.top
-        let index = textView.layoutManager.glyphIndexForPoint(point, inTextContainer: textView.textContainer, fractionOfDistanceThroughGlyph: nil)
+        let index = textView.layoutManager.glyphIndex(for: point, in: textView.textContainer, fractionOfDistanceThroughGlyph: nil)
         if index < textView.textStorage.length {
             self.tapIndex = index
-            keyword = (textView.attributedText.string as NSString).substringWithRange(NSRange(location: index, length: 1))
+            keyword = (textView.attributedText.string as NSString).substring(with: NSRange(location: index, length: 1))
             if keyword.isHanZi() {
-                let pt = textView.layoutManager.boundingRectForGlyphRange(NSRange(location: index, length: 1), inTextContainer: textView.textContainer)
-                self.performSegueWithIdentifier("popover", sender: NSValue(CGRect: pt))
+                let pt = textView.layoutManager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: textView.textContainer)
+                self.performSegue(withIdentifier: "popover", sender: NSValue(cgRect: pt))
             }
         }
     }
     
-    private func setPoemContent() {
+    fileprivate func setPoemContent() {
         
         if let index = poem?.content.hash {
             bgImageView.image = UIImage(named: "\(abs(index % 13 + 1)).jpg")
@@ -102,59 +101,59 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
         let textStr = NSMutableAttributedString()
         
         let titleAttributes = TextAttributes()
-        titleAttributes.font(UIFont.userFontWithSize(28)).lineSpacing(20).alignment(.Center).foregroundColor(UIColor.whiteColor())
-        textStr.appendAttributedString(NSAttributedString(string: poem?.title ?? "", attributes: titleAttributes))
-        textStr.appendAttributedString(NSAttributedString(string: "\n"))
+        titleAttributes.font(UIFont.userFont(size:28)).lineSpacing(20).alignment(.center).foregroundColor(UIColor.white)
+        textStr.append(NSAttributedString(string: poem?.title ?? "", attributes: titleAttributes))
+        textStr.append(NSAttributedString(string: "\n"))
         
         let authorAttributes = TextAttributes()
-        authorAttributes.font(UIFont.userFontWithSize(16)).lineSpacing(8).alignment(.Right).foregroundColor(UIColor.whiteColor())
-        textStr.appendAttributedString(NSAttributedString(string: poem?.poet?.name ?? "", attributes: authorAttributes))
-        textStr.appendAttributedString(NSAttributedString(string: "\n"))
+        authorAttributes.font(UIFont.userFont(size:16)).lineSpacing(8).alignment(.right).foregroundColor(UIColor.white)
+        textStr.append(NSAttributedString(string: poem?.poet?.name ?? "", attributes: authorAttributes))
+        textStr.append(NSAttributedString(string: "\n"))
         
         let textAttributes = TextAttributes()
-        textAttributes.font(UIFont.userFontWithSize(24)).lineHeightMultiple(1.4).alignment(.Center).baselineOffset(8).foregroundColor(UIColor.whiteColor()).headIndent(8)
-        textStr.appendAttributedString(NSAttributedString(string: poem?.content ?? "", attributes: textAttributes))
+        textAttributes.font(UIFont.userFont(size:24)).lineHeightMultiple(1.4).alignment(.center).baselineOffset(8).foregroundColor(UIColor.white).headIndent(8)
+        textStr.append(NSAttributedString(string: poem?.content ?? "", attributes: textAttributes))
         
         self.textView.attributedText = textStr
-        self.textView.contentOffset = CGPointZero
+        self.textView.contentOffset = CGPoint.zero
         
         if poem?.poet == nil {
             if let button =  stackView.arrangedSubviews.last as? UIButton {
-                button.enabled = false
+                button.isEnabled = false
             }
         }
     }
     
-    @IBAction func onLike(sender: UIButton) {
+    @IBAction func onLike(_ sender: UIButton) {
         if User.LoginUser == nil {
-            HUD.flash(.Label("尚未登录"), delay: 1.0)
+            //HUD.flash(.label("尚未登录"), delay: 1.0)
             return
         }
         guard let poem = self.poem else {return }
         poem.like({ (result, err) in
             if err != nil {
-                HUD.flash(.LabeledError(title: nil, subtitle:  String.ErrorString(err!)), delay: 1.0)
+                //HUD.flash(.labeledError(title: nil, subtitle:  String.ErrorString(err!)), delay: 1.0)
             } else {
-                HUD.flash(.LabeledSuccess(title: nil, subtitle: result), delay: 1.0)
+                //HUD.flash(.labeledSuccess(title: nil, subtitle: result), delay: 1.0)
             }
-            sender.setImage(UIImage(named: poem.isFav ? "heart" : "hert") , forState: .Normal)
-            sender.setTitle("\(poem.likeCount)", forState: .Normal)
-            sender.tintColor = poem.isFav ? UIColor.flatRedColor() : UIColor.whiteColor()
+            sender.setImage(UIImage(named: poem.isFav ? "heart" : "hert") , for: UIControlState())
+            sender.setTitle("\(poem.likeCount)", for: UIControlState())
+            sender.tintColor = poem.isFav ? UIColor.flatRed() : UIColor.white
         })
     }
     
-    func updateToolbar(ct:Int, ft:Int, isFav: Bool) {
+    func updateToolbar(_ ct:Int, ft:Int, isFav: Bool) {
         let commentButton = stackView.arrangedSubviews[0] as! UIButton
         let likeButton = stackView.arrangedSubviews[1] as! UIButton
-        commentButton.setTitle("\(ct)", forState: .Normal)
-        likeButton.setTitle("\(ft)", forState: .Normal)
-        likeButton.setImage(UIImage(named: isFav ? "heart" : "hert") , forState: .Normal)
-        likeButton.tintColor = isFav ? UIColor.flatRedColor() : UIColor.whiteColor()
+        commentButton.setTitle("\(ct)", for: UIControlState())
+        likeButton.setTitle("\(ft)", for: UIControlState())
+        likeButton.setImage(UIImage(named: isFav ? "heart" : "hert") , for: UIControlState())
+        likeButton.tintColor = isFav ? UIColor.flatRed() : UIColor.white
     }
     
-    private func addParallaxEffect(view:UIView, depth:CGFloat) {
-        let effectX = UIInterpolatingMotionEffect(keyPath:"center.x", type:.TiltAlongHorizontalAxis)
-        let effectY = UIInterpolatingMotionEffect(keyPath:"center.y", type: .TiltAlongVerticalAxis)
+    fileprivate func addParallaxEffect(_ view:UIView, depth:CGFloat) {
+        let effectX = UIInterpolatingMotionEffect(keyPath:"center.x", type:.tiltAlongHorizontalAxis)
+        let effectY = UIInterpolatingMotionEffect(keyPath:"center.y", type: .tiltAlongVerticalAxis)
         effectX.maximumRelativeValue = depth
         effectX.minimumRelativeValue = -depth
         effectY.maximumRelativeValue = depth
@@ -165,57 +164,57 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
 
     
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navController = navigationController
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.titleView.frame = CGRectMake(30, 7, UIScreen.mainScreen().bounds.width - 88, 30)
-        if self.navigationController?.navigationBar.backgroundImageForBarMetrics(.Default) == nil {
-            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        self.titleView.frame = CGRect(x: 30, y: 7, width: UIScreen.main.bounds.width - 88, height: 30)
+        if self.navigationController?.navigationBar.backgroundImage(for: .default) == nil {
+            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
             self.navigationController?.navigationBar.shadowImage = UIImage()
         }
     }
     
     var navController: UINavigationController?
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        if self.parentViewController is UIPageViewController {
+        if self.parent is UIPageViewController {
             return
         }
-        self.navController?.navigationBar.setBackgroundImage(nil, forBarMetrics: .Default)
+        self.navController?.navigationBar.setBackgroundImage(nil, for: .default)
         self.navController?.navigationBar.shadowImage = nil
     }
     
     var isLoadView = true
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if isLoadView {
-            self.textView.setContentOffset(CGPointZero, animated: false)
+            self.textView.setContentOffset(CGPoint.zero, animated: false)
             isLoadView = false
         }
-        UIView.animateWithDuration(0.1) {
+        UIView.animate(withDuration: 0.1, animations: {
             self.textView.alpha = 1.0
-            self.indicator.hidden = true
-        }
+            self.indicator.isHidden = true
+        }) 
         
     }
     
     // MARK: -- textview delegate
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y < 90 {
             var parentTitleView:UIView? = nil
-            if let vc = self.parentViewController as? PoemWonderViewController {
+            if let vc = self.parent as? PoemWonderViewController {
                 parentTitleView = vc.titleView
             }
             let alpha = scrollView.contentOffset.y/90.0
             if alpha < 0.3 {
-                self.titleView.hidden = true
-                parentTitleView?.hidden = true
+                self.titleView.isHidden = true
+                parentTitleView?.isHidden = true
             } else {
-                self.titleView.hidden = false
-                parentTitleView?.hidden = false
+                self.titleView.isHidden = false
+                parentTitleView?.isHidden = false
             }
             self.titleView.alpha = alpha
             parentTitleView?.alpha = alpha
@@ -227,33 +226,33 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     var transitioner:CAVTransitioner?
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if let vc = segue.destinationViewController as? DictViewController {
-            if let rect = (sender as? NSValue)?.CGRectValue() {
-                vc.popoverPresentationController?.backgroundColor = UIColor.whiteColor()
-                vc.popoverPresentationController?.sourceRect = CGRectMake(rect.midX, rect.midY, rect.width, rect.height)
+        if let vc = segue.destination as? DictViewController {
+            if let rect = (sender as? NSValue)?.cgRectValue {
+                vc.popoverPresentationController?.backgroundColor = UIColor.white
+                vc.popoverPresentationController?.sourceRect = CGRect(x: rect.midX, y: rect.midY, width: rect.width, height: rect.height)
                 vc.popoverPresentationController?.sourceView = self.textView
                 vc.popoverPresentationController?.delegate = self
                 vc.keyword = keyword
             }
         }
-        if let vc = segue.destinationViewController as? AuthorViewController {
+        if let vc = segue.destination as? AuthorViewController {
             vc.poet = self.poem!.poet!
         }
-        if let vc = segue.destinationViewController as? PoemCommentViewController {
+        if let vc = segue.destination as? PoemCommentViewController {
             vc.poem = self.poem
         }
-        if let vc = segue.destinationViewController as? UINavigationController {
+        if let vc = segue.destination as? UINavigationController {
             if let pvc = vc.viewControllers.first as? ExploreAddViewController {
                 pvc.poem = self.poem
             }
         }
     }
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
     
 }

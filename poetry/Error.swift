@@ -8,26 +8,26 @@
 
 import UIKit
 
-enum BackendError: ErrorType {
-    case Network(error: NSError)
-    case DataSerialization(reason: String)
-    case JSONSerialization(error: NSError)
-    case ObjectSerialization(reason: String)
-    case BussinessError(code:Int, msg:String)
+enum BackendError: Error {
+    case network(error: NSError)
+    case dataSerialization(reason: String)
+    case jsonSerialization(error: NSError)
+    case objectSerialization(reason: String)
+    case bussinessError(code:Int, msg:String)
 }
 
 extension String {
-    static func ErrorString(err:BackendError) -> String {
+    static func ErrorString(_ err:BackendError) -> String {
         switch err {
-        case .Network:
+        case .network:
             return "网络链接失败，请稍候重试"
-        case let .DataSerialization(str):
+        case let .dataSerialization(str):
             return str
-        case let .JSONSerialization(error):
+        case let .jsonSerialization(error):
             return error.description
-        case let .ObjectSerialization(str):
+        case let .objectSerialization(str):
             return str
-        case let .BussinessError(_, str):
+        case let .bussinessError(_, str):
             return str
         }
     }

@@ -9,7 +9,6 @@
 import UIKit
 import IBAnimatable
 import NVActivityIndicatorView
-import SwiftyJSON
 import Alamofire
 import SSZipArchive
 import JDStatusBarNotification
@@ -25,10 +24,10 @@ class RecommendViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.tableView.reloadData()
         }
-        self.navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: .Default)
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         self.navigationController?.navigationBar.shadowImage = nil
         headerView.titleLabel.text = " "
         headerView.descLabel.text = "正在加载推荐信息..."
@@ -45,37 +44,37 @@ class RecommendViewController: UITableViewController {
         headerView.indicatorView.startAnimation()
         
         if !LocalDBExist {
-            let alertController = UIAlertController(title: "下载诗词数据", message: "检测到诗词数据库文件尚未下载，为了您更好的体验，请您先下载数据库文件(31.94MB)。", preferredStyle: .Alert)
-            alertController.addAction(UIAlertAction(title: "暂不下载", style: .Cancel, handler: nil))
-            alertController.addAction(UIAlertAction(title: "立即下载", style: .Default, handler: { (_) in
-                let statusBarView = JDStatusBarNotification.showWithStatus("正在下载诗词数据", styleName: JDStatusBarStyleDark)
+            let alertController = UIAlertController(title: "下载诗词数据", message: "检测到诗词数据库文件尚未下载，为了您更好的体验，请您先下载数据库文件(31.94MB)。", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "暂不下载", style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: "立即下载", style: .default, handler: { (_) in
+                let statusBarView = JDStatusBarNotification.show(withStatus: "正在下载诗词数据", styleName: JDStatusBarStyleDark)
                 let path = "\(DocumentPath)/poem.zip"
-                Alamofire.download(.GET, "http://classicpoem.oss-cn-shanghai.aliyuncs.com/poem.zip", parameters: nil, destination: { (_, _) -> NSURL in
-                    if NSFileManager.defaultManager().fileExistsAtPath(path) {
-                        try! NSFileManager.defaultManager().removeItemAtPath(path)
+               /* Alamofire.download(.get, "http://classicpoem.oss-cn-shanghai.aliyuncs.com/poem.zip", parameters: nil, destination: { (_, _) -> URL in
+                    if FileManager.default.fileExists(atPath: path) {
+                        try! FileManager.default.removeItem(atPath: path)
                     }
-                    return NSURL(fileURLWithPath: path)
+                    return URL(fileURLWithPath: path)
                 }).progress({ (s, d, f) in
-                    dispatch_async(dispatch_get_main_queue(), { 
+                    DispatchQueue.main.async(execute: { 
                         statusBarView.textLabel.text = String(format: "正在下载诗词数据%.1f%%", CGFloat(d)/CGFloat(f)*100)
                     })
                 }).response(completionHandler: { (_, _, _, error) in
                     if error == nil {
                         statusBarView.textLabel.text = "下载成功"
-                        SSZipArchive.unzipFileAtPath(path, toDestination: DocumentPath)
-                        try! NSFileManager.defaultManager().removeItemAtPath(path)
+                        SSZipArchive.unzipFile(atPath: path, toDestination: DocumentPath)
+                        try! FileManager.default.removeItem(atPath: path)
                         LocalDBExist = DataManager.manager.connect()
                     } else {
                         statusBarView.textLabel.text = "下载失败"
                     }
-                    JDStatusBarNotification.dismissAfter(1.0)
-                })
+                    JDStatusBarNotification.dismiss(after: 1.0)
+                })*/
             }))
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     var isLoading = false
-    func loadPoemData(id : Int = 0) {
+    func loadPoemData(_ id : Int = 0) {
         if isLoading {
             return
         }
@@ -112,24 +111,24 @@ class RecommendViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return poems.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! RecommadCell
-        cell.data = poems[indexPath.row]
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RecommadCell
+        cell.data = poems[(indexPath as NSIndexPath).row]
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let detailVC = segue.destinationViewController as? PoemDetailViewController {
-            let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)!
-            let data = poems[indexPath.row]
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let detailVC = segue.destination as? PoemDetailViewController {
+            let indexPath = tableView.indexPath(for: sender as! UITableViewCell)!
+            let data = poems[(indexPath as NSIndexPath).row]
             detailVC.poemId = data.id
         }
     }
@@ -149,15 +148,15 @@ class RecommandHeaderView : UIView {
     @IBOutlet var indicatorView:NVActivityIndicatorView!
     
     override func awakeFromNib() {
-        titleLabel.font = UIFont.userFontWithSize(64)
-        descLabel.font = UIFont.userFontWithSize(17)
+        titleLabel.font = UIFont.userFont(size:64)
+        descLabel.font = UIFont.userFont(size:17)
         descLabel.adjustsFontSizeToFitWidth = true
-        timeLabel.font = UIFont.userFontWithSize(15)
-        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
-            self.titleLabel.font = UIFont.userFontWithSize(64)
-            self.descLabel.font = UIFont.userFontWithSize(17)
+        timeLabel.font = UIFont.userFont(size:15)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
+            self.titleLabel.font = UIFont.userFont(size:64)
+            self.descLabel.font = UIFont.userFont(size:17)
             self.descLabel.adjustsFontSizeToFitWidth = true
-            self.timeLabel.font = UIFont.userFontWithSize(15)
+            self.timeLabel.font = UIFont.userFont(size:15)
         }
     }
     
@@ -185,13 +184,13 @@ class RecommadCell: AnimatableTableViewCell {
     @IBOutlet var descLabel: UILabel!
     
     override func awakeFromNib() {
-        titleLabel.font = UIFont.userFontWithSize(18)
-        descLabel.font = UIFont.userFontWithSize(15)
-        authorLabel.font = UIFont.userFontWithSize(14)
-        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
-            self.titleLabel.font = UIFont.userFontWithSize(18)
-            self.descLabel.font = UIFont.userFontWithSize(15)
-            self.authorLabel.font = UIFont.userFontWithSize(14)
+        titleLabel.font = UIFont.userFont(size:18)
+        descLabel.font = UIFont.userFont(size:15)
+        authorLabel.font = UIFont.userFont(size:14)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
+            self.titleLabel.font = UIFont.userFont(size:18)
+            self.descLabel.font = UIFont.userFont(size:15)
+            self.authorLabel.font = UIFont.userFont(size:14)
         }
     }
     
@@ -201,7 +200,7 @@ class RecommadCell: AnimatableTableViewCell {
                 return
             }
             let url = data.poet?.name.iconURL() ?? ""
-            headImageView.af_setImageWithURL(NSURL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
+            headImageView.af_setImage(withURL:URL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
             titleLabel.text = data.title
             descLabel.text = data.content
             authorLabel.text = data.poet?.name

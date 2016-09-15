@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import ObjectMapper
 
-public class Poet: Mappable {
+open class Poet: Mappable {
     var id   : Int = 0
     var name : String = ""
     var avatar : String = ""
@@ -22,19 +22,19 @@ public class Poet: Mappable {
     
     var poems : [Poem] = []
     
-    required public init?(_ map: Map) {
+    required public init?(map: Map) {
         
     }
     
     public init(_ row:SQLiteRow) {
-        id = row.get(SQLIntExp("id"))
-        name = row.get(SQLStringExp("name_cn"))
-        desc = row.get(SQLStringOExp("description_cn")) ?? ""
-        let pid = row.get(SQLIntExp("period_id"))
-        period = DataManager.manager.periods[pid] ?? ""
+      //  id = row.get(SQLIntExp("id"))
+      //  name = row.get(SQLStringExp("name_cn"))
+      //  desc = row.get(SQLStringOExp("description_cn")) ?? ""
+      //  let pid = row.get(SQLIntExp("period_id"))
+        // period = DataManager.manager.periods[pid] ?? ""
     }
     
-    public func mapping(map: Map) {
+    open func mapping(map: Map) {
         id <- map["Id"]
         name <- map["Name"]
         avatar <- map["Avatar"]

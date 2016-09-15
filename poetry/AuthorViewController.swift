@@ -22,18 +22,18 @@ class AuthorViewController: UIViewController {
     
     lazy var controllers:[UIViewController] = {
         var list:[UIViewController] = []
-        if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("authordetail") as? AuthorDetailViewController
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "authordetail") as? AuthorDetailViewController
         {
             vc.poet = self.poet
             vc.format = self.format
             list.append(vc)
         }
-        if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("poemlist") as? AuthorPoemListViewController {
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "poemlist") as? AuthorPoemListViewController {
             vc.poet = self.poet
             vc.format = self.format
             list.append(vc)
         }
-        list.append(self.storyboard!.instantiateViewControllerWithIdentifier("relatevc"))
+        list.append(self.storyboard!.instantiateViewController(withIdentifier: "relatevc"))
         return list
     }()
     
@@ -44,12 +44,12 @@ class AuthorViewController: UIViewController {
     var format:PoemFormat?
     
     enum AuthorColumn : Int {
-        case Intro = 0
-        case Poem = 1
-        case Relative = 2
+        case intro = 0
+        case poem = 1
+        case relative = 2
     }
     
-    var column:AuthorColumn = .Intro
+    var column:AuthorColumn = .intro
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,23 +62,23 @@ class AuthorViewController: UIViewController {
 
         for view in buttonStackView.arrangedSubviews where view is UIButton {
             let button = view as! UIButton
-            button.addTarget(self, action: #selector(AuthorViewController.onClickButton(_:)), forControlEvents: .TouchUpInside)
+            button.addTarget(self, action: #selector(AuthorViewController.onClickButton(_:)), for: .touchUpInside)
         }
     }
     
-    func onClickButton(btn:UIButton) {
+    func onClickButton(_ btn:UIButton) {
         for view in buttonStackView.arrangedSubviews where view is UIButton {
             let button = view as! UIButton
-            button.titleLabel?.font = UIFont.systemFontOfSize(15)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         }
-        btn.titleLabel?.font = UIFont.boldSystemFontOfSize(15)
-        if let index = buttonStackView.arrangedSubviews.indexOf(btn) {
+        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        if let index = buttonStackView.arrangedSubviews.index(of: btn) {
             column = AuthorColumn(rawValue: index)!
             indicatorLeadingLayout.constant = btn.frame.width * CGFloat(index)
-            UIView.animateWithDuration(0.2, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 self.headView.layoutIfNeeded()
             })
-            pageController.setViewControllers([controllers[index]], direction: .Forward, animated: false, completion: nil)
+            pageController.setViewControllers([controllers[index]], direction: .forward, animated: false, completion: nil)
         }
     }
 
@@ -86,12 +86,12 @@ class AuthorViewController: UIViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if let vc = segue.destinationViewController as? UIPageViewController {
+        if let vc = segue.destination as? UIPageViewController {
             self.pageController = vc
-            vc.setViewControllers([controllers.first!], direction: .Forward, animated: false, completion: nil)
+            vc.setViewControllers([controllers.first!], direction: .forward, animated: false, completion: nil)
             vc.delegate = self
             vc.dataSource = self
         }
@@ -101,32 +101,32 @@ class AuthorViewController: UIViewController {
 
 extension AuthorViewController:UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if let index = controllers.indexOf(pageViewController.viewControllers!.first!) {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if let index = controllers.index(of: pageViewController.viewControllers!.first!) {
             for view in buttonStackView.arrangedSubviews where view is UIButton {
                 let button = view as! UIButton
-                button.titleLabel?.font = UIFont.systemFontOfSize(15)
+                button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
             }
             if let btn = buttonStackView.arrangedSubviews[index] as? UIButton {
-                btn.titleLabel?.font = UIFont.boldSystemFontOfSize(15)
+                btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
                 column = AuthorColumn(rawValue: index)!
                 indicatorLeadingLayout.constant = btn.frame.width * CGFloat(index)
-                UIView.animateWithDuration(0.2, animations: {
+                UIView.animate(withDuration: 0.2, animations: {
                     self.headView.layoutIfNeeded()
                 })
             }
         }
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        let index = controllers.indexOf(viewController)!
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        let index = controllers.index(of: viewController)!
         if index == 2 {
             return nil
         }
         return controllers[index+1]
     }
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        let index = controllers.indexOf(viewController)!
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        let index = controllers.index(of: viewController)!
         if index == 0 {
             return nil
         }

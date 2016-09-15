@@ -12,54 +12,59 @@ import ObjectMapper
 
 class Feed: Mappable {
     
-    static func AddFeed(pid : Int, content:String, image:String, finish:(Bool, BackendError?)->Void) {
-        let param:[String:AnyObject] = ["pid":pid, "content":content, "image":image]
-        Alamofire.request(Router.User(.POST, "addfeed", param)).responseString { (res :Response<String, BackendError>) in
-            res.result.success({ (value) in
+    static func AddFeed(_ pid : Int, content:String, image:String, finish:@escaping (Bool, Error?)->Void) {
+        let param:[String:AnyObject] = ["pid":pid as AnyObject, "content":content as AnyObject, "image":image as AnyObject]
+        Alamofire.request(Router.user(.post, "addfeed", param)).responseString { (res :DataResponse<String>) in
+            switch res.result {
+            case .success:
                 finish(true, nil)
-            }).failure({ (error) in
+            case let .failure(error):
                 finish(false, error)
-            })
+            }
         }
     }
     
-    static func GetFeeds(page : Int, finish:([Feed], BackendError?)->Void) {
-        Alamofire.request(Router.Feed(.GET, "list", ["page":page])).responseArray { (res :Response<[Feed], BackendError>) in
-            res.result.success({ (value) in
+    static func GetFeeds(_ page : Int, finish:@escaping ([Feed], Error?)->Void) {
+        Alamofire.request(Router.feed(.get, "list", ["page":String(page)])).responseArray { (res :DataResponse<[Feed]>) in
+            switch res.result {
+            case let .success(value):
                 finish(value, nil)
-            }).failure({ (error) in
+            case let .failure(error):
                 finish([], error)
-            })
+            }
         }
     }
     
-    static func GetFeedsAfter(fid : Int, finish:([Feed], BackendError?)->Void) {
-        Alamofire.request(Router.Feed(.GET, "list", ["fid":fid])).responseArray { (res :Response<[Feed], BackendError>) in
-            res.result.success({ (value) in
+    static func GetFeedsAfter(_ fid : Int, finish:@escaping ([Feed], Error?)->Void) {
+        Alamofire.request(Router.feed(.get, "list", ["fid":fid])).responseArray { (res :DataResponse<[Feed]>) in
+            switch res.result {
+            case let .success(value):
                 finish(value, nil)
-            }).failure({ (error) in
+            case let .failure(error):
                 finish([], error)
-            })
+            }
         }
     }
     
-    static func GetUserFeeds(page : Int, finish:([Feed], BackendError?)->Void) {
-        Alamofire.request(Router.User(.GET, "feeds", ["page":page])).responseArray { (res :Response<[Feed], BackendError>) in
-            res.result.success({ (value) in
+    static func GetUserFeeds(_ page : Int, finish:@escaping ([Feed], Error?)->Void) {
+        Alamofire.request(Router.user(.get, "feeds", ["page":page])).responseArray { (res :DataResponse<[Feed]>) in
+            switch res.result {
+            case let .success(value):
                 finish(value, nil)
-            }).failure({ (error) in
+            case let .failure(error):
                 finish([], error)
-            })
+            }
         }
     }
     
-    static func GetUserFeedsAfter(fid : Int, finish:([Feed], BackendError?)->Void) {
-        Alamofire.request(Router.User(.GET, "feeds", ["fid":fid])).responseArray { (res :Response<[Feed], BackendError>) in
-            res.result.success({ (value) in
+    static func GetUserFeedsAfter(_ fid : Int, finish:@escaping ([Feed], Error?)->Void) {
+        Alamofire.request(Router.user(.get, "feeds", ["fid":fid])).responseArray { (res :DataResponse<[Feed]>) in
+            switch res.result {
+            case let .success(value):
                 finish(value, nil)
-            }).failure({ (error) in
+            case let .failure(error):
                 finish([], error)
-            })
+            }
         }
     }
     
@@ -72,7 +77,7 @@ class Feed: Mappable {
     var likeCount : Int = 0
     var commentCount : Int = 0
     
-    required init?(_ map: Map) {
+    required init?(map: Map) {
         
     }
     

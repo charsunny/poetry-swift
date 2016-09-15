@@ -19,13 +19,13 @@ class PoemSummaryCell: UITableViewCell {
     @IBOutlet var descLabel: UILabel!
 
     override func awakeFromNib() {
-        titleLabel.font = UIFont.userFontWithSize(18)
-        descLabel.font = UIFont.userFontWithSize(15)
-        authorLabel.font = UIFont.userFontWithSize(14)
-        NSNotificationCenter.defaultCenter().addObserverForName("UserFontChangeNotif", object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
-            self.titleLabel.font = UIFont.userFontWithSize(18)
-            self.descLabel.font = UIFont.userFontWithSize(15)
-            self.authorLabel.font = UIFont.userFontWithSize(14)
+        titleLabel.font = UIFont.userFont(size:18)
+        descLabel.font = UIFont.userFont(size:15)
+        authorLabel.font = UIFont.userFont(size:14)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
+            self.titleLabel.font = UIFont.userFont(size:18)
+            self.descLabel.font = UIFont.userFont(size:15)
+            self.authorLabel.font = UIFont.userFont(size:14)
         }
     }
     
@@ -35,7 +35,7 @@ class PoemSummaryCell: UITableViewCell {
                 return
             }
             let url = data.poet?.name.iconURL() ?? ""
-            headImageView.af_setImageWithURL(NSURL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
+            headImageView.af_setImage(withURL:URL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
             titleLabel.text = data.title
             descLabel.text = data.content
             authorLabel.text = data.poet?.name

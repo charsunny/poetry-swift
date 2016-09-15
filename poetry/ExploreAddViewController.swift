@@ -6,8 +6,6 @@
 //  Copyright © 2016 诺崇. All rights reserved.
 //
 import UIKit
-import PKHUD
-import KCFloatingActionButton
 
 class ExploreAddViewController: UITableViewController, UITextViewDelegate {
     
@@ -33,7 +31,7 @@ class ExploreAddViewController: UITableViewController, UITextViewDelegate {
         }
     }
     
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if range.location == 0 && text == "\n" {
             return false
         }
@@ -41,72 +39,72 @@ class ExploreAddViewController: UITableViewController, UITextViewDelegate {
             return false
         }
         if range.location == 0 && text.characters.count > 0 && textView.text == "" {
-            tipLabel.hidden = true
+            tipLabel.isHidden = true
         }
         if range.location == 0 && range.length == 1 && text == "" && textView.text.characters.count > 0 {
-            tipLabel.hidden = false
+            tipLabel.isHidden = false
         }
         return true
     }
     
-    @IBAction func addPic(sender: AnyObject) {
-        let alertController = UIAlertController(title: "上传图片", message: nil, preferredStyle: .ActionSheet)
-        alertController.addAction(UIAlertAction(title: "选择照片", style: .Default, handler: { (_) in
+    @IBAction func addPic(_ sender: AnyObject) {
+        let alertController = UIAlertController(title: "上传图片", message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "选择照片", style: .default, handler: { (_) in
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.sourceType = .PhotoLibrary
+            imagePicker.sourceType = .photoLibrary
             imagePicker.allowsEditing = true
-            self.presentViewController(imagePicker, animated: true, completion: nil)
+            self.present(imagePicker, animated: true, completion: nil)
         }))
-        alertController.addAction(UIAlertAction(title: "拍摄照片", style: .Default, handler: { (_) in
+        alertController.addAction(UIAlertAction(title: "拍摄照片", style: .default, handler: { (_) in
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.sourceType = .Camera
+            imagePicker.sourceType = .camera
             imagePicker.allowsEditing = true
-            self.presentViewController(imagePicker, animated: true, completion: nil)
+            self.present(imagePicker, animated: true, completion: nil)
         }))
-        alertController.addAction(UIAlertAction(title: "取消", style: .Cancel, handler: { (_) in
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (_) in
             
         }))
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        dispatch_async(dispatch_get_main_queue()) { 
+        DispatchQueue.main.async { 
             self.textView.becomeFirstResponder()
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         textView.resignFirstResponder()
     }
     
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         return true
     }
     
-    func textViewShouldEndEditing(textView: UITextView) -> Bool {
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         return true
     }
     
-    @IBAction func addFeed(sender: AnyObject) {
+    @IBAction func addFeed(_ sender: AnyObject) {
         if textView.text.characters.count == 0 {
-            HUD.flash(.Label("请输入分享内容"), delay: 1)
+           // HUD.flash(.label("请输入分享内容"), delay: 1)
             return
         }
         if poem == nil {
-            HUD.flash(.Label("请选择分享诗词"), delay: 1)
+            //HUD.flash(.label("请选择分享诗词"), delay: 1)
             return
         }
         Feed.AddFeed(poem!.id, content: textView.text, image: imageURL ?? "") { (success, error) in
             if success {
-                HUD.flash(.LabeledSuccess(title: nil, subtitle: "分享成功"), delay: 1)
-                self.dismissViewControllerAnimated(true, completion: nil)
-                NSNotificationCenter.defaultCenter().postNotificationName("AddFeedNotif", object: nil)
+               // HUD.flash(.labeledSuccess(title: nil, subtitle: "分享成功"), delay: 1)
+                self.dismiss(animated: true, completion: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "AddFeedNotif"), object: nil)
             } else {
-                HUD.flash(.Label(String.ErrorString(error!)), delay: 1)
+                //HUD.flash(.label(String.ErrorString(error!)), delay: 1)
             }
         }
     }
@@ -114,11 +112,11 @@ class ExploreAddViewController: UITableViewController, UITextViewDelegate {
 
 extension ExploreAddViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             let data = UIImageJPEGRepresentation(image, 0.5)
             let image = UIImage(data: data!)
@@ -131,7 +129,7 @@ extension ExploreAddViewController:UIImagePickerControllerDelegate,UINavigationC
                 }
             })
         }
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 
