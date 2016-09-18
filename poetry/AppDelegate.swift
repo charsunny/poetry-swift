@@ -82,6 +82,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        if url.scheme == "poem" {
+            if url.host == "poem" {
+                if let pid = Int(url.lastPathComponent), pid > 0 {
+                    if UIApplication.shared.keyWindow == window {
+                        if let launchVC = window?.rootViewController as? LaunchViewController {
+                            launchVC.userInfo = ["type":"poem", "id":pid]
+                        }
+                    } else {
+                        if let tabeVC = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController {
+                            if let navVC = tabeVC.selectedViewController as? UINavigationController {
+                                if let poemVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
+                                    poemVC.poemId = pid
+                                    navVC.pushViewController(poemVC, animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if url.host == "poet" {
+                if let pid = Int(url.lastPathComponent), pid > 0 {
+                    if UIApplication.shared.keyWindow == window {
+                        if let launchVC = window?.rootViewController as? LaunchViewController {
+                            launchVC.userInfo = ["type":"poet", "id":pid]
+                        }
+                    } else {
+                        if let tabeVC = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController {
+                            if let navVC = tabeVC.selectedViewController as? UINavigationController {
+                                if let poetVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewController(withIdentifier: "poetvc") as? AuthorViewController {
+                                    let poet = DataManager.manager.poetById(pid)
+                                    poetVC.poet = poet
+                                    navVC.pushViewController(poetVC, animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         var canHandle = WeiboSDK.handleOpen(url, delegate: self)
         if canHandle {
             return true

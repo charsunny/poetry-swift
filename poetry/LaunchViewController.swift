@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import JGProgressHUD
 
 class LaunchViewController: UIViewController, TencentSessionDelegate {
+    
+    var userInfo:NSDictionary?
 
     @IBOutlet weak var indicatorView: UIActivityIndicatorView!
+    
     @IBOutlet weak var centerLayout: NSLayoutConstraint!
     
     @IBOutlet weak var firstLineLabel: UILabel!
@@ -101,11 +105,16 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
    
     func tencentDidLogin() {
         debugPrint(qqOAuth.appId)
+        let hud = JGProgressHUD(style: .light)
         if qqOAuth.getUserInfo() {
             self.openId = qqOAuth.openId
-            //HUD.show(.progress)
+            hud?.position = .center
+            hud?.show(in: UIApplication.shared.keyWindow!)
         } else {
-            //HUD.flash(.labeledError(title: "拉取授权信息失败", subtitle:""), delay: 1)
+            hud?.textLabel.text = "拉取授权信息失败"
+            hud?.position = .bottomCenter
+            hud?.show(in: UIApplication.shared.keyWindow!)
+            hud?.dismiss(afterDelay: 1)
         }
     }
     
@@ -113,7 +122,11 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
         guard let openId = self.openId else {return}
         guard let dict = response.jsonResponse else {return}
         Login.LoginWithSNS(dict["nickname"] as? String ?? "", gender: 1, avatar: (dict["figureurl_qq_2"] as? String ?? dict["figureurl_2"] as? String  ?? ""), userId: openId, snsType: 2, finish: { (login, err) in
-            //HUD.hide()
+            JGProgressHUD.allProgressHUDs(in: UIApplication.shared.keyWindow!).forEach({
+                if let hud = $0 as? JGProgressHUD {
+                    hud.dismiss()
+                }
+            })
             if err != nil {
                // HUD.flash(.labeledError(title: "登录失败", subtitle: String.ErrorString(err!)), delay: 1)
             } 

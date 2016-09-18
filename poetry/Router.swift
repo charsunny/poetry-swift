@@ -17,7 +17,7 @@ enum Router : URLRequestConvertible {
     static let baseURLString = "http://api.charsunny.com"
     //static let baseURLString = "http://121.41.112.242:8080"
     #else
-    static let baseURLString = "http://192.168.31.206:8080"
+    static let baseURLString = "http://192.168.3.17:8080"
     #endif
     
     public func asURLRequest() throws -> URLRequest {

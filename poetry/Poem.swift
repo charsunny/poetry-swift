@@ -20,9 +20,9 @@ open class PoemFormat: Mappable {
     }
     
     public init(_ row:SQLiteRow) {
-       /* id = row.get(SQLIntExp("id"))
-        name = row.get(SQLStringExp("name_cn"))
-        desc = row.get(SQLStringOExp("description_cn")) ?? ""*/
+        id = row.long(forColumn:"id")
+        name = row.string(forColumn:"name_cn") ?? "" 
+        desc = row.string(forColumn:"description_cn") ?? ""
     }
     
     open func mapping(map: Map) {
@@ -61,16 +61,16 @@ open class Poem: Mappable {
     }
     
     public init(_ row:SQLiteRow, hasName name:Bool = false) {
-        /*id = row.get(SQLIntExp("id"))
-        title = row.get(SQLStringExp("name_cn"))
-        content = row.get(SQLStringExp("text_cn"))
+        id = row.long(forColumn:"id")
+        title = row.string(forColumn: "name_cn") ?? ""
+        content = row.string(forColumn:  "text_cn") ?? ""
         if !name {
-            pid = row[SQLIntOExp("poet_id")] ?? 0
-            fid = row[SQLIntOExp("format_id")] ?? 0
+            pid = row.long(forColumn:"poet_id")
+            fid = row.long(forColumn:"format_id")
             format = DataManager.manager.formatById(fid)?.name ?? ""
         } else {
-            pname = row[SQLStringOExp("poet_name")]
-        }*/
+            pname = row.string(forColumn:"poet_name")
+        }
     }
     
     open func loadPoet() {

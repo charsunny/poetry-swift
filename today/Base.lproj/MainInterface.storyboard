@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Today View Controller-->
+        <scene sceneID="cwh-vc-ff4">
+            <objects>
+                <viewController id="M4Y-Lb-cyx" customClass="TodayViewController" customModule="today" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ft6-oW-KC0"/>
+                        <viewControllerLayoutGuide type="bottom" id="FKl-LY-JtV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ufu-ze-csZ">
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaulticon" translatesAutoresizingMaskIntoConstraints="NO" id="VCF-Ec-5Zn">
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="66" id="Jw6-iT-iSU"/>
+                                    <constraint firstAttribute="height" constant="66" id="fO2-0t-Fn9"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="33"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="il7-Ib-HBv" appends="YES" id="yIb-GU-gZE"/>
+                                </connections>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
+                                <gestureRecognizers/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="X3I-ec-ZSU" appends="YES" id="O8t-kP-YZG"/>
+                                </connections>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="GcN-lo-r42" firstAttribute="top" secondItem="VCF-Ec-5Zn" secondAttribute="top" id="1IF-h2-11B"/>
+                            <constraint firstItem="VCF-Ec-5Zn" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="1mq-Yr-ZCL"/>
+                            <constraint firstItem="VCF-Ec-5Zn" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="5Bx-He-0hC"/>
+                            <constraint firstAttribute="trailing" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="20" symbolic="YES" id="L8K-9R-egU"/>
+                            <constraint firstItem="Ufu-ze-csZ" firstAttribute="leading" secondItem="VCF-Ec-5Zn" secondAttribute="trailing" constant="16" id="LKz-XV-1Uh"/>
+                            <constraint firstItem="Ufu-ze-csZ" firstAttribute="trailing" secondItem="GcN-lo-r42" secondAttribute="trailing" id="gaY-Bm-1OX"/>
+                            <constraint firstItem="GcN-lo-r42" firstAttribute="leading" secondItem="VCF-Ec-5Zn" secondAttribute="trailing" constant="16" id="u4F-yA-CpY"/>
+                            <constraint firstItem="Ufu-ze-csZ" firstAttribute="top" secondItem="GcN-lo-r42" secondAttribute="bottom" constant="8" id="vbZ-BH-z3R"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="100"/>
+                    <connections>
+                        <outlet property="authorImageView" destination="VCF-Ec-5Zn" id="gAj-WO-0aF"/>
+                        <outlet property="authorLabel" destination="Ufu-ze-csZ" id="pF2-B7-Tfs"/>
+                        <outlet property="excerptLabel" destination="GcN-lo-r42" id="P3K-kw-Dnb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="il7-Ib-HBv">
+                    <connections>
+                        <action selector="gotoApp:" destination="M4Y-Lb-cyx" id="Chv-Vy-efj"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="X3I-ec-ZSU">
+                    <connections>
+                        <action selector="gotoPoem:" destination="M4Y-Lb-cyx" id="3W4-iH-i0B"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="137.59999999999999" y="138.53073463268368"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="defaulticon" width="80" height="80"/>
+    </resources>
+</document>

@@ -99,7 +99,7 @@ class RecommendViewController: UITableViewController {
         super.viewDidLayoutSubviews()
         if tableView.contentOffset.y + 64 < 0 {
             if tableView.contentOffset.y + 64 < -100 && !self.needLoading{
-                headerView.indicatorView.startAnimation()
+                headerView.indicatorView.startAnimating()
                 self.needLoading = true
             }
             headerView.frame = CGRect(x: 0, y: tableView.contentOffset.y + 64 , width: headerView.frame.size.width, height: 160 - 64 - tableView.contentOffset.y)

@@ -7,7 +7,32 @@
 //
 
 import UIKit
+import JGProgressHUD
 import TextAttributes
+
+public class HUD : JGProgressHUD {
+    
+    static func show(style: JGProgressHUDStyle = .light, text: String? = nil) {
+        let hud = JGProgressHUD(style: style)!
+        hud.textLabel.text = text
+        hud.show(in: UIApplication.shared.keyWindow!)
+    }
+    
+    static func dismiss(delay:TimeInterval) {
+        JGProgressHUD.allProgressHUDs(in: UIApplication.shared.keyWindow!).forEach{
+            if let hud = $0 as? JGProgressHUD {
+                hud.dismiss(afterDelay: delay)
+            }
+        }
+    }
+    
+    static func flash(style: JGProgressHUDStyle = .light, text: String? = nil, delay:TimeInterval = 1) {
+        let hud = JGProgressHUD(style: style)!
+        hud.textLabel.text = text
+        hud.show(in: UIApplication.shared.keyWindow!)
+        hud.dismiss(afterDelay: delay)
+    }
+}
 
 extension UILabel {
     func adjustFontSizeToFit() {
@@ -20,7 +45,7 @@ extension UILabel {
             font = font?.withSize(maxSize)
             let constraintSize = CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude);
             
-            if let textRect = self.text?.boundingRect(with: constraintSize, options:.usesLineFragmentOrigin, attributes:[NSFontAttributeName:font], context:nil) {
+            if let textRect = self.text?.boundingRect(with: constraintSize, options:.usesLineFragmentOrigin, attributes:[NSFontAttributeName:font!], context:nil) {
                 let  labelSize = textRect.size;
                 if(labelSize.height <= size.height || maxSize < 13) {
                     self.font = font

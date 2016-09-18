@@ -50,7 +50,7 @@ open class DataManager: NSObject {
             let rs = try db.executeQuery("select * from period where id > 0", values: nil)
             while rs.next() {
                 let id = rs.long(forColumn: "id")
-                let name = rs.string(forColumn: "name") ?? ""
+                let name = rs.string(forColumn: "name_cn") ?? ""
                 periods[id] = name
             }
             let ps = try db.executeQuery("select * from poem_format where type = ?", values: [0])
@@ -159,12 +159,11 @@ open class DataManager: NSObject {
     
     open func formatByRowId(_ id: Int) -> PoemFormat? {
         do {
-            if let ps = try db?.executeQuery("select * from poem_format where row_id = ?", values: [id]) {
+            if let ps = try db?.executeQuery("select * from poem_format limit 1 offset ?", values: [id]) {
                 while ps.next() {
                     return PoemFormat(ps)
                 }
             }
-            return nil
             return nil
         } catch {
             return nil
@@ -187,7 +186,7 @@ open class DataManager: NSObject {
     
     open func poemByRowId(_ id: Int) -> Poem? {
         do {
-            if let ps = try db?.executeQuery("select * from poem where row_id = ?", values: [id]) {
+            if let ps = try db?.executeQuery("select * from poem limit 1 offset ?", values: [id]) {
                 while ps.next() {
                     return Poem(ps)
                 }
@@ -227,7 +226,7 @@ open class DataManager: NSObject {
     
     open func poetByRowId(_ id: Int) -> Poet? {
         do {
-            if let ps = try db?.executeQuery("select * from poet where row_id = ?", values: [id]) {
+            if let ps = try db?.executeQuery("select * from poet limit 1 offset ?", values: [id]) {
                 while ps.next() {
                     return Poet(ps)
                 }
@@ -266,34 +265,6 @@ open class DataManager: NSObject {
         } catch {
             return poemlist
         }
-    }
-}
-
-extension String {
-    func pinyin() -> String {
-        let mstr = NSMutableString(string:self)
-        CFStringTransform(mstr, nil, kCFStringTransformMandarinLatin, false)
-        CFStringTransform(mstr, nil, kCFStringTransformStripCombiningMarks, false)
-        return mstr.replacingOccurrences(of: " ", with: "")
-    }
-    
-    func iconURL() -> String {
-        return "http://img.gushiwen.org/authorImg/" + self.pinyin() + ".jpg"
-    }
-    
-    func isHanZi() -> Bool {
-        if let c = self.characters.first {
-            if c >= "\u{4e00}" && c <= "\u{9fa5}" {
-                return true
-            }
-        }
-        return false
-    }
-    
-    func trimString() -> String {
-        var str = self.replacingOccurrences(of: "\r\n", with: "")
-        str = str.replacingOccurrences(of: "\n", with: "")
-        return str
     }
 }
 

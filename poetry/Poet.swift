@@ -27,11 +27,11 @@ open class Poet: Mappable {
     }
     
     public init(_ row:SQLiteRow) {
-      //  id = row.get(SQLIntExp("id"))
-      //  name = row.get(SQLStringExp("name_cn"))
-      //  desc = row.get(SQLStringOExp("description_cn")) ?? ""
-      //  let pid = row.get(SQLIntExp("period_id"))
-        // period = DataManager.manager.periods[pid] ?? ""
+        id = row.long(forColumn:"id")
+        name = row.string(forColumn:"name_cn") ?? ""
+        desc = row.string(forColumn:"description_cn") ?? ""
+        let pid = row.long(forColumn:"period_id")
+        period = DataManager.manager.periods[pid] ?? ""
     }
     
     open func mapping(map: Map) {
