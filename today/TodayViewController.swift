@@ -17,6 +17,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet weak var authorLabel: UILabel!
     
+    @IBOutlet weak var nameLabel: UILabel!
+    
     var content:String? {
         didSet {
             DispatchQueue.main.async {
@@ -55,6 +57,17 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameLabel.isHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateWidget()
+    }
+    
+    func updateWidget() {
+        nameLabel.isHidden = true
+        self.authorImageView.isHidden = false
         if let content = UserDefaults(suiteName: "group.com.charsunny.poetry")?.string(forKey: "group.com.charsunny.poetry.wc") {
             self.excerptLabel.text = content
         }
@@ -72,7 +85,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                             if let poem = excerpt["Poem"] as? NSDictionary {
                                 if let poet = poem["Poet"] as? NSDictionary {
                                     if let name = poet["Name"] as? String, name.characters.count > 0 {
-                                        tmpStr += name + "∙"
+                                        tmpStr += name + "◦"
                                         DispatchQueue.global().async {
                                             do {
                                                 let imageData = try Data(contentsOf:URL(string:name.iconURL())!)
@@ -81,10 +94,18 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                                                         self.authorImageView.image = image
                                                     }
                                                 } else {
-                                                    debugPrint("no pic")
+                                                    DispatchQueue.main.async {
+                                                        self.authorImageView.isHidden = true
+                                                        self.nameLabel.isHidden = false
+                                                        self.nameLabel.text = name
+                                                    }
                                                 }
-                                            } catch let e {
-                                                debugPrint(e)
+                                            } catch {
+                                                DispatchQueue.main.async {
+                                                    self.authorImageView.isHidden = true
+                                                    self.nameLabel.isHidden = false
+                                                    self.nameLabel.text = name
+                                                }
                                             }
                                         }
                                         
@@ -105,7 +126,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             } catch {
                 
             }
-        }.resume()
+            }.resume()
     }
     
     @IBAction func gotoApp(_ sender: AnyObject) {
@@ -122,6 +143,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
+        updateWidget()
         
         completionHandler(NCUpdateResult.newData)
     }

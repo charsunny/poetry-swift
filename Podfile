@@ -20,3 +20,7 @@ target 'poetry' do
 	pod 'VCTransitionsLibrary'
 	pod "SlackTextViewController"
 end
+
+target 'today' do
+end
+

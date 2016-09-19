@@ -10,9 +10,6 @@ import UIKit
 import JGProgressHUD
 import JDStatusBarNotification
 
-let ServerURL = "http://ansinlee.com/"
-
-
 public let DocumentPath:String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
 
 public let CachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!
@@ -36,9 +33,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         WeiboSDK.enableDebugMode(true)
         WeiboSDK.registerApp("4225157019")
         
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
-        window?.makeKeyAndVisible()
+        if launchOptions == nil {
+            window = UIWindow(frame: UIScreen.main.bounds)
+            window?.rootViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
+            window?.makeKeyAndVisible()
+        } else {
+            if let url = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL {
+                _ = AppDelegate.handleOpenURL(url)
+            }
+            if let local = launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification {
+                debugPrint(local)
+            }
+            if let userinfo = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String:AnyObject] {
+                debugPrint(userinfo)
+            }
+        }
         do {
             audioPlayer = try AudioPlayer(fileName: "bg.mp3")
             audioPlayer?.numberOfLoops = -1
@@ -82,46 +91,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        if url.scheme == "poem" {
-            if url.host == "poem" {
-                if let pid = Int(url.lastPathComponent), pid > 0 {
-                    if UIApplication.shared.keyWindow == window {
-                        if let launchVC = window?.rootViewController as? LaunchViewController {
-                            launchVC.userInfo = ["type":"poem", "id":pid]
-                        }
-                    } else {
-                        if let tabeVC = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController {
-                            if let navVC = tabeVC.selectedViewController as? UINavigationController {
-                                if let poemVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
-                                    poemVC.poemId = pid
-                                    navVC.pushViewController(poemVC, animated: true)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if url.host == "poet" {
-                if let pid = Int(url.lastPathComponent), pid > 0 {
-                    if UIApplication.shared.keyWindow == window {
-                        if let launchVC = window?.rootViewController as? LaunchViewController {
-                            launchVC.userInfo = ["type":"poet", "id":pid]
-                        }
-                    } else {
-                        if let tabeVC = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController {
-                            if let navVC = tabeVC.selectedViewController as? UINavigationController {
-                                if let poetVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewController(withIdentifier: "poetvc") as? AuthorViewController {
-                                    let poet = DataManager.manager.poetById(pid)
-                                    poetVC.poet = poet
-                                    navVC.pushViewController(poetVC, animated: true)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        var canHandle = AppDelegate.handleOpenURL(url)
+        if canHandle {
+            return true
         }
-        var canHandle = WeiboSDK.handleOpen(url, delegate: self)
+        canHandle = WeiboSDK.handleOpen(url, delegate: self)
         if canHandle {
             return true
         }
@@ -130,6 +104,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         return true
+    }
+    
+    static func handleOpenURL(_ url:URL) -> Bool {
+        if url.scheme == "poem" {
+            if url.host == "poem" {
+                if let pid = Int(url.lastPathComponent), pid > 0 {
+                    if let tabeVC = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController {
+                        if let navVC = tabeVC.selectedViewController as? UINavigationController {
+                            if let poemVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
+                                poemVC.poemId = pid
+                                navVC.pushViewController(poemVC, animated: true)
+                                return true
+                            }
+                        }
+                    }
+                }
+            }
+            if url.host == "poet" {
+                if let pid = Int(url.lastPathComponent), pid > 0 {
+                    if let tabeVC = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController {
+                        if let navVC = tabeVC.selectedViewController as? UINavigationController {
+                            if let poetVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewController(withIdentifier: "poetvc") as? AuthorViewController {
+                                let poet = DataManager.manager.poetById(pid)
+                                poetVC.poet = poet
+                                navVC.pushViewController(poetVC, animated: true)
+                                return true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false
     }
 }
 

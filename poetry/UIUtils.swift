@@ -26,7 +26,7 @@ public class HUD : JGProgressHUD {
         }
     }
     
-    static func flash(style: JGProgressHUDStyle = .light, text: String? = nil, delay:TimeInterval = 1) {
+    static func flash(style: JGProgressHUDStyle = .light, _ text: String? = nil, delay:TimeInterval = 1) {
         let hud = JGProgressHUD(style: style)!
         hud.textLabel.text = text
         hud.show(in: UIApplication.shared.keyWindow!)
@@ -77,7 +77,7 @@ extension UIImage {
         UIColor.flatBlack()
         
         UIGraphicsBeginImageContextWithOptions(size, true, 0)
-        FlatDarkColors[string.hash % FlatDarkColors.count].set()
+        FlatDarkColors[abs(string.hash) % FlatDarkColors.count].set()
         UIRectFill(CGRect(origin: CGPoint.zero, size: size))
         label.drawText(in: CGRect(x: size.width/6, y:  size.height/6, width: 2*size.width/3, height: 2*size.height/3))
         let image = UIGraphicsGetImageFromCurrentImageContext()

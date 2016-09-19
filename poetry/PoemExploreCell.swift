@@ -118,8 +118,11 @@ class PoemExploreCell: UITableViewCell {
                 likeButton.setTitle("喜欢(\(feed.likeCount))", for: UIControlState())
                 commentButton.setTitle("评论(\(feed.commentCount))", for: UIControlState())
                 
-                let url = feed.poem?.poet?.name.iconURL() ?? ""
-                poemAuthorImageView.af_setImage(withURL:URL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
+                if let str = feed.poem?.poet?.name.iconURL(), str.characters.count > 0 {
+                    if let url = URL(string: str) {
+                        poemAuthorImageView.af_setImage(withURL:url, placeholderImage: UIImage.imageWithString(feed.poem?.poet?.name ?? "", size: CGSize(width: 80, height: 80)))
+                    }
+                }
                 
                 var hasPic = false
                 if let url = URL(string: feed.picture) , feed.picture.hasPrefix("http") {

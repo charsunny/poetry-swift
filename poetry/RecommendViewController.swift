@@ -200,7 +200,7 @@ class RecommadCell: AnimatableTableViewCell {
                 return
             }
             let url = data.poet?.name.iconURL() ?? ""
-            headImageView.af_setImage(withURL:URL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
+            headImageView.af_setImage(withURL:URL(string:url)!, placeholderImage: UIImage.imageWithString(data.poet?.name ?? "", size: CGSize(width: 80, height: 80)))
             titleLabel.text = data.title
             descLabel.text = data.content
             authorLabel.text = data.poet?.name

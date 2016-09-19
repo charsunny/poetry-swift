@@ -21,6 +21,8 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
     
     @IBOutlet weak var secondLineLabel: UILabel!
     
+    @IBOutlet weak var authorLabel: UILabel!
+    
     @IBOutlet weak var titleImageView: UIImageView!
     
     @IBOutlet weak var enterButton: UIButton!
@@ -35,17 +37,73 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
     
     var openId: String?
     
+    
+    var content:String? {
+        set {
+            UserDefaults(suiteName: "group.com.charsunny.poetry")?.set(newValue, forKey: "group.com.charsunny.poetry.wc")
+        }
+        get {
+            return UserDefaults(suiteName: "group.com.charsunny.poetry")?.string(forKey: "group.com.charsunny.poetry.wc")
+        }
+    }
+    
+    var subtitle:String? {
+        set {
+            UserDefaults(suiteName: "group.com.charsunny.poetry")?.set(newValue, forKey: "group.com.charsunny.poetry.wdesc")
+        }
+        get {
+            return UserDefaults(suiteName: "group.com.charsunny.poetry")?.string(forKey: "group.com.charsunny.poetry.wdesc")
+        }
+    }
+    
+    var poetId : Int {
+        set {
+            UserDefaults(suiteName: "group.com.charsunny.poetry")?.set(newValue, forKey: "group.com.charsunny.poetry.poet")
+        }
+        get {
+            return UserDefaults(suiteName: "group.com.charsunny.poetry")?.integer(forKey: "group.com.charsunny.poetry.poet") ?? 0
+        }
+    }
+    
+    var poemId : Int {
+        set {
+            UserDefaults(suiteName: "group.com.charsunny.poetry")?.set(newValue, forKey: "group.com.charsunny.poetry.poem")
+        }
+        get {
+            return UserDefaults(suiteName: "group.com.charsunny.poetry")?.integer(forKey: "group.com.charsunny.poetry.poem") ?? 0
+        }
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.qqButton.isHidden = true
         self.weiboButton.isHidden = true
         indicatorView.isHidden = true
+        authorLabel.alpha = 0
         firstLineLabel.font = UIFont.userFont(size:24)
         secondLineLabel.font = UIFont.userFont(size:24)
+        authorLabel.font = UIFont.userFont(size: 15)
         enterButton.isHidden = true
         qqOAuth = TencentOAuth(appId: "1105650150", andDelegate: self)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "LoginSuccess"), object: nil, queue: OperationQueue.main) { (_) in
             self.perform(#selector(LaunchViewController.enterMainPage(_:)), with: nil, afterDelay: 1)
+        }
+        Recommend.GetTodayRec { (rec, _) in
+            if let rec = rec {
+                self.content = rec.content
+                self.subtitle =  (rec.poem?.poet?.name ?? "无名氏") + "◦" + (rec.poem?.title ?? "无题")
+                self.poemId = rec.poem?.id ?? 0
+                self.poetId = rec.poem?.poet?.id ?? 0
+            }
+        }
+        if self.content != nil {
+            let cmps = self.content?.components(separatedBy: "\n")
+            self.firstLineLabel.text = cmps?.last?.trimmingCharacters(in: CharacterSet(charactersIn: "，。 \n\r"))
+            self.secondLineLabel.text = cmps?.first?.trimmingCharacters(in: CharacterSet(charactersIn: "，。 \n\r"))
+        }
+        if self.subtitle != nil {
+            self.authorLabel.text = self.subtitle
         }
     }
 
@@ -58,6 +116,7 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
             UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.7, animations: {
                 self.firstLineLabel.alpha = 1.0
                 self.secondLineLabel.alpha = 1.0
+                self.authorLabel.alpha = 1.0
             })
         }) { (_) in
             self.centerLayout.constant = 100
@@ -75,7 +134,7 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
                         self.qqButton.isHidden = false
                         self.weiboButton.isHidden = false
                         self.tipLabel.isHidden = false
-                       // HUD.flash(.labeledError(title: "加载失败", subtitle: "请重新登录"), delay: 1.0)
+                        HUD.flash("加载失败, 请重新登录", delay: 1.0)
                     } else {
                         if UIApplication.shared.keyWindow?.rootViewController == self {
                             self.perform(#selector(LaunchViewController.enterMainPage(_:)), with: nil, afterDelay: 1)

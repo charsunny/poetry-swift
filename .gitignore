@@ -9,3 +9,5 @@ poetry.xcworkspace/xcuserdata/nuochong.xcuserdatad/xcdebugger/Breakpoints_v2.xcb
 xcuserdata/
 
 poetry.xcworkspace/contents.xcworkspacedata
+
+*.rdb

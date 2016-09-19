@@ -27,23 +27,23 @@ class AuthorDetailViewController: UIViewController, UITextViewDelegate {
         }
         if let textView = view.viewWithTag(1) as? UITextView {
             textView.delegate = self
-            
             let attrStr = NSMutableAttributedString(string: desc.characters.count == 0 ? "暂无简介" : desc , attributes: [NSFontAttributeName:UIFont.userFont(size:15), NSForegroundColorAttributeName:UIColor.black])
             let imageFilter = ScaledToSizeWithRoundedCornersFilter(size: CGSize(width:80, height:80), radius: 40)
             if let poet = poet {
-                /*UIImageView.af_sharedImageDownloader.downloadImage(URLRequest: URLRequest(url:URL(string: poet.name.iconURL() ?? "") ?? URL()), filter:imageFilter){ (res : Response<Image, NSError>) in
+                UIImageView.af_sharedImageDownloader.download(URLRequest(url:URL(string: poet.name.iconURL())!), filter:imageFilter, completion: { (res) in
                     let attachImage = NSTextAttachment()
-                    res.result.success({ (value) in
+                    switch res.result {
+                    case .success(let value):
                         attachImage.image = value
-                    }).failure( { _ in
-                        attachImage.image = UIImage(named: "defaulticon")!.af_imageScaledToSize(CGSize(width: 80, height: 80)).af_imageWithRoundedCornerRadius(40)
-                    })
+                    case .failure:
+                        attachImage.image = UIImage.imageWithString(poet.name, size: CGSize(width: 80, height: 80))
+                    }
                     let attachStr = NSAttributedString(attachment: attachImage)
                     attrStr.insert(attachStr, at: 0)
                     attrStr.insert(NSAttributedString(string:"\n\n\n"), at: 1)
-                    attrStr.addAttributes(TextAttributes().alignment(.Center), range: NSMakeRange(0, 1))
+                    attrStr.addAttributes(TextAttributes().alignment(.center), range: NSMakeRange(0, 1))
                     textView.attributedText = attrStr
-                }*/
+                })
             } else if let format = format {
                 let attachImage = NSTextAttachment()
                 attachImage.image = UIImage.imageWithString(format.name, size: CGSize(width: 80, height: 80))

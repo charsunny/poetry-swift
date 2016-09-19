@@ -77,55 +77,30 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 1
     }
     
-    let titles = ["今日诗词", "今日词牌", "今日诗人", "热门诗人"]
-    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).row == 0 {
-            return 32
-        }
-        if (indexPath as NSIndexPath).section < 3 {
-            return 100
-        }
-        return 180
+        return self.view.frame.height - 64 - 50 - 180
     }
     
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         if (indexPath as NSIndexPath).row == 0 {
             return false
         }
-        if (indexPath as NSIndexPath).section < 3 {
-            return true
-        }
         return false
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "hcell", for: indexPath)
-           
-            cell.textLabel?.text = titles[(indexPath as NSIndexPath).section]
-        } else if (indexPath as NSIndexPath).section < 3 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchIndexCell
-            if (indexPath as NSIndexPath).section == 0 {
-                 cell.poem = recPoem
-            } else if (indexPath as NSIndexPath).section == 2 {
-                 cell.poet = recPoet
-            } else {
-                cell.format = recFormat
-            }
-            return cell
-        } else if (indexPath as NSIndexPath).section == 3 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "pcell", for: indexPath)
-            return cell
-        }
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchIndexCell
+        cell.poem = recPoem
+        cell.poet = recPoet
+        cell.format = recFormat
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

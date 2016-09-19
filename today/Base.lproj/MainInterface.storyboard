@@ -48,13 +48,34 @@
                                     <outletCollection property="gestureRecognizers" destination="X3I-ec-ZSU" appends="YES" id="O8t-kP-YZG"/>
                                 </connections>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uo9-fD-FDS">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="66" id="Bzq-cR-kuR"/>
+                                    <constraint firstAttribute="height" constant="66" id="LUO-XY-Rfs"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                <color key="textColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="33"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="pb5-rX-kTD" appends="YES" id="i0n-v3-cFZ"/>
+                                </connections>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="top" secondItem="VCF-Ec-5Zn" secondAttribute="top" id="1IF-h2-11B"/>
                             <constraint firstItem="VCF-Ec-5Zn" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="1mq-Yr-ZCL"/>
                             <constraint firstItem="VCF-Ec-5Zn" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="5Bx-He-0hC"/>
+                            <constraint firstItem="uo9-fD-FDS" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="KyU-CY-Zv8"/>
                             <constraint firstAttribute="trailing" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="20" symbolic="YES" id="L8K-9R-egU"/>
                             <constraint firstItem="Ufu-ze-csZ" firstAttribute="leading" secondItem="VCF-Ec-5Zn" secondAttribute="trailing" constant="16" id="LKz-XV-1Uh"/>
+                            <constraint firstItem="uo9-fD-FDS" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="dpH-jZ-RFp"/>
                             <constraint firstItem="Ufu-ze-csZ" firstAttribute="trailing" secondItem="GcN-lo-r42" secondAttribute="trailing" id="gaY-Bm-1OX"/>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="leading" secondItem="VCF-Ec-5Zn" secondAttribute="trailing" constant="16" id="u4F-yA-CpY"/>
                             <constraint firstItem="Ufu-ze-csZ" firstAttribute="top" secondItem="GcN-lo-r42" secondAttribute="bottom" constant="8" id="vbZ-BH-z3R"/>
@@ -70,6 +91,7 @@
                         <outlet property="authorImageView" destination="VCF-Ec-5Zn" id="gAj-WO-0aF"/>
                         <outlet property="authorLabel" destination="Ufu-ze-csZ" id="pF2-B7-Tfs"/>
                         <outlet property="excerptLabel" destination="GcN-lo-r42" id="P3K-kw-Dnb"/>
+                        <outlet property="nameLabel" destination="uo9-fD-FDS" id="cae-jY-rp2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -81,6 +103,11 @@
                 <tapGestureRecognizer id="X3I-ec-ZSU">
                     <connections>
                         <action selector="gotoPoem:" destination="M4Y-Lb-cyx" id="3W4-iH-i0B"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="pb5-rX-kTD">
+                    <connections>
+                        <action selector="gotoApp:" destination="M4Y-Lb-cyx" id="ZUN-WU-Utd"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

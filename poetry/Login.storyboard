@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="mja-cL-jzF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mja-cL-jzF">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Launch View Controller-->
@@ -13,28 +14,21 @@
                         <viewControllerLayoutGuide type="bottom" id="1Vp-C0-31m"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="KIJ-MD-wun">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="load" translatesAutoresizingMaskIntoConstraints="NO" id="tvM-Fh-od3">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loadtitle" translatesAutoresizingMaskIntoConstraints="NO" id="bCN-6o-vfN">
-                                <rect key="frame" x="269" y="208" width="61" height="184"/>
-                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="load" translatesAutoresizingMaskIntoConstraints="NO" id="tvM-Fh-od3"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loadtitle" translatesAutoresizingMaskIntoConstraints="NO" id="bCN-6o-vfN"/>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="uIb-CB-Euo">
-                                <rect key="frame" x="260" y="195" width="80" height="210"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="应似飞鸿踏雪泥" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abs-rn-h0E">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="210"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="人生到处知何似" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOi-sE-azi">
-                                        <rect key="frame" x="40" y="0.0" width="40" height="210"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -44,17 +38,14 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="JDB-aa-UcW">
-                                <rect key="frame" x="240" y="405" width="120" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kNA-0I-WJ7">
-                                        <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
                                         <state key="normal" image="weibo"/>
                                         <connections>
                                             <action selector="loginWithWeibo:" destination="mja-cL-jzF" eventType="touchUpInside" id="T1I-74-7I2"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IoD-oD-nUs">
-                                        <rect key="frame" x="60" y="0.0" width="60" height="50"/>
                                         <state key="normal" image="qq"/>
                                         <connections>
                                             <action selector="loginWithQQ:" destination="mja-cL-jzF" eventType="touchUpInside" id="DpF-9x-fbh"/>
@@ -67,33 +58,39 @@
                                 </constraints>
                             </stackView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用第三方帐号登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2vh-hA-cQw">
-                                <rect key="frame" x="241" y="463" width="117" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gtg-FR-wgH">
-                                <rect key="frame" x="270" y="161" width="60" height="30"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
                                 <state key="normal" title="进入诗词">
-                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="enterMainPage:" destination="mja-cL-jzF" eventType="touchUpInside" id="5Fq-pY-zAU"/>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="jdE-OI-cI0">
-                                <rect key="frame" x="282" y="413" width="37" height="37"/>
-                                <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="color" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b72-23-sj0">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="nnu-Hr-5Yh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="jdE-OI-cI0" firstAttribute="top" secondItem="uIb-CB-Euo" secondAttribute="bottom" constant="8" id="0kl-cX-BBE"/>
                             <constraint firstItem="tvM-Fh-od3" firstAttribute="leading" secondItem="KIJ-MD-wun" secondAttribute="leading" id="0yc-LJ-7Mw"/>
                             <constraint firstItem="uIb-CB-Euo" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="1ej-Pv-T8C"/>
                             <constraint firstItem="JDB-aa-UcW" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="3Xa-Zr-Kek"/>
                             <constraint firstItem="uIb-CB-Euo" firstAttribute="top" secondItem="Gtg-FR-wgH" secondAttribute="bottom" constant="8" id="6Up-ns-des"/>
+                            <constraint firstItem="uIb-CB-Euo" firstAttribute="leading" secondItem="b72-23-sj0" secondAttribute="trailing" constant="8" id="80s-pf-UFv"/>
                             <constraint firstItem="jdE-OI-cI0" firstAttribute="top" secondItem="bCN-6o-vfN" secondAttribute="bottom" constant="21" id="8gR-F1-7Y2"/>
                             <constraint firstItem="uIb-CB-Euo" firstAttribute="top" secondItem="Gtg-FR-wgH" secondAttribute="bottom" constant="4" id="AGQ-gH-ed9"/>
                             <constraint firstItem="jdE-OI-cI0" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="AO7-pP-yX1"/>
@@ -107,6 +104,7 @@
                             <constraint firstItem="2vh-hA-cQw" firstAttribute="centerX" secondItem="IoD-oD-nUs" secondAttribute="centerX" id="f6u-VK-zze"/>
                             <constraint firstItem="uIb-CB-Euo" firstAttribute="centerY" secondItem="KIJ-MD-wun" secondAttribute="centerY" id="hcN-3b-b1h"/>
                             <constraint firstItem="tvM-Fh-od3" firstAttribute="top" secondItem="KIJ-MD-wun" secondAttribute="top" id="iJP-tG-Vck"/>
+                            <constraint firstItem="JDB-aa-UcW" firstAttribute="top" secondItem="b72-23-sj0" secondAttribute="bottom" constant="12" id="kcG-lR-Kq4"/>
                             <constraint firstItem="bCN-6o-vfN" firstAttribute="centerY" secondItem="KIJ-MD-wun" secondAttribute="centerY" id="osX-KK-NSZ"/>
                         </constraints>
                         <variation key="default">
@@ -118,6 +116,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="authorLabel" destination="b72-23-sj0" id="AP5-IQ-Eo7"/>
                         <outlet property="centerLayout" destination="GQE-ys-yuY" id="M1t-ph-1gE"/>
                         <outlet property="enterButton" destination="Gtg-FR-wgH" id="fO5-YW-0bI"/>
                         <outlet property="firstLineLabel" destination="abs-rn-h0E" id="QcW-9b-SRC"/>
@@ -131,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rvu-OO-Dki" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="595" y="414"/>
+            <point key="canvasLocation" x="594.39999999999998" y="413.3433283358321"/>
         </scene>
     </scenes>
     <resources>
