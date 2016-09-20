@@ -7,6 +7,34 @@
 //
 
 import UIKit
+import TextAttributes
+import DZNEmptyDataSet
+import SVProgressHUD
+
+class ColumnItemCell : UICollectionViewCell {
+    
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var descLabel: UILabel!
+    @IBOutlet var imageView:UIImageView!
+    
+    override func awakeFromNib() {
+        titleLabel.font = UIFont.userFont(size: 14)
+    }
+    
+    var column:Column! {
+        didSet {
+            titleLabel.text = column.title
+            descLabel.text = (column.type == 0 ) ? "\(column.count)首诗词" : "\(column.count)位诗人"
+            if let url = URL(string: column.image) {
+                imageView.af_setImage(withURL: url, placeholderImage: ((column.type == 0 ) ? UIImage(named: "col") : UIImage(named: "coll")))
+            } else {
+                imageView.image = ((column.type == 0 ) ? UIImage(named: "col") : UIImage(named: "coll"))
+            }
+        }
+    }
+    
+}
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -21,19 +49,86 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 class UserColumnViewController: UICollectionViewController {
     
-    let refreshControl = UIRefreshControl()
-
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    
+    var isSelect = false
+    
+    var selType = 0 // 默认选择是诗集
+    
+    var selectAction: ((Column) -> Void)?
+    
+    var userId:Int?
+    
+    var colList:[Column] = []
+    
+    var colPage = -1
+    
+    var favPage = -1
+    
+    var favColList:[Column] = []
+    
+    var selIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.collectionView?.addSubview(refreshControl)
-        self.collectionView?.sendSubview(toBack: refreshControl)
-        refreshControl.addTarget(self, action: #selector(UserColumnViewController.refresh), for: .valueChanged)
+        SVProgressHUD.show()
+        if (selIndex == 0 && hasMoreCol) {
+            self.loadData(self.colPage + 1)
+        }
+        if (selIndex == 1 && hasMoreFav) {
+            self.loadData(self.favPage + 1)
+        }
+        if isSelect {
+            self.navigationItem.title = "选择专辑"
+            self.navigationItem.titleView = nil
+        }
+    }
+  
+    @IBAction func segSelChanged(_ sender: UISegmentedControl) {
+        selIndex = sender.selectedSegmentIndex
+        self.collectionView?.reloadData()
     }
     
-    func refresh() {
-        refreshControl.endRefreshing()
+    var hasMoreCol = true
+    var hasMoreFav = true
+    
+    func loadData(_ page:Int = 0) {
+        let index = selIndex
+        if selIndex == 0 {
+            Column.GetUserColumnList(page, uid: userId ?? User.LoginUser?.id ?? 0, finish: { (list, error) in
+                SVProgressHUD.dismiss()
+                if error == nil {
+                    if page == self.colPage + 1 && self.selIndex == index {
+                        if list.count > 0 {
+                            if self.isSelect {
+                                self.colList.append(contentsOf: list.filter{$0.type == self.selType})
+                            } else {
+                                self.colList.append(contentsOf: list)
+                            }
+                            self.colPage = page
+                            self.collectionView?.reloadData()
+                        } else {
+                            self.hasMoreCol = false
+                        }
+                    }
+                }
+            })
+        } else {
+            Column.GetUserFavColumnList(page, uid: userId ?? User.LoginUser?.id ?? 0, finish: { (list, error) in
+                SVProgressHUD.dismiss()
+                if error == nil {
+                    if page == self.favPage + 1 && self.selIndex == index {
+                        if list.count > 0 {
+                            self.favColList.append(contentsOf: list)
+                            self.favPage = page
+                            self.collectionView?.reloadData()
+                        } else {
+                            self.hasMoreFav = false
+                        }
+                    }
+                }
+            })
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -47,24 +142,88 @@ class UserColumnViewController: UICollectionViewController {
             collectionView?.contentSize = CGSize(width: collectionView!.frame.width, height: collectionView!.frame.height + 1)
         }
     }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if  scrollView.contentOffset.y > 100 && scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.frame.size.height {
+            if (selIndex == 0 && hasMoreCol) {
+                self.loadData(self.colPage + 1)
+            }
+            if (selIndex == 1 && hasMoreFav) {
+                self.loadData(self.favPage + 1)
+            }
+        }
+    }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        if selIndex == 0 {
+            return colList.count + 1
+        }
+        return favColList.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ColumnItemCell
+        if selIndex == 0 {
+            if indexPath.item == colList.count {
+                let acell = collectionView.dequeueReusableCell(withReuseIdentifier: "acell", for: indexPath)
+                return acell
+            }
+            cell.column = colList[indexPath.item]
+        } else {
+            cell.column = favColList[indexPath.item]
+        }
         return cell
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        if isSelect {
+            if selIndex == 0 {
+                selectAction?(colList[indexPath.item])
+                _ = self.navigationController?.popViewController(animated: true)
+            } else {
+                selectAction?(favColList[indexPath.item])
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if isSelect && identifier == "showdetail" {
+            return false
+        }
+        return true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if let vc = segue.destination as? ColumnDetailViewController {
+            let indexPath = collectionView?.indexPath(for: sender as! UICollectionViewCell)
+            if selIndex == 0 {
+                vc.column = colList[indexPath!.item]
+            } else {
+                vc.column = favColList[indexPath!.item]
+            }
+        }
     }
-    */
 
 }
+
+extension UserColumnViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string:"专辑列表为空", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:15)).alignment(.center))
+    }
+    
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "theme3")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
+    }
+    
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
+        return -40
+    }
+}
+

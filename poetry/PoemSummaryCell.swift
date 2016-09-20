@@ -12,20 +12,16 @@ class PoemSummaryCell: UITableViewCell {
     
     @IBOutlet var headImageView: UIImageView!
     
-    @IBOutlet var authorLabel: UILabel!
-    
     @IBOutlet var titleLabel: UILabel!
     
     @IBOutlet var descLabel: UILabel!
 
     override func awakeFromNib() {
-        titleLabel.font = UIFont.userFont(size:18)
+        titleLabel.font = UIFont.userFont(size:20)
         descLabel.font = UIFont.userFont(size:15)
-        authorLabel.font = UIFont.userFont(size:14)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.titleLabel.font = UIFont.userFont(size:18)
             self.descLabel.font = UIFont.userFont(size:15)
-            self.authorLabel.font = UIFont.userFont(size:14)
         }
     }
     
@@ -34,11 +30,13 @@ class PoemSummaryCell: UITableViewCell {
             if data == nil {
                 return
             }
-            let url = data.poet?.name.iconURL() ?? ""
-            headImageView.af_setImage(withURL:URL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
-            titleLabel.text = data.title
+            if let url = URL(string:data.poet?.name.iconURL() ?? "") {
+                headImageView.af_setImage(withURL:url, placeholderImage: UIImage.imageWithString(data.poet?.name ?? "", size: CGSize(width: 80, height: 80)))
+            } else {
+                headImageView.image = UIImage.imageWithString(data.poet?.name ?? "", size: CGSize(width: 80, height: 80))
+            }
+            titleLabel.text = data.title + "◦" + (data.poet?.name ?? "无名氏")
             descLabel.text = data.content
-            authorLabel.text = data.poet?.name
         }
     }
 }

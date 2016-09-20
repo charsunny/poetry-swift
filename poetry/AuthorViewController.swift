@@ -95,6 +95,19 @@ class AuthorViewController: UIViewController {
             vc.delegate = self
             vc.dataSource = self
         }
+        if let vc = segue.destination as? UserColumnViewController {
+            vc.isSelect = true
+            vc.selType = 1
+            vc.selectAction = {
+                Column.UpdateItem($0.id, pid: self.poet?.id ?? 0, finish: { (delete, err) in
+                    if err != nil {
+                        HUD.flash(.error("添加收藏失败"), delay: 3.0)
+                    } else {
+                        HUD.flash(.success(delete ? "删除成功" : "添加收藏成功"), delay: 3.0)
+                    }
+                })
+            }
+        }
     }
 
 }

@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import JGProgressHUD
 import JDStatusBarNotification
+import SVProgressHUD
 
 public let DocumentPath:String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
 
@@ -28,11 +28,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if FileManager.default.fileExists(atPath: DocumentPath + "/poem.db") {
             LocalDBExist = DataManager.manager.connect()
         }
+        
         //UINavigationBar.appearance().tintColor = UIColor.flatRedColor()
         RCIM.shared().initWithAppKey("8w7jv4qb77vey")
         WeiboSDK.enableDebugMode(true)
         WeiboSDK.registerApp("4225157019")
         
+        SVProgressHUD.setMinimumDismissTimeInterval(3)
         if launchOptions == nil {
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.rootViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()

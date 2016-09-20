@@ -57,12 +57,17 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
                 })
             })
             Poem.GetPoemDetail(poemId, finish: { (p, err) in
-                self.updateToolbar(p?.commentCount ?? 0, ft: p?.likeCount ?? 0, isFav: p?.isFav ?? false)
+                if let p = p {
+                    self.poem?.likeCount = p.likeCount
+                    self.poem?.commentCount = p.commentCount
+                    self.poem?.isFav = p.isFav
+                    self.updateToolbar(p.commentCount, ft: p.likeCount, isFav: p.isFav)
+                }
             })
         } else {
             Poem.GetPoemDetail(poemId, finish: { (p, err) in
                 if err != nil {
-                    //HUD.flash(.labeledError(title: "加载失败", subtitle: nil), delay: 1.0)
+                    HUD.flash(.error("加载失败"), delay: 1.0)
                 } else {
                     self.poem = p
                     self.setPoemContent()
@@ -126,15 +131,15 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
     
     @IBAction func onLike(_ sender: UIButton) {
         if User.LoginUser == nil {
-            //HUD.flash(.label("尚未登录"), delay: 1.0)
+            HUD.flash(.info("尚未登录"), delay: 1.0)
             return
         }
         guard let poem = self.poem else {return }
         poem.like({ (result, err) in
             if err != nil {
-                //HUD.flash(.labeledError(title: nil, subtitle:  String.ErrorString(err!)), delay: 1.0)
+                HUD.flash(.error(err!.localizedDescription), delay: 1.0)
             } else {
-                //HUD.flash(.labeledSuccess(title: nil, subtitle: result), delay: 1.0)
+                HUD.flash(.success(result), delay: 1.0)
             }
             sender.setImage(UIImage(named: poem.isFav ? "heart" : "hert") , for: UIControlState())
             sender.setTitle("\(poem.likeCount)", for: UIControlState())
@@ -247,6 +252,18 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
         if let vc = segue.destination as? UINavigationController {
             if let pvc = vc.viewControllers.first as? ExploreAddViewController {
                 pvc.poem = self.poem
+            }
+        }
+        if let vc = segue.destination as? UserColumnViewController {
+            vc.isSelect = true
+            vc.selectAction = {
+                Column.UpdateItem($0.id, pid: self.poem?.id ?? 0, finish: { (delete, err) in
+                    if err != nil {
+                        HUD.flash(.error("添加收藏失败"), delay: 3.0)
+                    } else {
+                        HUD.flash(.success(delete ? "删除成功" : "添加收藏成功"), delay: 3.0)
+                    }
+                })
             }
         }
     }

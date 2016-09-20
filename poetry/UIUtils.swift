@@ -7,30 +7,32 @@
 //
 
 import UIKit
-import JGProgressHUD
 import TextAttributes
+import SVProgressHUD
 
-public class HUD : JGProgressHUD {
-    
-    static func show(style: JGProgressHUDStyle = .light, text: String? = nil) {
-        let hud = JGProgressHUD(style: style)!
-        hud.textLabel.text = text
-        hud.show(in: UIApplication.shared.keyWindow!)
-    }
-    
-    static func dismiss(delay:TimeInterval) {
-        JGProgressHUD.allProgressHUDs(in: UIApplication.shared.keyWindow!).forEach{
-            if let hud = $0 as? JGProgressHUD {
-                hud.dismiss(afterDelay: delay)
-            }
+typealias HUD = SVProgressHUD
+
+public enum SVProgressHUDStyle {
+    case success(String)
+    case error(String)
+    case info(String)
+    case `default`
+}
+
+extension SVProgressHUD {
+    static public func flash(_ style : SVProgressHUDStyle, delay : TimeInterval) {
+        SVProgressHUD.setMinimumDismissTimeInterval(delay)
+        switch style {
+        case .success(let text):
+            SVProgressHUD.showSuccess(withStatus: text)
+        case .error(let text):
+            SVProgressHUD.showError(withStatus: text)
+        case .info(let text):
+            SVProgressHUD.showInfo(withStatus: text)
+        case .default:
+            SVProgressHUD.show()
+            SVProgressHUD.dismiss(withDelay: delay)
         }
-    }
-    
-    static func flash(style: JGProgressHUDStyle = .light, _ text: String? = nil, delay:TimeInterval = 1) {
-        let hud = JGProgressHUD(style: style)!
-        hud.textLabel.text = text
-        hud.show(in: UIApplication.shared.keyWindow!)
-        hud.dismiss(afterDelay: delay)
     }
 }
 

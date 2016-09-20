@@ -29,6 +29,8 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.sendSubview(toBack: refreshControl)
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
+        tableView.estimatedRowHeight = 420
+        tableView.rowHeight = UITableViewAutomaticDimension
         loadData()
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.tableView.reloadData()
@@ -48,7 +50,7 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.tableView.reloadData()
                 }
             } else {
-                //HUD.flash(.label(String.ErrorString(error!)), delay: 1.0)
+                HUD.flash(.error(error!.localizedDescription), delay: 1.0)
             }
         }
     }
@@ -60,11 +62,11 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
             return
         }
         if page == 0 {
-            //HUD.show(.progress)
+            HUD.show()
         }
         isLoading = true
         Feed.GetFeeds(page) { (list, error) in
-            //HUD.hide()
+            HUD.dismiss()
             self.isLoading = false
             if page != self.page + 1 {
                 return
@@ -78,7 +80,7 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.hasMore = false
                 }
             } else {
-               // HUD.flash(.label(String.ErrorString(error!)), delay: 1.0)
+                HUD.flash(.error(error!.localizedDescription), delay: 1.0)
             }
         }
     }
@@ -119,7 +121,7 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 extension ExploreViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string:"暂无分享内容", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:15)).alignment(.center))
+        return NSAttributedString(string:"正在加载分享内容", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:15)).alignment(.center))
     }
     
     func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {

@@ -17,7 +17,7 @@ enum Router : URLRequestConvertible {
     static let baseURLString = "http://api.charsunny.com"
     //static let baseURLString = "http://121.41.112.242:8080"
     #else
-    static let baseURLString = "http://192.168.3.17:8080"
+    static let baseURLString = "http://192.168.31.206:8080"
     #endif
     
     public func asURLRequest() throws -> URLRequest {
@@ -44,6 +44,7 @@ enum Router : URLRequestConvertible {
     case recommend(HTTPMethod, String, [String:Any])
     case search(HTTPMethod, String, [String:Any])
     case feed(HTTPMethod, String, [String:Any])
+    case column(HTTPMethod, String, [String:Any])
     case base(HTTPMethod, String, [String:Any])
     case message(HTTPMethod, String, [String:Any])
     case request(HTTPMethod, String, [String:Any])    // 直接请求不需要author的请求
@@ -62,6 +63,8 @@ enum Router : URLRequestConvertible {
             return (method, "/\(Router.version)/search/\(path)", param)
         case let .feed(method, path, param):
             return (method, "/\(Router.version)/feed/\(path)", param)
+        case let .column(method, path, param):
+            return (method, "/\(Router.version)/col/\(path)", param)
         case let .base(method, path, param):
             return (method, "/\(Router.version)/common/\(path)", param)
         case let .message(method, path, param):

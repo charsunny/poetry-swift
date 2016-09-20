@@ -13,6 +13,8 @@ class PoemExploreCell: UITableViewCell {
 
     weak var viewController:UIViewController?
     
+    @IBOutlet weak var forwardLabel: UILabel!
+    
     @IBOutlet weak var userImageView: UIImageView!
     
     @IBOutlet weak var userNameLabel: UILabel!
@@ -108,7 +110,11 @@ class PoemExploreCell: UITableViewCell {
     var feed:Feed? {
         didSet {
             if let feed = feed {
-                userImageView.af_setImage(withURL:URL(string:feed.user?.avatar ?? "")!, placeholderImage: UIImage(named:"defaulticon"))
+                if let url = URL(string:feed.user?.avatar ?? "") {
+                    userImageView.af_setImage(withURL:url, placeholderImage: UIImage(named:"defaulticon"))
+                } else {
+                    userImageView.image = UIImage(named:"defaulticon")
+                }
                 userNameLabel.text = feed.user?.nick ?? User.LoginUser?.nick ?? "匿名用户"
                 userTimeLabel.text = feed.time
                 poemTitleLabel.text = feed.poem?.title
@@ -139,7 +145,7 @@ class PoemExploreCell: UITableViewCell {
                     descNoPicTitleLabel.isHidden = false
                     let attrStr = NSMutableAttributedString()
                     attrStr.append(NSAttributedString(string: feed.content.trimString(), attributes: TextAttributes().font(UIFont.userFont(size:24)).foregroundColor(UIColor.darkGray)))
-                    attrStr.addAttributes(TextAttributes().headIndent(8).firstLineHeadIndent(20))
+                    attrStr.addAttributes(TextAttributes().headIndent(8).firstLineHeadIndent(32))
                     descNoPicTitleLabel.attributedText = attrStr
                     descNoPicTitleLabel.adjustFontSizeToFit()
                 }

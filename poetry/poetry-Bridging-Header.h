@@ -5,3 +5,4 @@
 #import <RongIMKit/RongIMKit.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <WeiboSDK/WeiboSDK.h>
+#import <SVProgressHUD/SVProgressHUD.h>

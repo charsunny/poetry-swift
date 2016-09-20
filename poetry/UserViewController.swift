@@ -10,6 +10,7 @@ import UIKit
 import AlamofireImage
 import DZNEmptyDataSet
 import TextAttributes
+import SVProgressHUD
 
 class UserViewController: UITableViewController {
     
@@ -40,8 +41,11 @@ class UserViewController: UITableViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.tableView.reloadData()
         }
+        tableView.estimatedRowHeight = 420
+        tableView.rowHeight = UITableViewAutomaticDimension
         headerView.backgroundColor = UIColor.flatRed()
         showUserInfo()
+        SVProgressHUD.show()
         loadFeeds()
     }
     
@@ -51,7 +55,7 @@ class UserViewController: UITableViewController {
             userinfo = User.LoginUser
         }
         if let user = userinfo  {
-            avatarImageView.af_setImage(withURL:URL(string: user.avatar) ?? URL(string:"")!, placeholderImage: UIImage(named: "defaulticon"))
+            avatarImageView.af_setImage(withURL:URL(string: user.avatar) ?? URL(string:"http://127.0.0.1/")!, placeholderImage: UIImage(named: "defaulticon"))
             nameLabel.text = user.nick
             likeCountLabel.text = "\(user.likeCount)"
             favCountLabel.text = "\(user.columnCount)"
@@ -69,7 +73,7 @@ class UserViewController: UITableViewController {
                     self.tableView.reloadData()
                 }
             } else {
-                //HUD.flash(.label(String.ErrorString(error!)), delay: 1.0)
+                HUD.flash(.error(error!.localizedDescription), delay: 1.0)
             }
         }
     }
@@ -84,6 +88,7 @@ class UserViewController: UITableViewController {
         isLoading = true
         Feed.GetUserFeeds(0) { (list, error) in
             self.isLoading = false
+            SVProgressHUD.dismiss()
             if page != self.page + 1 {
                 return
             }
@@ -122,14 +127,6 @@ class UserViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return feedList.count
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 424
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

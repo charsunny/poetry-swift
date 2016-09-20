@@ -12,8 +12,6 @@ class SearchResultCell: UITableViewCell {
 
     @IBOutlet var headImageView:UIImageView!
     
-    @IBOutlet var imageLabel:UILabel!
-    
     @IBOutlet var titleLabel:UILabel!
     
     @IBOutlet var descLabel:UILabel!
@@ -21,13 +19,11 @@ class SearchResultCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        imageLabel.font = UIFont.userFont(size:14)
-        titleLabel.font = UIFont.userFont(size:16)
-        descLabel.font = UIFont.userFont(size:15)
+        titleLabel.font = UIFont.userFont(size:18)
+        descLabel.font = UIFont.userFont(size:14)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
-            self.imageLabel.font = UIFont.userFont(size:14)
-            self.titleLabel.font = UIFont.userFont(size:16)
-            self.descLabel.font = UIFont.userFont(size:15)
+            self.titleLabel.font = UIFont.userFont(size:18)
+            self.descLabel.font = UIFont.userFont(size:14)
         }
     }
     
@@ -35,12 +31,14 @@ class SearchResultCell: UITableViewCell {
         didSet {
             if let data = poem {
                 data.loadPoet()
-                let url = data.poet?.name.iconURL() ?? ""
-                headImageView.af_setImage(withURL:URL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
-                titleLabel.text = data.title
-                let content = data.content.replacingOccurrences(of: "，\r\n", with: "，")
+                if let url = URL(string:data.poet?.name.iconURL() ?? "") {
+                    headImageView.af_setImage(withURL:url, placeholderImage: UIImage.imageWithString(data.poet?.name ?? "", size: CGSize(width: 80, height: 80)))
+                } else {
+                    headImageView.image = UIImage.imageWithString(data.poet?.name ?? "", size: CGSize(width: 80, height: 80))
+                }
+                titleLabel.text =  (data.poet?.name ?? "无名氏") + "◦"  + data.title
+                let content = data.content.trimString()
                 descLabel.text = content
-                imageLabel.text = data.poet?.name
             }
         }
     }
@@ -48,12 +46,13 @@ class SearchResultCell: UITableViewCell {
     var poet:Poet? {
         didSet {
             if let data = poet {
-                let url = data.name.iconURL()
-                headImageView.af_setImage(withURL:URL(string:url)!, placeholderImage: UIImage(named:"defaulticon"))
-                titleLabel.text = nil
+                if let url = URL(string:data.name.iconURL()) {
+                    headImageView.af_setImage(withURL:url, placeholderImage: UIImage.imageWithString(data.name, size: CGSize(width: 80, height: 80)))
+                } else {
+                    headImageView.image = UIImage.imageWithString(data.name, size: CGSize(width: 80, height: 80))
+                }
+                titleLabel.text = data.name
                 descLabel.text = data.desc
-                titleLabel.text = nil
-                imageLabel.text = data.name
             }
         }
     }
@@ -62,10 +61,8 @@ class SearchResultCell: UITableViewCell {
         didSet {
             if let data = format {
                 headImageView.image =  UIImage.imageWithString(data.name, size: CGSize(width: 80, height: 80))
-                titleLabel.text = nil
                 descLabel.text = data.desc
-                titleLabel.text = nil
-                imageLabel.text = nil
+                titleLabel.text = data.name
             }
         }
     }

@@ -1,7 +1,7 @@
 target 'poetry' do
 	use_frameworks!
 	pod 'ObjectMapper'
-	pod 'JGProgressHUD'
+	pod 'SVProgressHUD'
 	pod "WeiboSDK", :git => "https://github.com/sinaweibosdk/weibo_ios_sdk.git" 
 	pod 'RongCloudIMKit'
 	pod 'STTweetLabel'
@@ -13,12 +13,13 @@ target 'poetry' do
 	pod 'TextAttributes'
 	pod 'ChameleonFramework'
 	pod 'Alamofire'
-	pod 'NVActivityIndicatorView'
 	pod 'AlamofireImage'
 	pod 'DZNEmptyDataSet'
 	pod 'SSZipArchive'
 	pod 'VCTransitionsLibrary'
 	pod "SlackTextViewController"
+    pod "MWPhotoBrowser"
+    pod 'StatusProvider'
 end
 
 target 'today' do

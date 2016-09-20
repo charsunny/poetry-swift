@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import JGProgressHUD
+import SVProgressHUD
 
 class LaunchViewController: UIViewController, TencentSessionDelegate {
     
@@ -134,10 +134,10 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
                         self.qqButton.isHidden = false
                         self.weiboButton.isHidden = false
                         self.tipLabel.isHidden = false
-                        HUD.flash("加载失败, 请重新登录", delay: 1.0)
-                    } else {
+                        SVProgressHUD.showError(withStatus: "加载失败，请重新登录")
+                        SVProgressHUD.dismiss(withDelay: 1)                    } else {
                         if UIApplication.shared.keyWindow?.rootViewController == self {
-                            self.perform(#selector(LaunchViewController.enterMainPage(_:)), with: nil, afterDelay: 1)
+                            self.perform(#selector(LaunchViewController.enterMainPage(_:)), with: nil, afterDelay: 5)
                         }
                     }
                 })
@@ -147,6 +147,7 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
     
     @IBAction func enterMainPage(_ sender: AnyObject?) {
         //HUD.hide()
+        (UIApplication.shared.delegate as? AppDelegate)?.window = UIApplication.shared.windows.first
         UIApplication.shared.windows.first?.makeKeyAndVisible()
     }
 
@@ -164,16 +165,13 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
    
     func tencentDidLogin() {
         debugPrint(qqOAuth.appId)
-        let hud = JGProgressHUD(style: .light)
         if qqOAuth.getUserInfo() {
             self.openId = qqOAuth.openId
-            hud?.position = .center
-            hud?.show(in: UIApplication.shared.keyWindow!)
+            SVProgressHUD.showSuccess(withStatus: "授权成功")
+            SVProgressHUD.dismiss(withDelay: 1)
         } else {
-            hud?.textLabel.text = "拉取授权信息失败"
-            hud?.position = .bottomCenter
-            hud?.show(in: UIApplication.shared.keyWindow!)
-            hud?.dismiss(afterDelay: 1)
+            SVProgressHUD.showError(withStatus: "拉取授权信息失败")
+            SVProgressHUD.dismiss(withDelay: 1)
         }
     }
     
@@ -181,13 +179,9 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
         guard let openId = self.openId else {return}
         guard let dict = response.jsonResponse else {return}
         Login.LoginWithSNS(dict["nickname"] as? String ?? "", gender: 1, avatar: (dict["figureurl_qq_2"] as? String ?? dict["figureurl_2"] as? String  ?? ""), userId: openId, snsType: 2, finish: { (login, err) in
-            JGProgressHUD.allProgressHUDs(in: UIApplication.shared.keyWindow!).forEach({
-                if let hud = $0 as? JGProgressHUD {
-                    hud.dismiss()
-                }
-            })
             if err != nil {
-               // HUD.flash(.labeledError(title: "登录失败", subtitle: String.ErrorString(err!)), delay: 1)
+                SVProgressHUD.showError(withStatus: "登录失败")
+                SVProgressHUD.dismiss(withDelay: 1)
             } 
         })
     }

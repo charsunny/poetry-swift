@@ -55,8 +55,8 @@ open class DataManager: NSObject {
             }
             let ps = try db.executeQuery("select * from poem_format where type = ?", values: [0])
             while ps.next() {
-                let id = rs.long(forColumn: "id")
-                let name = rs.string(forColumn: "name_cn") ?? ""
+                let id = ps.long(forColumn: "id")
+                let name = ps.string(forColumn: "name_cn") ?? ""
                 formatDict[name] = id
             }
         } catch let (e) {

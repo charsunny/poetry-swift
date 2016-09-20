@@ -8,11 +8,11 @@
 
 import UIKit
 import IBAnimatable
-import NVActivityIndicatorView
 import Alamofire
 import SSZipArchive
 import JDStatusBarNotification
 import AlamofireImage
+import SVProgressHUD
 
 class RecommendViewController: UITableViewController {
     
@@ -20,7 +20,7 @@ class RecommendViewController: UITableViewController {
     
     var poems:[Poem] = []
     
-    var recInfo:NSDictionary? = nil
+    var recInfo:Recommend? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,16 +32,16 @@ class RecommendViewController: UITableViewController {
         headerView.titleLabel.text = " "
         headerView.descLabel.text = "正在加载推荐信息..."
         if recInfo != nil {
-            headerView.titleLabel.text = recInfo!["Title"] as? String ?? ""
-            headerView.timeLabel.text = recInfo!["Time"] as? String ?? ""
-            headerView.descLabel.text = recInfo!["Desc"] as? String ?? ""
-            loadPoemData(recInfo!["Id"] as! Int)
+            headerView.titleLabel.text = recInfo?.title
+            headerView.timeLabel.text = recInfo?.time
+            headerView.descLabel.text = recInfo?.desc
+            loadPoemData(recInfo?.id ?? 0)
             navigationItem.rightBarButtonItem = nil
             navigationItem.leftBarButtonItem = nil
         } else {
             loadPoemData()
         }
-        headerView.indicatorView.startAnimation()
+        headerView.indicatorView.startAnimating()
         
         if !LocalDBExist {
             let alertController = UIAlertController(title: "下载诗词数据", message: "检测到诗词数据库文件尚未下载，为了您更好的体验，请您先下载数据库文件(31.94MB)。", preferredStyle: .alert)
@@ -97,6 +97,7 @@ class RecommendViewController: UITableViewController {
     var needLoading = false
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+    
         if tableView.contentOffset.y + 64 < 0 {
             if tableView.contentOffset.y + 64 < -100 && !self.needLoading{
                 headerView.indicatorView.startAnimating()
@@ -131,6 +132,19 @@ class RecommendViewController: UITableViewController {
             let data = poems[(indexPath as NSIndexPath).row]
             detailVC.poemId = data.id
         }
+        if let vc = segue.destination as? AuthorViewController {
+            var view = sender as? UIView
+            var cell:UITableViewCell!
+            while view != nil {
+                view = view?.superview
+                if view is UITableViewCell {
+                    cell = view as! UITableViewCell
+                }
+            }
+            let indexPath = tableView.indexPath(for: cell)!
+            let data = poems[(indexPath as NSIndexPath).row]
+            vc.poet = DataManager.manager.poetById(data.poet?.id ?? 0)
+        }
     }
     
 }
@@ -145,13 +159,14 @@ class RecommandHeaderView : UIView {
     
     @IBOutlet var timeLabel:UILabel!
     
-    @IBOutlet var indicatorView:NVActivityIndicatorView!
+    @IBOutlet var indicatorView:UIActivityIndicatorView!
     
     override func awakeFromNib() {
         titleLabel.font = UIFont.userFont(size:64)
         descLabel.font = UIFont.userFont(size:17)
         descLabel.adjustsFontSizeToFitWidth = true
         timeLabel.font = UIFont.userFont(size:15)
+        indicatorView.activityIndicatorViewStyle = .white
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.titleLabel.font = UIFont.userFont(size:64)
             self.descLabel.font = UIFont.userFont(size:17)
@@ -168,6 +183,8 @@ class RecommandHeaderView : UIView {
             titleLabel.text = data.title
             descLabel.text = data.desc
             timeLabel.text = data.time
+            let pic = abs(data.title.hash)%13 + 1
+            backgroundImageView.image = UIImage(named: "\(pic).jpg")
         }
     }
     
@@ -199,8 +216,11 @@ class RecommadCell: AnimatableTableViewCell {
             if data == nil {
                 return
             }
-            let url = data.poet?.name.iconURL() ?? ""
-            headImageView.af_setImage(withURL:URL(string:url)!, placeholderImage: UIImage.imageWithString(data.poet?.name ?? "", size: CGSize(width: 80, height: 80)))
+            if let url = URL(string:data.poet?.name.iconURL() ?? "") {
+                headImageView.af_setImage(withURL:url, placeholderImage: UIImage.imageWithString(data.poet?.name ?? "", size: CGSize(width: 80, height: 80)))
+            } else {
+                headImageView.image =  UIImage.imageWithString(data.poet?.name ?? "", size: CGSize(width: 80, height: 80))
+            }
             titleLabel.text = data.title
             descLabel.text = data.content
             authorLabel.text = data.poet?.name

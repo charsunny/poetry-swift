@@ -18,11 +18,6 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7XY-Qf-hQ3">
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="木兰花" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L1G-WG-5gT">
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaulticon" translatesAutoresizingMaskIntoConstraints="NO" id="wcU-Rb-1XY">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="8ol-JB-0Hs"/>
@@ -36,14 +31,10 @@
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="L1G-WG-5gT" firstAttribute="centerX" secondItem="7XY-Qf-hQ3" secondAttribute="centerX" id="8vE-fc-cu1"/>
-                                    <constraint firstAttribute="trailing" secondItem="L1G-WG-5gT" secondAttribute="trailing" id="Eel-4Z-B8e"/>
                                     <constraint firstItem="wcU-Rb-1XY" firstAttribute="centerX" secondItem="7XY-Qf-hQ3" secondAttribute="centerX" id="Ld0-Xe-sRa"/>
                                     <constraint firstItem="wcU-Rb-1XY" firstAttribute="leading" secondItem="7XY-Qf-hQ3" secondAttribute="leading" constant="6" id="O1l-jX-g9Q"/>
-                                    <constraint firstItem="L1G-WG-5gT" firstAttribute="leading" secondItem="7XY-Qf-hQ3" secondAttribute="leading" id="P84-L4-OW6"/>
                                     <constraint firstAttribute="trailing" secondItem="wcU-Rb-1XY" secondAttribute="trailing" constant="6" id="XaL-5V-Uyy"/>
                                     <constraint firstAttribute="width" constant="60" id="rfC-b2-YzN"/>
-                                    <constraint firstItem="L1G-WG-5gT" firstAttribute="top" secondItem="wcU-Rb-1XY" secondAttribute="bottom" id="uRB-IX-YSb"/>
                                     <constraint firstItem="wcU-Rb-1XY" firstAttribute="top" secondItem="7XY-Qf-hQ3" secondAttribute="top" constant="12" id="yrS-Zk-VEA"/>
                                 </constraints>
                                 <variation key="default">
@@ -56,7 +47,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="66E-gE-5Pu">
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="xxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dek-rq-lke">
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -71,7 +62,7 @@
                                     <constraint firstItem="Dek-rq-lke" firstAttribute="centerX" secondItem="hNv-Zt-Myz" secondAttribute="centerX" id="2a2-17-45R"/>
                                     <constraint firstAttribute="trailing" secondItem="hNv-Zt-Myz" secondAttribute="trailing" constant="8" id="CJw-ME-0rZ"/>
                                     <constraint firstItem="Dek-rq-lke" firstAttribute="leading" secondItem="66E-gE-5Pu" secondAttribute="leading" constant="8" id="HpP-HH-IXu"/>
-                                    <constraint firstItem="hNv-Zt-Myz" firstAttribute="top" secondItem="Dek-rq-lke" secondAttribute="bottom" constant="8" id="LUJ-fw-q2N"/>
+                                    <constraint firstItem="hNv-Zt-Myz" firstAttribute="top" secondItem="Dek-rq-lke" secondAttribute="bottom" constant="4" id="LUJ-fw-q2N"/>
                                     <constraint firstItem="hNv-Zt-Myz" firstAttribute="leading" secondItem="66E-gE-5Pu" secondAttribute="leading" constant="8" id="Op0-KE-RyU"/>
                                     <constraint firstItem="Dek-rq-lke" firstAttribute="centerX" secondItem="66E-gE-5Pu" secondAttribute="centerX" id="SjK-5h-LBf"/>
                                     <constraint firstItem="hNv-Zt-Myz" firstAttribute="top" secondItem="66E-gE-5Pu" secondAttribute="top" constant="8" id="U9A-lf-zKm"/>
@@ -91,7 +82,7 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="wcU-Rb-1XY" firstAttribute="centerY" secondItem="66E-gE-5Pu" secondAttribute="centerY" constant="-4" id="GUU-T8-CCC"/>
+                            <constraint firstItem="wcU-Rb-1XY" firstAttribute="centerY" secondItem="66E-gE-5Pu" secondAttribute="centerY" id="GUU-T8-CCC"/>
                         </constraints>
                     </stackView>
                 </subviews>
@@ -111,7 +102,6 @@
             <connections>
                 <outlet property="descLabel" destination="hNv-Zt-Myz" id="pfd-Rl-7iK"/>
                 <outlet property="headImageView" destination="wcU-Rb-1XY" id="z0a-rr-cTu"/>
-                <outlet property="imageLabel" destination="L1G-WG-5gT" id="xk3-IH-rO0"/>
                 <outlet property="titleLabel" destination="Dek-rq-lke" id="ApR-hg-hpx"/>
             </connections>
             <point key="canvasLocation" x="280.5" y="324"/>

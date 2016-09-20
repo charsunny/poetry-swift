@@ -97,19 +97,21 @@ open class Poem: Mappable {
     }
     
     func like(_ finish:@escaping (String, Error?)->Void) {
-        Alamofire.request(Router.poem(.post, "like", ["pid":self.id])).responseString { (res:DataResponse<String>) in
+        Alamofire.request(Router.poem(.post, "like", ["pid":self.id])).responseJSON { (res:DataResponse<Any>) in
             switch res.result {
             case let .success(value):
-                if value.contains("取消") {
-                    self.isFav = false
-                    if self.likeCount > 0 {
-                        self.likeCount = self.likeCount - 1
+                if let str =  (value as? NSDictionary)?["data"] as? String {
+                    if str.contains("取消") {
+                        self.isFav = false
+                        if self.likeCount > 0 {
+                            self.likeCount = self.likeCount - 1
+                        }
+                    } else {
+                        self.isFav = true
+                        self.likeCount = self.likeCount + 1
                     }
-                } else {
-                    self.isFav = true
-                    self.likeCount = self.likeCount + 1
+                    finish(str, nil)
                 }
-                finish(value, nil)
             case let .failure(error):
                 finish("", error)
             }

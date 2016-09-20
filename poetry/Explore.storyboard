@@ -175,7 +175,7 @@
                                         <outlet property="delegate" destination="MiV-fe-ZMP" id="AGc-US-sgy"/>
                                     </connections>
                                 </textView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addpic" translatesAutoresizingMaskIntoConstraints="NO" id="CHA-bR-urd">
+                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addpic" translatesAutoresizingMaskIntoConstraints="NO" id="CHA-bR-urd">
                                     <gestureRecognizers/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="80" id="kqV-Ce-bma"/>

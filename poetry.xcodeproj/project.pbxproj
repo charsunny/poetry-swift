@@ -25,6 +25,7 @@
 		16F6B7651D70402100286C43 /* UserNotifViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F6B7641D70402100286C43 /* UserNotifViewController.swift */; };
 		16F6B7671D70405A00286C43 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F6B7661D70405A00286C43 /* MessageViewController.swift */; };
 		16F6B7691D70475E00286C43 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F6B7681D70475E00286C43 /* SettingViewController.swift */; };
+		7CB1BDB71E45259337340230 /* libPods-today.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E0EA950284AC814667F323 /* libPods-today.a */; };
 		A912E0EF1CED6B6F007EB8AC /* AuthorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A912E0EE1CED6B6F007EB8AC /* AuthorViewController.swift */; };
 		A912E0F11CED9802007EB8AC /* RecHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A912E0F01CED9802007EB8AC /* RecHistoryViewController.swift */; };
 		A912E0F61CF30517007EB8AC /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A912E0F51CF30517007EB8AC /* ChatListViewController.swift */; };
@@ -111,6 +112,8 @@
 		B6BDC63B1D6CC09400AF0B8F /* PoemTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BDC63A1D6CC09400AF0B8F /* PoemTabBarViewController.swift */; };
 		B6C22CC31D8DEC5E00586CE6 /* IndexRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C22CC21D8DEC5E00586CE6 /* IndexRequestHandler.swift */; };
 		B6C22CC71D8DEC5F00586CE6 /* spotlight.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B6C22CC01D8DEC5E00586CE6 /* spotlight.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B6F730971D90E85D00896791 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F730961D90E85D00896791 /* Column.swift */; };
+		B6F730991D913E0600896791 /* ColumnDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F730981D913E0600896791 /* ColumnDetailViewController.swift */; };
 		E65FF5B5E963E81EC8D8DBF8 /* Pods_poetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF809C35B568352BAAAD91DE /* Pods_poetry.framework */; };
 /* End PBXBuildFile section */
 
@@ -262,6 +265,8 @@
 		B6C22CC41D8DEC5E00586CE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6C22CCB1D8DEC6F00586CE6 /* spotlight.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = spotlight.entitlements; sourceTree = "<group>"; };
 		B6F730941D8FEA0B00896791 /* ChameleonFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ChameleonFramework.framework; path = "../../Library/Developer/Xcode/DerivedData/poetry-dykmvwhbpkefendtcyybvidmvwkf/Build/Products/Debug-iphoneos/ChameleonFramework/ChameleonFramework.framework"; sourceTree = "<group>"; };
+		B6F730961D90E85D00896791 /* Column.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
+		B6F730981D913E0600896791 /* ColumnDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnDetailViewController.swift; sourceTree = "<group>"; };
 		CD021FA4C2ADDD4281A817C3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF809C35B568352BAAAD91DE /* Pods_poetry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_poetry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEF2C14F808395A4C7A86C0D /* Pods-today.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-today.debug.xcconfig"; path = "Pods/Target Support Files/Pods-today/Pods-today.debug.xcconfig"; sourceTree = "<group>"; };
@@ -282,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B640FE861D8DC22D00098ED1 /* NotificationCenter.framework in Frameworks */,
+				7CB1BDB71E45259337340230 /* libPods-today.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +316,7 @@
 				16C057821D7954C900B3AC93 /* ColumnAddViewController.swift */,
 				A9DA87651CE20600007D4EBC /* UserViewController.swift */,
 				B65DBCCC1D78AFA200069D1D /* UserColumnViewController.swift */,
+				B6F730981D913E0600896791 /* ColumnDetailViewController.swift */,
 				A9DA87711CE207B4007D4EBC /* User.storyboard */,
 			);
 			name = user;
@@ -325,6 +332,7 @@
 				B6BAF4031D7302DF0095A5EE /* Poet.swift */,
 				B658E58A1D75F7D9005BCA8E /* Feed.swift */,
 				B6BAF4071D735D000095A5EE /* Comment.swift */,
+				B6F730961D90E85D00896791 /* Column.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -640,7 +648,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "诺崇";
 				TargetAttributes = {
 					A9AEAE661CE2033E00312C8B = {
@@ -855,6 +863,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6BAF4041D7302DF0095A5EE /* Poet.swift in Sources */,
+				B6F730971D90E85D00896791 /* Column.swift in Sources */,
 				B640FE991D8DDA8000098ED1 /* NSExtensions.swift in Sources */,
 				B6BAF4061D735ACF0095A5EE /* PoemCommentViewController.swift in Sources */,
 				B658E58D1D78848F005BCA8E /* PoemWonderViewController.swift in Sources */,
@@ -901,6 +910,7 @@
 				B6BAF4021D73001B0095A5EE /* Poem.swift in Sources */,
 				166498991D6DB41C00370655 /* AuthorPoemListViewController.swift in Sources */,
 				A9C847811CE5AFB20089D035 /* PoemDetailViewController.swift in Sources */,
+				B6F730991D913E0600896791 /* ColumnDetailViewController.swift in Sources */,
 				A9C847851CE5D0450089D035 /* UIGradientView.swift in Sources */,
 				A9DA87621CE205DF007D4EBC /* CreaterViewController.swift in Sources */,
 			);
@@ -1012,8 +1022,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1058,8 +1070,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1078,6 +1092,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

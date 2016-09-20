@@ -8,6 +8,37 @@
 
 import UIKit
 
+class PoetSimpleView: UIView {
+    
+    override func awakeFromNib() {
+        self.nameLabel.font = UIFont.userFont(size: 13)
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(PoetSimpleView.onClick)))
+    }
+    
+    @IBOutlet var imageView:UIImageView!
+    @IBOutlet var nameLabel:UILabel!
+    
+    func onClick() {
+        if let poetVC = UIStoryboard(name: "Recommend", bundle: nil).instantiateViewController(withIdentifier: "poetvc") as? AuthorViewController {
+            poetVC.poet = poet
+            self.vc?.navigationController?.pushViewController(poetVC, animated: true)
+        }
+    }
+    
+    var poet:Poet! {
+        didSet {
+            nameLabel.text = poet.name
+            if let url = URL(string:poet.name.iconURL()) {
+                imageView.af_setImage(withURL:url, placeholderImage: UIImage.imageWithString(poet.name, size: CGSize(width: 80, height: 80)))
+            } else {
+                imageView.image = UIImage.imageWithString(poet.name, size: CGSize(width: 80, height: 80))
+            }
+        }
+    }
+    
+    weak var vc:UIViewController?
+}
+
 class SearchViewController: UITableViewController, UISearchResultsUpdating, UISearchControllerDelegate {
 
     var searchController:UISearchController!
@@ -34,6 +65,10 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         return abs((calendaer as NSCalendar?)?.components(.day, from: Date(), to: Date.init(timeIntervalSince1970: 0), options: .wrapComponents).day ?? 1)
     } ()
     
+    var hotPoets = ["李白", "杜甫", "苏轼", "白居易", "李清照", "李商隐", "杜牧", "柳永"]
+    
+    @IBOutlet var hotPoetView:[PoetSimpleView]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchController = UISearchController(searchResultsController: searchResultVC)
@@ -46,6 +81,11 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         self.navigationItem.titleView = searchController.searchBar
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.tableView.reloadData()
+        }
+        hotPoetView.forEach { (view) in
+            let name = hotPoets[hotPoetView.index(of: view)!]
+            view.vc = self
+            view.poet = DataManager.manager.poetByName(name).first
         }
     }
 
@@ -76,38 +116,31 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         searchResultVC.searchText = nil
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.view.frame.height - 64 - 50 - 180
+        return 160
     }
-    
-    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if (indexPath as NSIndexPath).row == 0 {
-            return false
-        }
-        return false
-    }
-    
+        
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchIndexCell
-        cell.poem = recPoem
-        cell.poet = recPoet
-        cell.format = recFormat
+        if indexPath.row == 0 {
+            cell.poem = recPoem
+        } else if indexPath.row == 2 {
+            cell.poet = recPoet
+        } else {
+            cell.format = recFormat
+        }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if (indexPath as NSIndexPath).section == 0 {
+        if indexPath.row == 0 {
             self.performSegue(withIdentifier: "showpoem", sender: recPoem)
-        } else if (indexPath as NSIndexPath).section == 2 {
+        } else if indexPath.row == 2 {
             self.performSegue(withIdentifier: "showpoet", sender: recPoet)
         } else {
             self.performSegue(withIdentifier: "showformat", sender: recFormat)

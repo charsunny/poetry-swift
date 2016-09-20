@@ -59,6 +59,13 @@ class AuthorDetailViewController: UIViewController, UITextViewDelegate {
             //let attriString = NS
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let textView = view.viewWithTag(1) as? UITextView {
+            textView.contentOffset = CGPoint.zero
+        }
+    }
 
     /*
     // MARK: - Navigation

@@ -91,20 +91,20 @@ class ExploreAddViewController: UITableViewController, UITextViewDelegate {
     
     @IBAction func addFeed(_ sender: AnyObject) {
         if textView.text.characters.count == 0 {
-           // HUD.flash(.label("请输入分享内容"), delay: 1)
+            HUD.flash(.error("请输入分享内容"), delay: 1)
             return
         }
         if poem == nil {
-            //HUD.flash(.label("请选择分享诗词"), delay: 1)
+            HUD.flash(.error("请选择分享诗词"), delay: 1)
             return
         }
         Feed.AddFeed(poem!.id, content: textView.text, image: imageURL ?? "") { (success, error) in
             if success {
-               // HUD.flash(.labeledSuccess(title: nil, subtitle: "分享成功"), delay: 1)
+                HUD.flash(.success("分享成功"), delay: 1)
                 self.dismiss(animated: true, completion: nil)
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "AddFeedNotif"), object: nil)
             } else {
-                //HUD.flash(.label(String.ErrorString(error!)), delay: 1)
+                HUD.flash(.error(error!.localizedDescription), delay: 1)
             }
         }
     }
