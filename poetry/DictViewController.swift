@@ -21,7 +21,7 @@ class DictViewController: UIViewController {
         keyLabel.text = keyword
         keyLabel.font = UIFont.userFont(size:48)
         textView.font = UIFont.systemFont(ofSize: 13, weight: UIFontWeightThin)
-        if let explain = DataManager.manager.explain(keyword) {
+        if let explain = DataManager.manager.explain(keyword.characters.first ?? " ") {
             textView.text = explain
         } else {
             textView.text = "暂无解释"

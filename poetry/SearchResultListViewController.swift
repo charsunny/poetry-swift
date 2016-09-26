@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import DZNEmptyDataSet
+import StatusProvider
 import TextAttributes
 import ChameleonFramework
 import AlamofireImage
@@ -23,6 +23,11 @@ class SearchResultListViewController: UITableViewController {
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         tableView.tableFooterView = UIView()
         tableView.register(UINib(nibName: "SearchResultCell", bundle : nil),forCellReuseIdentifier: "cell")
+        if resultList.count == 0 {
+            self.show(statusType: .empty(action: { 
+                
+            }))
+        }
     }
 
     // MARK: - Table view data source
@@ -66,17 +71,11 @@ class SearchResultListViewController: UITableViewController {
 
 }
 
-extension SearchResultListViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string:"暂无搜索结果", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:15)).alignment(.center))
-    }
+extension SearchResultListViewController: StatusProvider {
     
-    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "theme\(searchType.rawValue+1)")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius: 60)
-    }
-    
-    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
-        return -100
+    var emptyView: EmptyStatusDisplaying?{
+        let image = UIImage(named: "theme\(searchType.rawValue+1)")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
+        return EmptyStatusView(title: "暂无结果", caption: "搜索结果列表为空", image: image, actionTitle: nil)
     }
 }
 

@@ -12,6 +12,17 @@ import Alamofire
 
 class Column: Mappable {
     
+    static func AddColumn(name:String, desc:String, image:String, type:Int, pids:String, finish: @escaping (Column?, Error?) -> Void) {
+        Alamofire.request(Router.column(.post, "create", ["name":name, "desc":desc, "image":image, "type":type, "contents":pids])).responseObject { (res:DataResponse<Column>) in
+            switch res.result {
+            case .success(let col):
+                finish(col, nil)
+            case .failure(let err):
+                finish(nil, err)
+            }
+        }
+    }
+    
     static func UpdateItem(_ id:Int, pid:Int, finish:@escaping (Bool, Error?) -> Void) {
         Alamofire.request(Router.column(.post, "updateitem", ["cid":id, "pid":pid])).responseJSON { (res:DataResponse<Any>) in
             switch res.result {
@@ -64,6 +75,17 @@ class Column: Mappable {
                 finish(list, nil)
             case .failure(let err):
                 finish([], err)
+            }
+        }
+    }
+    
+    func getComments(page:Int, finish:@escaping ([Comment], Error?)->Void) {
+        Alamofire.request(Router.feed(.get, "comments", ["cid":self.id, "page":page])).responseArray { (res:DataResponse<[Comment]>) in
+            switch res.result {
+            case let .success(value):
+                finish(value, nil)
+            case let .failure(error):
+                finish([], error)
             }
         }
     }

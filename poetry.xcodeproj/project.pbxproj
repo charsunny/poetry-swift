@@ -112,6 +112,7 @@
 		B6BDC63B1D6CC09400AF0B8F /* PoemTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BDC63A1D6CC09400AF0B8F /* PoemTabBarViewController.swift */; };
 		B6C22CC31D8DEC5E00586CE6 /* IndexRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C22CC21D8DEC5E00586CE6 /* IndexRequestHandler.swift */; };
 		B6C22CC71D8DEC5F00586CE6 /* spotlight.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B6C22CC01D8DEC5E00586CE6 /* spotlight.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B6F41B181D951BE6001F58FE /* ColumnShowDetailSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F41B171D951BE6001F58FE /* ColumnShowDetailSegue.swift */; };
 		B6F730971D90E85D00896791 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F730961D90E85D00896791 /* Column.swift */; };
 		B6F730991D913E0600896791 /* ColumnDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F730981D913E0600896791 /* ColumnDetailViewController.swift */; };
 		E65FF5B5E963E81EC8D8DBF8 /* Pods_poetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF809C35B568352BAAAD91DE /* Pods_poetry.framework */; };
@@ -264,6 +265,7 @@
 		B6C22CC21D8DEC5E00586CE6 /* IndexRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexRequestHandler.swift; sourceTree = "<group>"; };
 		B6C22CC41D8DEC5E00586CE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6C22CCB1D8DEC6F00586CE6 /* spotlight.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = spotlight.entitlements; sourceTree = "<group>"; };
+		B6F41B171D951BE6001F58FE /* ColumnShowDetailSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnShowDetailSegue.swift; sourceTree = "<group>"; };
 		B6F730941D8FEA0B00896791 /* ChameleonFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ChameleonFramework.framework; path = "../../Library/Developer/Xcode/DerivedData/poetry-dykmvwhbpkefendtcyybvidmvwkf/Build/Products/Debug-iphoneos/ChameleonFramework/ChameleonFramework.framework"; sourceTree = "<group>"; };
 		B6F730961D90E85D00896791 /* Column.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		B6F730981D913E0600896791 /* ColumnDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnDetailViewController.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				B65DBCCC1D78AFA200069D1D /* UserColumnViewController.swift */,
 				B6F730981D913E0600896791 /* ColumnDetailViewController.swift */,
 				A9DA87711CE207B4007D4EBC /* User.storyboard */,
+				B6F41B171D951BE6001F58FE /* ColumnShowDetailSegue.swift */,
 			);
 			name = user;
 			sourceTree = "<group>";
@@ -875,6 +878,7 @@
 				B6BAF3FE1D72B00A0095A5EE /* User.swift in Sources */,
 				161976401D70295F004197DA /* Router.swift in Sources */,
 				A9DA87661CE20600007D4EBC /* UserViewController.swift in Sources */,
+				B6F41B181D951BE6001F58FE /* ColumnShowDetailSegue.swift in Sources */,
 				B61BA4FB1D6F7413001D2F31 /* ExploreAddViewController.swift in Sources */,
 				A9AEAE6F1CE2033E00312C8B /* ExploreViewController.swift in Sources */,
 				B61BA4FD1D6F7F6F001D2F31 /* UIUtils.swift in Sources */,

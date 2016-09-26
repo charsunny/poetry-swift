@@ -8,7 +8,7 @@
 
 import UIKit
 import TextAttributes
-import DZNEmptyDataSet
+import StatusProvider
 import SVProgressHUD
 
 class ColumnItemCell : UICollectionViewCell {
@@ -19,6 +19,7 @@ class ColumnItemCell : UICollectionViewCell {
     
     override func awakeFromNib() {
         titleLabel.font = UIFont.userFont(size: 14)
+        
     }
     
     var column:Column! {
@@ -71,7 +72,7 @@ class UserColumnViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        SVProgressHUD.show()
+        self.show(statusType: .loading)
         if (selIndex == 0 && hasMoreCol) {
             self.loadData(self.colPage + 1)
         }
@@ -81,6 +82,12 @@ class UserColumnViewController: UICollectionViewController {
         if isSelect {
             self.navigationItem.title = "选择专辑"
             self.navigationItem.titleView = nil
+        }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "ColumnAddSuccessNotif"), object: nil, queue: OperationQueue.main) { (notif) in
+            if let col = notif.object as? Column {
+                self.colList.append(col)
+                self.collectionView?.reloadData()
+            }
         }
     }
   
@@ -96,7 +103,7 @@ class UserColumnViewController: UICollectionViewController {
         let index = selIndex
         if selIndex == 0 {
             Column.GetUserColumnList(page, uid: userId ?? User.LoginUser?.id ?? 0, finish: { (list, error) in
-                SVProgressHUD.dismiss()
+                self.hide(statusType: .loading)
                 if error == nil {
                     if page == self.colPage + 1 && self.selIndex == index {
                         if list.count > 0 {
@@ -109,13 +116,18 @@ class UserColumnViewController: UICollectionViewController {
                             self.collectionView?.reloadData()
                         } else {
                             self.hasMoreCol = false
+                            if self.colList.count == 0 {
+                                self.show(statusType: .empty(action:nil))
+                            }
                         }
                     }
+                } else {
+                    
                 }
             })
         } else {
             Column.GetUserFavColumnList(page, uid: userId ?? User.LoginUser?.id ?? 0, finish: { (list, error) in
-                SVProgressHUD.dismiss()
+                self.hide(statusType: .loading)
                 if error == nil {
                     if page == self.favPage + 1 && self.selIndex == index {
                         if list.count > 0 {
@@ -124,8 +136,12 @@ class UserColumnViewController: UICollectionViewController {
                             self.collectionView?.reloadData()
                         } else {
                             self.hasMoreFav = false
+                            if self.favColList.count == 0 {
+                                self.show(statusType: .empty(action:nil))
+                            }
                         }
                     }
+                } else {
                 }
             })
         }
@@ -156,7 +172,7 @@ class UserColumnViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if selIndex == 0 {
-            return colList.count + 1
+            return colList.count
         }
         return favColList.count
     }
@@ -187,7 +203,7 @@ class UserColumnViewController: UICollectionViewController {
             }
         }
     }
-
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -213,17 +229,11 @@ class UserColumnViewController: UICollectionViewController {
 
 }
 
-extension UserColumnViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string:"专辑列表为空", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:15)).alignment(.center))
-    }
+extension UserColumnViewController: StatusProvider {
     
-    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "theme3")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
-    }
-    
-    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
-        return -40
+    var emptyView: EmptyStatusDisplaying?{
+        let image = UIImage(named: "theme3")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
+        return EmptyStatusView(title: "没有数据", caption: "专辑列表为空", image: image, actionTitle: nil)
     }
 }
 

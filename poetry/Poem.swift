@@ -53,6 +53,7 @@ open class Poem: Mappable {
     var likeCount : Int = 0
     var isFav:Bool = false
     var poet : Poet?
+    
     fileprivate var pid :Int = 0
     fileprivate var fid :Int = 0
     var pname : String?
@@ -114,6 +115,17 @@ open class Poem: Mappable {
                 }
             case let .failure(error):
                 finish("", error)
+            }
+        }
+    }
+    
+    func getComments(page:Int, finish:@escaping ([Comment], Error?)->Void) {
+        Alamofire.request(Router.poem(.get, "comments", ["pid":self.id, "page":page])).responseArray { (res:DataResponse<[Comment]>) in
+            switch res.result {
+            case let .success(value):
+                finish(value, nil)
+            case let .failure(error):
+                finish([], error)
             }
         }
     }

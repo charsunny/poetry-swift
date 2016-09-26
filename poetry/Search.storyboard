@@ -331,7 +331,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" rowHeight="140" id="i0v-oK-UO3" customClass="SearchIndexCell" customModule="poetry" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="338" width="375" height="140"/>
+                                <rect key="frame" x="0.0" y="337.5" width="375" height="140"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i0v-oK-UO3" id="DJd-ch-xy4">
                                     <frame key="frameInset" width="375" height="140"/>
@@ -444,7 +444,7 @@
             <objects>
                 <navigationController id="SPX-M6-dqF" sceneMemberID="viewController">
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="cME-0Y-zh1">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cME-0Y-zh1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -566,20 +566,20 @@
             </objects>
             <point key="canvasLocation" x="1807" y="215"/>
         </scene>
-        <!--Empty Data Set Delegate-->
+        <!--Search Result List View Controller-->
         <scene sceneID="ASt-gY-6xN">
             <objects>
                 <tableViewController storyboardIdentifier="searchlist" id="0IU-Y7-hXV" customClass="SearchResultListViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="vJH-1v-Ecu">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="73" sectionHeaderHeight="28" sectionFooterHeight="28" id="vJH-1v-Ecu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Byt-qX-lfg">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="73" id="Byt-qX-lfg">
+                                <rect key="frame" x="0.0" y="28" width="375" height="73"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Byt-qX-lfg" id="dtF-zs-0Dr">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="375" height="72"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -587,14 +587,12 @@
                         <connections>
                             <outlet property="dataSource" destination="0IU-Y7-hXV" id="JUP-mM-0il"/>
                             <outlet property="delegate" destination="0IU-Y7-hXV" id="WMd-Nx-uaA"/>
-                            <outlet property="emptyDataSetDelegate" destination="0IU-Y7-hXV" id="g8L-7S-NAD"/>
-                            <outlet property="emptyDataSetSource" destination="0IU-Y7-hXV" id="VjP-4l-wOn"/>
                         </connections>
                     </tableView>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="61Y-9t-Ow7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2442" y="274"/>
+            <point key="canvasLocation" x="2440.8000000000002" y="273.91304347826087"/>
         </scene>
         <!--poemvc-->
         <scene sceneID="TlJ-q7-By2">

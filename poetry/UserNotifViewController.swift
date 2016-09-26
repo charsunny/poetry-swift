@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import DZNEmptyDataSet
+import StatusProvider
 import TextAttributes
 
 class UserNotifViewController: UITableViewController {
@@ -18,6 +18,7 @@ class UserNotifViewController: UITableViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.tableView.reloadData()
         }
+        self.show(statusType: .empty(action: nil))
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
@@ -40,16 +41,10 @@ class UserNotifViewController: UITableViewController {
 
 }
 
-extension UserNotifViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string:"暂无相关动态", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:16)).alignment(.center))
-    }
+extension UserNotifViewController: StatusProvider {
     
-    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "theme\(6)")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
-    }
-    
-    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
-        return -44
+    var emptyView: EmptyStatusDisplaying?{
+        let image = UIImage(named: "theme6")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
+        return EmptyStatusView(title: "没有动态", caption: "暂无相关动态", image: image, actionTitle: nil)
     }
 }

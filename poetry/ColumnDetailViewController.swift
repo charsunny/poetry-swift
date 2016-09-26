@@ -9,7 +9,7 @@
 import UIKit
 import AlamofireImage
 import TextAttributes
-import DZNEmptyDataSet
+import StatusProvider
 import SVProgressHUD
 
 class ColumnDetailViewController: UITableViewController {
@@ -48,9 +48,44 @@ class ColumnDetailViewController: UITableViewController {
         Column.GetDetail(self.columnId) { (col, error) in
             if let col = col {
                 self.column = col
+                if col.type == 0 {
+                    if col.poems != nil  && col.poems!.count > 0 {
+                        
+                    } else {
+                        self.show(statusType: .empty(action:nil))
+                    }
+                } else {
+                    if col.poets != nil && col.poets!.count > 0 {
+                        
+                    } else {
+                        self.show(statusType: .empty(action:nil))
+                    }
+                }
                 self.updateHeadView()
                 self.tableView.reloadData()
             }
+            if error != nil {
+                /*self.show(statusType: StatusProviderType.error(error: error, retry: {
+                    self.loadColumnData()
+                    self.show(statusType: .loading)
+                }))*/
+            }
+        }
+    }
+    
+    override var previewActionItems: [UIPreviewActionItem] {
+        get {
+            let delete = UIPreviewAction(title: "删除", style: .destructive) { (action, vc) in
+                debugPrint(vc)
+            }
+            
+            var items:[UIPreviewAction] = [delete]
+            if column?.user?.id == User.LoginUser?.id {
+                if column?.default == true {
+                    items.remove(at: 0)
+                }
+            }
+            return items
         }
     }
     
@@ -66,8 +101,6 @@ class ColumnDetailViewController: UITableViewController {
             (userButtons.arrangedSubviews.first as? UIButton)?.setTitle("\(column.commentCount)", for: .normal)
             let likeButton = userButtons.arrangedSubviews[1] as! UIButton
             likeButton.setTitle("\(column.likeCount)", for: UIControlState())
-            likeButton.setImage(UIImage(named: column.isFav ? "heart" : "hert") , for: UIControlState())
-            likeButton.tintColor = column.isFav ? UIColor.flatRed() : UIColor.white
             if let userButton = userButtons.arrangedSubviews.last as? UIButton {
                 userButton.setTitle((column.user?.nick ?? ""), for: .normal)
                 if let url = URL(string:column.user?.avatar ?? "") {
@@ -175,14 +208,11 @@ class ColumnDetailViewController: UITableViewController {
     }
 }
 
-extension ColumnDetailViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string:"暂无收藏内容", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:15)).alignment(.center))
-    }
+extension ColumnDetailViewController:  StatusProvider {
     
-    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "theme6")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
+    var emptyView: EmptyStatusDisplaying?{
+        let image = UIImage(named: "theme2")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
+        return EmptyStatusView(title: "没有数据", caption: "暂无收藏内容", image: image, actionTitle: nil)
     }
-    
 }
 

@@ -28,6 +28,8 @@ open class DataManager: NSObject {
     
     fileprivate var db:FMDatabase?
     
+    fileprivate var dictdb:FMDatabase?
+    
     open var periods:[Int:String] = [:]
     open var formatDict:[String:Int] = [:]
     
@@ -45,7 +47,16 @@ open class DataManager: NSObject {
             print("Unable to open database")
             return false
         }
+        guard let dictdb = FMDatabase(path: Bundle.main.path(forResource: "dict", ofType: "db")) else {
+            print("unable to create database")
+            return false
+        }
+        guard dictdb.open() else {
+            print("Unable to open database")
+            return false
+        }
         self.db = db
+        self.dictdb = dictdb
         do {
             let rs = try db.executeQuery("select * from period where id > 0", values: nil)
             while rs.next() {
@@ -130,14 +141,16 @@ open class DataManager: NSObject {
     
     
     
-    open func explain(_ key:String) -> String? {
+    open func explain(_ key:Character) -> String? {
         do {
-            /*if let ps = try db?.prepare(dict.filter(Expression<String>("zi") == key)) {
-                for p in ps {
-                    let str = p[Expression<String?>("jijie")]
-                    return str?.stringByReplacingOccurrencesOfString("<br />", withString: "\n")
+            var exp = ""
+            if let ps = try dictdb?.executeQuery("select * from dict where zi = ? limit 1", values: [key]) {
+                while ps.next() {
+                    let name = ps.string(forColumn: "jijie") ?? ""
+                    exp = name
                 }
-            }*/
+                return exp
+            }
             return nil
         } catch {
             return nil

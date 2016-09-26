@@ -46,8 +46,8 @@ class Feed: Mappable {
         }
     }
     
-    static func GetUserFeeds(_ page : Int, finish:@escaping ([Feed], Error?)->Void) {
-        Alamofire.request(Router.user(.get, "feeds", ["page":page])).responseArray { (res :DataResponse<[Feed]>) in
+    static func GetUserFeeds(_ page : Int, uid : Int = 0, finish:@escaping ([Feed], Error?)->Void) {
+        Alamofire.request(Router.user(.get, "feeds", ["page":page, "id":uid])).responseArray { (res :DataResponse<[Feed]>) in
             switch res.result {
             case let .success(value):
                 finish(value, nil)
@@ -57,8 +57,19 @@ class Feed: Mappable {
         }
     }
     
-    static func GetUserFeedsAfter(_ fid : Int, finish:@escaping ([Feed], Error?)->Void) {
-        Alamofire.request(Router.user(.get, "feeds", ["fid":fid])).responseArray { (res :DataResponse<[Feed]>) in
+    static func GetUserFeedsAfter(_ fid : Int, uid : Int = 0, finish:@escaping ([Feed], Error?)->Void) {
+        Alamofire.request(Router.user(.get, "feeds", ["fid":fid, "id":uid])).responseArray { (res :DataResponse<[Feed]>) in
+            switch res.result {
+            case let .success(value):
+                finish(value, nil)
+            case let .failure(error):
+                finish([], error)
+            }
+        }
+    }
+    
+    func getComments(page:Int, finish:@escaping ([Comment], Error?)->Void) {
+        Alamofire.request(Router.feed(.get, "comments", ["fid":self.id, "page":page])).responseArray { (res:DataResponse<[Comment]>) in
             switch res.result {
             case let .success(value):
                 finish(value, nil)
@@ -76,6 +87,7 @@ class Feed: Mappable {
     var poem  : Poem?
     var likeCount : Int = 0
     var commentCount : Int = 0
+    var isFav : Bool = false
     
     required init?(map: Map) {
         
@@ -88,7 +100,8 @@ class Feed: Mappable {
         user <- map["User"]
         time <- map["Time"]
         poem <- map["Poem"]
-        likeCount <- map["likeCount"]
+        isFav <- map["IsFav"]
+        likeCount <- map["LikeCount"]
         commentCount <- map["CommentCount"]
     }
 }

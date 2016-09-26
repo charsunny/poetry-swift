@@ -43,6 +43,16 @@ class SearchResultCell: UITableViewCell {
         }
     }
     
+    var explain:(String, String)? {
+        didSet {
+            if let data = explain {
+                headImageView.image = UIImage.imageWithString(data.0, size: CGSize(width: 80, height: 80))
+                titleLabel.text =  data.0
+                descLabel.text = data.1
+            }
+        }
+    }
+    
     var poet:Poet? {
         didSet {
             if let data = poet {

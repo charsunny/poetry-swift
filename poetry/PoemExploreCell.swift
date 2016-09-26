@@ -8,10 +8,23 @@
 
 import UIKit
 import TextAttributes
+import TTTAttributedLabel
 
 class PoemExploreCell: UITableViewCell {
-
-    weak var viewController:UIViewController?
+    
+    var likeAction: ((Feed) -> Void)?
+    
+    var shareAction: ((Feed) -> Void)?
+    
+    var commentAction: ((Feed) -> Void)?
+    
+    var showUserAction : ((User?) -> Void)?
+    
+    var showPoemAction : ((Poem?) -> Void)?
+    
+    var showMenuAction : ((Feed) -> Void)?
+    
+    var showPicAction : ((Feed) -> Void)?
     
     @IBOutlet weak var forwardLabel: UILabel!
     
@@ -27,7 +40,7 @@ class PoemExploreCell: UITableViewCell {
     
     @IBOutlet weak var contentDescLabel: UILabel!
     
-    @IBOutlet weak var descNoPicTitleLabel: UILabel!
+    @IBOutlet weak var descNoPicTitleLabel: TTTAttributedLabel!
     
     @IBOutlet weak var poemTitleLabel: UILabel!
     
@@ -51,10 +64,11 @@ class PoemExploreCell: UITableViewCell {
         descNoPicTitleLabel.backgroundColor = UIColor.groupTableViewBackground
         descNoPicTitleLabel.layer.cornerRadius = 5
         descNoPicTitleLabel.clipsToBounds = true
-        userNameLabel.font = UIFont.userFont(size:16)
-        userTimeLabel.font = UIFont.userFont(size:14)
-        descNoPicTitleLabel.font = UIFont.systemFont(ofSize: 28, weight: UIFontWeightMedium)
-        contentDescLabel.font = UIFont.userFont(size:17)
+        userNameLabel.font = UIFont.systemFont(ofSize:14)
+        userTimeLabel.font = UIFont.systemFont(ofSize:13)
+        descNoPicTitleLabel.font = UIFont.systemFont(ofSize: 24, weight: UIFontWeightLight)
+        descNoPicTitleLabel.textInsets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        contentDescLabel.font = UIFont.systemFont(ofSize:15)
         poemTitleLabel.font = UIFont.userFont(size:17)
         poemAuthorLabel.font = UIFont.userFont(size:14)
         poemContentLabel.font = UIFont.userFont(size:15)
@@ -65,49 +79,63 @@ class PoemExploreCell: UITableViewCell {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.descNoPicTitleLabel.layer.cornerRadius = 5
             self.descNoPicTitleLabel.clipsToBounds = true
-            self.userNameLabel.font = UIFont.userFont(size:16)
-            self.userTimeLabel.font = UIFont.userFont(size:14)
-            self.descNoPicTitleLabel.font = UIFont.systemFont(ofSize: 28, weight: UIFontWeightMedium)
-            self.contentDescLabel.font = UIFont.userFont(size:17)
             self.poemTitleLabel.font = UIFont.userFont(size:17)
             self.poemAuthorLabel.font = UIFont.userFont(size:14)
-            self.poemContentLabel.font = UIFont.userFont(size:15)
             self.shareButton.titleLabel?.font = UIFont.userFont(size:15)
             self.commentButton.titleLabel?.font = UIFont.userFont(size:15)
             self.likeButton.titleLabel?.font = UIFont.userFont(size:15)
+            self.poemContentLabel.font = UIFont.userFont(size:15)
         }
+        contentImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(PoemExploreCell.showPic)))
+        userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(PoemExploreCell.showUser)))
     }
     
     
+    func showPic() {
+        showPicAction?(feed)
+    }
+    
+    func showUser() {
+        showUserAction?(feed.user)
+    }
+    
     @IBAction func gotoPoemDetail(_ sender: AnyObject) {
-        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
-            poemVC.poem = feed?.poem
-            viewController?.navigationController?.pushViewController(poemVC, animated: true)
-        }
+        showPoemAction?(feed.poem)
     }
     
     @IBAction func gotoComment(_ sender: AnyObject) {
-        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
-            poemVC.poem = feed?.poem
-            viewController?.navigationController?.pushViewController(poemVC, animated: true)
-        }
+        commentAction?(feed)
     }
     
     @IBAction func gotoShare(_ sender: AnyObject) {
-        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
-            poemVC.poem = feed?.poem
-            viewController?.navigationController?.pushViewController(poemVC, animated: true)
-        }
+        shareAction?(feed)
     }
     
     @IBAction func onLike(_ sender: AnyObject) {
-        if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
-            poemVC.poem = feed?.poem
-            viewController?.navigationController?.pushViewController(poemVC, animated: true)
+        if feed.isFav {
+            User.LoginUser?.unlikeFeed(cid: feed.id, finish: { (cmt, err) in
+                if err == nil && cmt != nil {
+                    self.likeButton.setTitle("喜欢(\(cmt!.likeCount))", for: .normal)
+                    self.likeButton.tintColor = UIColor.darkGray
+                    self.feed.isFav = false
+                    self.feed.likeCount = cmt!.likeCount
+                }
+            })
+            return
         }
+        User.LoginUser?.likeFeed(cid: feed.id, finish: { (cmt, err) in
+            if err == nil && cmt != nil {
+                self.likeButton.setTitle("喜欢(\(cmt!.likeCount))", for: .normal)
+                self.likeButton.tintColor = UIColor.flatRed()
+                self.feed.isFav = true
+                self.feed.likeCount = cmt!.likeCount
+            }
+        })
+
+        likeAction?(feed)
     }
     
-    var feed:Feed? {
+    var feed:Feed! {
         didSet {
             if let feed = feed {
                 if let url = URL(string:feed.user?.avatar ?? "") {
@@ -121,13 +149,18 @@ class PoemExploreCell: UITableViewCell {
                 feed.poem?.loadPoet()
                 poemAuthorLabel.text = feed.poem?.poet?.name
                 poemContentLabel.text = feed.poem?.content.trimString()
+                likeButton.tintColor = feed.isFav ? UIColor.flatRed() : UIColor.darkGray
                 likeButton.setTitle("喜欢(\(feed.likeCount))", for: UIControlState())
                 commentButton.setTitle("评论(\(feed.commentCount))", for: UIControlState())
                 
                 if let str = feed.poem?.poet?.name.iconURL(), str.characters.count > 0 {
                     if let url = URL(string: str) {
                         poemAuthorImageView.af_setImage(withURL:url, placeholderImage: UIImage.imageWithString(feed.poem?.poet?.name ?? "", size: CGSize(width: 80, height: 80)))
+                    } else {
+                        poemAuthorImageView.image = UIImage.imageWithString(feed.poem?.poet?.name ?? "", size: CGSize(width: 80, height: 80))
                     }
+                } else {
+                    poemAuthorImageView.image = UIImage.imageWithString(feed.poem?.poet?.name ?? "", size: CGSize(width: 80, height: 80))
                 }
                 
                 var hasPic = false
@@ -146,7 +179,7 @@ class PoemExploreCell: UITableViewCell {
                     let attrStr = NSMutableAttributedString()
                     attrStr.append(NSAttributedString(string: feed.content.trimString(), attributes: TextAttributes().font(UIFont.userFont(size:24)).foregroundColor(UIColor.darkGray)))
                     attrStr.addAttributes(TextAttributes().headIndent(8).firstLineHeadIndent(32))
-                    descNoPicTitleLabel.attributedText = attrStr
+                    descNoPicTitleLabel.text = feed.content.trimString()
                     descNoPicTitleLabel.adjustFontSizeToFit()
                 }
             }

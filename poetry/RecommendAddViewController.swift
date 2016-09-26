@@ -12,6 +12,8 @@ class RecommendAddViewController: UITableViewController {
     
     var poems:[Poem] = []
     
+    var imageURL:String = ""
+    
     @IBOutlet weak var imageButton: UIButton!
     
     @IBOutlet weak var tipLabel: UILabel!
@@ -41,6 +43,28 @@ class RecommendAddViewController: UITableViewController {
             tipLabel.isHidden = false
         }
         return true
+    }
+    
+    @IBAction func addPic(_ sender: AnyObject) {
+        let alertController = UIAlertController(title: "上传图片", message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "选择照片", style: .default, handler: { (_) in
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+        }))
+        alertController.addAction(UIAlertAction(title: "拍摄照片", style: .default, handler: { (_) in
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (_) in
+            
+        }))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     // MARK: - Table view data source
@@ -83,49 +107,46 @@ class RecommendAddViewController: UITableViewController {
         tableView.endEditing(true)
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? PoemSearchViewController {
+            if sender is UITableViewCell {
+                vc.poemSearchType = .poem
+            } else {
+                vc.poemSearchType = .dict
+            }
+            vc.selectExplainAction = {
+                debugPrint($0)
+            }
+            vc.selectPoemAction = {
+                debugPrint($0)
+            }
+        }
     }
-    */
 
+}
+
+extension RecommendAddViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+            let data = UIImageJPEGRepresentation(image, 0.5)
+            let image = UIImage(data: data!)
+            self.imageButton.setImage(image, for: .normal)
+            User.UploadPic(image!, finish: {
+                if $0.0 {
+                    self.imageURL = $0.1 ?? ""
+                } else {
+                    self.imageButton.setImage(UIImage(named:"addpic")!, for: .normal)
+                }
+            })
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
 }

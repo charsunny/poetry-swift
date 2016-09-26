@@ -5,7 +5,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Empty Data Set Delegate-->
+        <!--发现-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" id="8rJ-Kc-sve" customClass="ExploreViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
@@ -21,8 +21,6 @@
                         <connections>
                             <outlet property="dataSource" destination="8rJ-Kc-sve" id="WZb-ws-Kiq"/>
                             <outlet property="delegate" destination="8rJ-Kc-sve" id="Ov6-f2-VTy"/>
-                            <outlet property="emptyDataSetDelegate" destination="8rJ-Kc-sve" id="K0P-6j-D39"/>
-                            <outlet property="emptyDataSetSource" destination="8rJ-Kc-sve" id="W39-aB-9Sm"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="发现" id="ap3-nX-lVc">
@@ -114,7 +112,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="k0o-M9-56F" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Vsk-VG-3uN">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vsk-VG-3uN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -140,7 +138,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="C7F-dE-Kc7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Mto-4w-N0K">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mto-4w-N0K">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -308,7 +306,7 @@
             <objects>
                 <navigationController storyboardIdentifier="sharenavvc" automaticallyAdjustsScrollViewInsets="NO" id="ikt-br-37e" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="BOb-Zg-KS4">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BOb-Zg-KS4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

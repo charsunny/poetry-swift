@@ -14,7 +14,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="B3j-aK-jBz" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="29D-qk-n2U" customClass="DesignableNavigationBar" customModule="IBAnimatable">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="29D-qk-n2U" customClass="DesignableNavigationBar" customModule="IBAnimatable">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -233,7 +233,7 @@
                                 <rect key="frame" x="0.0" y="188" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z4V-T0-D71" id="hEH-nf-BQy">
-                                    <frame key="frameInset" width="342" height="99.5"/>
+                                    <frame key="frameInset" width="342" height="99"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="UQ7-df-0KQ">
@@ -1110,7 +1110,7 @@
         <!--评论-->
         <scene sceneID="DjG-Cd-ckJ">
             <objects>
-                <viewController storyboardIdentifier="commentvc" title="评论" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" id="rr2-Hj-DBF" customClass="PoemCommentViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="commentvc" title="评论" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" hidesBottomBarWhenPushed="YES" id="rr2-Hj-DBF" customClass="PoemCommentViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vwF-Mr-cBD"/>
                         <viewControllerLayoutGuide type="bottom" id="NzW-fd-7o8"/>
@@ -1318,7 +1318,7 @@
         <!--Author View Controller-->
         <scene sceneID="2TD-21-5QT">
             <objects>
-                <viewController storyboardIdentifier="poetvc" id="h8R-ab-SMW" customClass="AuthorViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="poetvc" hidesBottomBarWhenPushed="YES" id="h8R-ab-SMW" customClass="AuthorViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Xd4-PJ-L5U"/>
                         <viewControllerLayoutGuide type="bottom" id="44E-dR-rtL"/>
@@ -1520,7 +1520,7 @@
                                 <rect key="frame" x="0.0" y="258" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yD5-Tu-vTS" id="7T4-7E-Z7C">
-                                    <frame key="frameInset" width="342" height="99.5"/>
+                                    <frame key="frameInset" width="342" height="99"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nbG-SZ-xM2">
@@ -1689,10 +1689,10 @@
         <image name="thumb-up" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="0iu-CJ-OaR"/>
         <segue reference="pK7-pA-2Dt"/>
         <segue reference="7EM-1T-GHl"/>
         <segue reference="kvM-qf-15W"/>
-        <segue reference="04P-UB-ndY"/>
-        <segue reference="0iu-CJ-OaR"/>
+        <segue reference="QLl-aT-2rU"/>
     </inferredMetricsTieBreakers>
 </document>

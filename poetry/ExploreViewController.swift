@@ -8,8 +8,9 @@
 
 import UIKit
 import ChameleonFramework
-import DZNEmptyDataSet
+import StatusProvider
 import TextAttributes
+import MWPhotoBrowser
 
 class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -27,8 +28,6 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.addSubview(refreshControl)
         refreshControl.addTarget(self, action: #selector(ExploreViewController.refresh), for: .valueChanged)
         tableView.sendSubview(toBack: refreshControl)
-        tableView.emptyDataSetSource = self
-        tableView.emptyDataSetDelegate = self
         tableView.estimatedRowHeight = 420
         tableView.rowHeight = UITableViewAutomaticDimension
         loadData()
@@ -62,25 +61,35 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
             return
         }
         if page == 0 {
-            HUD.show()
+            self.show(statusType: .loading)
         }
         isLoading = true
         Feed.GetFeeds(page) { (list, error) in
-            HUD.dismiss()
+            self.hide(statusType: .loading)
             self.isLoading = false
             if page != self.page + 1 {
                 return
             }
             if error == nil {
                 if list.count > 0 {
-                    self.page = page
-                    self.feedList.append(contentsOf: list)
-                    self.tableView.reloadData()
+                    if page == self.page + 1 {
+                        self.page = page
+                        self.feedList.append(contentsOf: list)
+                        self.tableView.reloadData()
+                    }
                 } else {
                     self.hasMore = false
+                    if self.feedList.count == 0 {
+                        self.show(statusType: .empty(action:nil))
+                    }
                 }
             } else {
-                HUD.flash(.error(error!.localizedDescription), delay: 1.0)
+                /*if page == 0 {
+                    self.show(statusType: .error(error: error, retry: {
+                        self.loadData(page)
+                        self.show(statusType: .loading)
+                    }))
+                }*/
             }
         }
     }
@@ -95,10 +104,42 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
         return feedList.count
     }
     
+    var selFeed:Feed?
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PoemExploreCell
-        cell.viewController = self
         cell.feed = feedList[(indexPath as NSIndexPath).row]
+        cell.showPoemAction = {
+            if let poemVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewController(withIdentifier: "poemvc") as? PoemDetailViewController {
+                poemVC.poem = $0
+                self.navigationController?.pushViewController(poemVC, animated: true)
+            }
+        }
+        cell.showUserAction = {
+            if let userVC = UIStoryboard(name:"User", bundle: nil).instantiateViewController(withIdentifier: "uservc") as? UserViewController {
+                userVC.user = $0
+                self.navigationController?.pushViewController(userVC, animated: true)
+            }
+        }
+        cell.commentAction = {
+            if let commentVC = UIStoryboard(name:"Recommend", bundle: nil).instantiateViewController(withIdentifier: "commentvc") as? PoemCommentViewController {
+                commentVC.commentType = .feed
+                commentVC.feed = $0
+                self.navigationController?.pushViewController(commentVC, animated: true)
+            }
+        }
+        cell.shareAction = {
+            if let shareNavVC = UIStoryboard(name:"Explore", bundle: nil).instantiateViewController(withIdentifier: "sharenavvc") as? UINavigationController {
+                if let shareVC = shareNavVC.viewControllers.first as? ExploreAddViewController {
+                    shareVC.poem = $0.poem
+                }
+                self.present(shareNavVC, animated: true, completion: nil)
+            }
+        }
+        cell.showPicAction = {
+            self.selFeed = $0
+            let broserVC = MWPhotoBrowser(delegate: self)!
+            self.navigationController?.pushViewController(broserVC, animated: true)
+        }
         return cell
     }
     
@@ -119,16 +160,25 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 }
 
-extension ExploreViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string:"正在加载分享内容", attributes: TextAttributes().foregroundColor(UIColor.darkGray).font(UIFont.userFont(size:15)).alignment(.center))
+extension ExploreViewController: MWPhotoBrowserDelegate, StatusProvider {
+    
+    var emptyView: EmptyStatusDisplaying?{
+        let image = UIImage(named: "theme4")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
+        return EmptyStatusView(title: "没有分享", caption: "分享列表为空", image: image, actionTitle: nil)
     }
     
-    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "theme4")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
+    func numberOfPhotos(in photoBrowser: MWPhotoBrowser!) -> UInt {
+        return 1
     }
     
-    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
-        return -40
+    func photoBrowser(_ photoBrowser: MWPhotoBrowser!, photoAt index: UInt) -> MWPhotoProtocol! {
+        if let url = URL(string: selFeed?.picture ?? "") {
+            return MWPhoto(url: url)
+        }
+        return nil
+    }
+    
+    func photoBrowser(_ photoBrowser: MWPhotoBrowser!, titleForPhotoAt index: UInt) -> String! {
+        return selFeed?.content
     }
 }

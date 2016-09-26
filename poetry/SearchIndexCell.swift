@@ -55,7 +55,7 @@ class SearchIndexCell: UITableViewCell {
             if let poet = poet {
                 titleLabel.text = "每日诗人"
                 nameLabel.text = poet.name
-                descLabel.text = poet.desc
+                descLabel.text = !poet.desc.isEmpty ? poet.desc : "暂无简介"
                 if let url = URL(string:poet.name.iconURL()) {
                     headImageView.af_setImage(withURL:url, placeholderImage: UIImage.imageWithString(poet.name, size: CGSize(width: 80, height: 80)))
                 } else {

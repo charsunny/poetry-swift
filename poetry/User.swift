@@ -154,7 +154,7 @@ open class User: Mappable {
                 multipartFormData: { multipartFormData in
                     multipartFormData.append(URL(fileURLWithPath: path), withName: "image")
                 },
-                to: "\(Router.baseURLString)/v1/user/pic",
+                to: "\(Router.baseURLString)/v1/common/pic",
                 encodingCompletion: { encodingResult in
                     switch encodingResult {
                     case .success(let upload, _, _):
@@ -178,6 +178,62 @@ open class User: Mappable {
             )
         }
     }
+    
+    func addComment(type:Int, id:Int, cid:Int, content:String, finish:@escaping (Comment?, Error?)->Void) {
+        Alamofire.request(Router.user(.post, "addcomment", ["type":type, "id":id, "cid":cid, "content":content])).responseObject { (res :DataResponse<Comment>) in
+            switch res.result {
+            case let .success(value) :
+                finish(value, nil)
+            case let .failure(error):
+                finish(nil, error)
+            }
+        }
+    }
+    
+    func likeComment(cid:Int, finish:@escaping (Comment?, Error?)->Void) {
+        Alamofire.request(Router.user(.post, "likecomment", ["cid":cid])).responseObject { (res :DataResponse<Comment>) in
+            switch res.result {
+            case let .success(value) :
+                finish(value, nil)
+            case let .failure(error):
+                finish(nil, error)
+            }
+        }
+    }
+    
+    func unlikeComment(cid:Int, finish:@escaping (Comment?, Error?)->Void) {
+        Alamofire.request(Router.user(.post, "unlikecomment", ["cid":cid])).responseObject { (res :DataResponse<Comment>) in
+            switch res.result {
+            case let .success(value) :
+                finish(value, nil)
+            case let .failure(error):
+                finish(nil, error)
+            }
+        }
+    }
+    
+    func likeFeed (cid:Int, finish:@escaping (Feed?, Error?)->Void) {
+        Alamofire.request(Router.user(.post, "likefeed", ["cid":cid])).responseObject { (res :DataResponse<Feed>) in
+            switch res.result {
+            case let .success(value) :
+                finish(value, nil)
+            case let .failure(error):
+                finish(nil, error)
+            }
+        }
+    }
+    
+    func unlikeFeed (cid:Int, finish:@escaping (Feed?, Error?)->Void) {
+        Alamofire.request(Router.user(.post, "unlikefeed", ["cid":cid])).responseObject { (res :DataResponse<Feed>) in
+            switch res.result {
+            case let .success(value) :
+                finish(value, nil)
+            case let .failure(error):
+                finish(nil, error)
+            }
+        }
+    }
+
     
     var id   : Int = 0
     var nick : String = ""

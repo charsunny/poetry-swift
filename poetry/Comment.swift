@@ -17,6 +17,7 @@ class Comment: Mappable {
     var content	: String = ""
     var time  : String = ""
     var likeCount : Int = 0
+    var isFav : Bool = false
     var comment : Comment?
     
     required init?(map: Map) {
@@ -29,6 +30,7 @@ class Comment: Mappable {
         content <- map["Content"]
         time <- map["Time"]
         user <- map["User"]
+        isFav <- map["IsFav"]
         comment <- map["Comment"]
     }
 }

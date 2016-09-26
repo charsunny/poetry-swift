@@ -3,15 +3,14 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Empty Data Set Delegate-->
+        <!--我的-->
         <scene sceneID="HTT-dE-XWr">
             <objects>
-                <tableViewController id="lWy-CG-zQc" customClass="UserViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="uservc" id="lWy-CG-zQc" customClass="UserViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="80" sectionHeaderHeight="4" sectionFooterHeight="1" id="yVu-XF-YEa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -186,13 +185,26 @@
                                         <constraint firstAttribute="height" constant="50" id="NgN-RA-qQt"/>
                                     </constraints>
                                 </stackView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzn-7R-3ai">
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="32" id="0RL-WI-1rv"/>
+                                        <constraint firstAttribute="width" constant="44" id="hrU-Sb-wOG"/>
+                                    </constraints>
+                                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <state key="normal" image="ic_toolbar_back"/>
+                                    <connections>
+                                        <action selector="onNavBack:" destination="lWy-CG-zQc" eventType="touchUpInside" id="Oqr-5Z-r6r"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="rru-bV-jfT" firstAttribute="leading" secondItem="75h-qW-B46" secondAttribute="leading" id="89A-UH-y9Y"/>
                                 <constraint firstItem="nK9-V7-hEd" firstAttribute="top" secondItem="75h-qW-B46" secondAttribute="top" constant="20" id="8O7-2v-peb"/>
                                 <constraint firstAttribute="trailing" secondItem="nK9-V7-hEd" secondAttribute="trailing" constant="8" id="Atc-zh-0IZ"/>
+                                <constraint firstItem="gzn-7R-3ai" firstAttribute="leading" secondItem="75h-qW-B46" secondAttribute="leading" constant="8" id="CNl-gZ-Oku"/>
                                 <constraint firstAttribute="bottom" secondItem="w7S-eo-a5f" secondAttribute="bottom" constant="70" id="IIV-Fc-G8m"/>
+                                <constraint firstItem="gzn-7R-3ai" firstAttribute="top" secondItem="75h-qW-B46" secondAttribute="top" constant="20" id="Q1q-ZJ-mYJ"/>
                                 <constraint firstAttribute="trailing" secondItem="rru-bV-jfT" secondAttribute="trailing" id="WaO-ve-iIW"/>
                                 <constraint firstAttribute="bottom" secondItem="rru-bV-jfT" secondAttribute="bottom" id="bS2-0y-9Rl"/>
                                 <constraint firstItem="w7S-eo-a5f" firstAttribute="centerX" secondItem="75h-qW-B46" secondAttribute="centerX" id="eWD-1T-DxG"/>
@@ -203,8 +215,6 @@
                         <connections>
                             <outlet property="dataSource" destination="lWy-CG-zQc" id="PeY-Va-aIR"/>
                             <outlet property="delegate" destination="lWy-CG-zQc" id="AUY-7V-Wq0"/>
-                            <outlet property="emptyDataSetDelegate" destination="lWy-CG-zQc" id="TJO-CH-kNn"/>
-                            <outlet property="emptyDataSetSource" destination="lWy-CG-zQc" id="lc7-nn-Os3"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="我的" id="D0q-jo-cTu">
@@ -219,12 +229,14 @@
                     </refreshControl>
                     <connections>
                         <outlet property="avatarImageView" destination="WI6-yQ-WsY" id="6dT-nw-UmX"/>
+                        <outlet property="backButton" destination="gzn-7R-3ai" id="yHt-Y0-Z0U"/>
                         <outlet property="favCountLabel" destination="aIR-z3-fyK" id="roL-za-Q7D"/>
                         <outlet property="followCountLabel" destination="bzh-4R-jlK" id="eQx-zn-RBz"/>
                         <outlet property="followeeCountLabel" destination="Ok0-UX-SWw" id="lIT-LL-WQS"/>
                         <outlet property="headerView" destination="75h-qW-B46" id="xPR-uM-qFf"/>
                         <outlet property="likeCountLabel" destination="O5k-uM-OHw" id="ae9-MI-B1W"/>
                         <outlet property="nameLabel" destination="w7S-eo-a5f" id="5jZ-vL-v1U"/>
+                        <outlet property="settingButton" destination="nK9-V7-hEd" id="uCx-tH-vxO"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ryo-d8-Jeg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -264,11 +276,11 @@
             </objects>
             <point key="canvasLocation" x="-251" y="-361"/>
         </scene>
-        <!--Empty Data Set Delegate-->
+        <!--User Column View Controller-->
         <scene sceneID="kMr-f1-UKg">
             <objects>
                 <collectionViewController storyboardIdentifier="columnvc" hidesBottomBarWhenPushed="YES" id="WAz-PP-8WX" customClass="UserColumnViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" indicatorStyle="white" dataMode="prototypes" id="rXe-Sj-j5c">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" dataMode="prototypes" id="rXe-Sj-j5c">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -317,9 +329,9 @@
                                     <outlet property="descLabel" destination="F5d-i6-b1U" id="StE-iA-OTb"/>
                                     <outlet property="imageView" destination="HKo-5a-iVt" id="ZPq-c8-zh9"/>
                                     <outlet property="titleLabel" destination="INH-1O-Kch" id="Opu-YW-nSU"/>
-                                    <segue destination="1bu-6l-7BF" kind="show" identifier="showdetail" id="jcU-jI-JWQ">
-                                        <segue key="commit" inheritsFrom="parent" id="FzL-PU-tPI"/>
-                                        <segue key="preview" inheritsFrom="commit" id="vqr-yW-gcl"/>
+                                    <segue destination="1bu-6l-7BF" kind="show" identifier="showdetail" customClass="ColumnShowDetailSegue" customModule="poetry" customModuleProvider="target" id="jcU-jI-JWQ">
+                                        <segue key="commit" destination="1bu-6l-7BF" kind="show" identifier="showdetail" customClass="ColumnShowDetailSegue" customModule="poetry" customModuleProvider="target" id="Bnu-bX-XvV"/>
+                                        <segue key="preview" inheritsFrom="commit" id="aEh-oi-bhP"/>
                                     </segue>
                                 </connections>
                             </collectionViewCell>
@@ -350,16 +362,11 @@
                                     <constraint firstItem="RXB-Vi-qa9" firstAttribute="leading" secondItem="5YS-wX-kWy" secondAttribute="leading" id="bMf-rx-EPT"/>
                                     <constraint firstItem="JFg-nX-wKd" firstAttribute="top" secondItem="RXB-Vi-qa9" secondAttribute="bottom" constant="4" id="dY7-kS-GJh"/>
                                 </constraints>
-                                <connections>
-                                    <segue destination="D9M-9r-Sr6" kind="presentation" id="REQ-7d-MU9"/>
-                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
                             <outlet property="dataSource" destination="WAz-PP-8WX" id="l3z-wK-UZv"/>
                             <outlet property="delegate" destination="WAz-PP-8WX" id="swu-u1-8Wu"/>
-                            <outlet property="emptyDataSetDelegate" destination="WAz-PP-8WX" id="Lgt-iC-WIW"/>
-                            <outlet property="emptyDataSetSource" destination="WAz-PP-8WX" id="Fwx-DQ-E58"/>
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="Rev-Mo-2y9">
@@ -376,7 +383,11 @@
                                 <action selector="segSelChanged:" destination="WAz-PP-8WX" eventType="valueChanged" id="EUk-Wf-dA9"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" title="编辑" id="mMf-5i-4YG"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="mMf-5i-4YG">
+                            <connections>
+                                <segue destination="D9M-9r-Sr6" kind="presentation" id="dMw-IC-vtY"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="flowLayout" destination="HvG-Lr-uy0" id="rQ6-i5-GK9"/>
@@ -470,6 +481,9 @@
                                         <constraint firstAttribute="width" secondItem="PB7-Dc-NQC" secondAttribute="height" multiplier="1:1" id="Vfn-vP-9Lc"/>
                                     </constraints>
                                     <state key="normal" image="addpic"/>
+                                    <connections>
+                                        <action selector="addPic:" destination="Svd-KN-mz7" eventType="touchUpInside" id="g5m-hW-FHK"/>
+                                    </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="添加封面" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3r-0j-ilb">
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -554,101 +568,6 @@
                                     <segue destination="6xg-b7-Xmv" kind="show" id="4pv-aH-upt"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" rowHeight="100" id="bo9-kA-6bd" customClass="RecommadCell" customModule="poetry" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="322" width="375" height="100"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bo9-kA-6bd" id="Wfm-pm-e5s">
-                                    <frame key="frameInset" width="342" height="99.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rQ9-EI-nPy">
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uNz-Dz-gZJ">
-                                                    <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FUT-Ai-mDE">
-                                                            <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" image="defaulticon" translatesAutoresizingMaskIntoConstraints="NO" id="WzL-Jq-pKL">
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="48" id="3sd-qG-fbq"/>
-                                                                        <constraint firstAttribute="width" constant="65" id="AFW-5G-U1f"/>
-                                                                        <constraint firstAttribute="height" constant="48" id="AfA-Ip-mJZ"/>
-                                                                        <constraint firstAttribute="height" constant="65" id="Vsg-0o-MW8"/>
-                                                                    </constraints>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                            <integer key="value" value="24"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                    <variation key="default">
-                                                                        <mask key="constraints">
-                                                                            <exclude reference="AFW-5G-U1f"/>
-                                                                            <exclude reference="Vsg-0o-MW8"/>
-                                                                        </mask>
-                                                                    </variation>
-                                                                </imageView>
-                                                            </subviews>
-                                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <constraints>
-                                                                <constraint firstItem="WzL-Jq-pKL" firstAttribute="centerX" secondItem="FUT-Ai-mDE" secondAttribute="centerX" id="6KC-YR-7Bo"/>
-                                                                <constraint firstItem="WzL-Jq-pKL" firstAttribute="centerY" secondItem="FUT-Ai-mDE" secondAttribute="centerY" id="FkN-nx-RHc"/>
-                                                                <constraint firstAttribute="height" constant="62" id="Hwv-Ea-DRb"/>
-                                                                <constraint firstAttribute="width" constant="65" id="Ndr-ZA-oVU"/>
-                                                            </constraints>
-                                                        </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tYo-d2-T4S">
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="65" id="fe7-i3-Wha"/>
-                                                    </constraints>
-                                                </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ym3-FP-1uZ">
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="测试一下哈哈哈哈" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rj6-RF-E2k">
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="欲把西湖比西子，淡妆浓抹总相宜" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u8t-T2-WVl">
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
-                                                </stackView>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="rQ9-EI-nPy" secondAttribute="trailing" id="OZT-t6-q6X"/>
-                                        <constraint firstItem="rQ9-EI-nPy" firstAttribute="leading" secondItem="Wfm-pm-e5s" secondAttribute="leadingMargin" id="PzL-Wj-A00"/>
-                                        <constraint firstAttribute="bottom" secondItem="rQ9-EI-nPy" secondAttribute="bottom" constant="0.5" id="To3-pG-2y5"/>
-                                        <constraint firstItem="rQ9-EI-nPy" firstAttribute="top" secondItem="Wfm-pm-e5s" secondAttribute="topMargin" id="gHD-Id-1hA"/>
-                                        <constraint firstItem="rQ9-EI-nPy" firstAttribute="top" secondItem="Wfm-pm-e5s" secondAttribute="top" id="gjg-88-aRR"/>
-                                        <constraint firstAttribute="trailing" secondItem="rQ9-EI-nPy" secondAttribute="trailing" id="hRQ-QI-Lhd"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="rQ9-EI-nPy" secondAttribute="bottom" id="r5e-l3-j32"/>
-                                        <constraint firstItem="rQ9-EI-nPy" firstAttribute="leading" secondItem="Wfm-pm-e5s" secondAttribute="leading" id="sjM-Mz-a0k"/>
-                                    </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="To3-pG-2y5"/>
-                                            <exclude reference="gjg-88-aRR"/>
-                                            <exclude reference="hRQ-QI-Lhd"/>
-                                            <exclude reference="sjM-Mz-a0k"/>
-                                        </mask>
-                                    </variation>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="authorLabel" destination="tYo-d2-T4S" id="w43-xj-a8g"/>
-                                    <outlet property="descLabel" destination="u8t-T2-WVl" id="zqQ-sA-5pA"/>
-                                    <outlet property="headImageView" destination="WzL-Jq-pKL" id="5i7-vV-7Pc"/>
-                                    <outlet property="titleLabel" destination="Rj6-RF-E2k" id="MpY-1X-JPq"/>
-                                </connections>
-                            </tableViewCell>
                         </prototypes>
                         <sections/>
                         <connections>
@@ -663,7 +582,11 @@
                                 <segue destination="Gt0-IZ-wHR" kind="unwind" unwindAction="dismissCurrentViewController:" id="uSH-gy-LSt"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="PMI-aF-2S8"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="PMI-aF-2S8">
+                            <connections>
+                                <action selector="onCreateFinish:" destination="Svd-KN-mz7" id="Pja-y8-u2G"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="imageButton" destination="PB7-Dc-NQC" id="UUA-9l-hVh"/>
@@ -673,11 +596,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="liX-Jw-EHY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="6BG-SG-z6b">
-                    <connections>
-                        <action selector="addPic:" destination="Svd-KN-mz7" id="Q0H-bP-dTg"/>
-                    </connections>
-                </tapGestureRecognizer>
+                <tapGestureRecognizer id="6BG-SG-z6b"/>
             </objects>
             <point key="canvasLocation" x="1401" y="-433"/>
         </scene>
@@ -686,7 +605,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="D9M-9r-Sr6" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3dT-mu-p5D">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3dT-mu-p5D">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.90588235289999997" green="0.23137254900000001" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -705,7 +624,7 @@
             </objects>
             <point key="canvasLocation" x="701" y="-433"/>
         </scene>
-        <!--Empty Data Set Delegate-->
+        <!--专辑详情-->
         <scene sceneID="yZe-wK-bPn">
             <objects>
                 <tableViewController title="专辑详情" id="1bu-6l-7BF" customClass="ColumnDetailViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
@@ -769,7 +688,7 @@
                                                                         <inset key="contentEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                         <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="4" maxY="0.0"/>
-                                                                        <state key="normal" title="0" image="hert"/>
+                                                                        <state key="normal" title="0" image="folder"/>
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aAA-TP-8Gm">
                                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -832,8 +751,6 @@
                         <connections>
                             <outlet property="dataSource" destination="1bu-6l-7BF" id="Ri9-Re-EE7"/>
                             <outlet property="delegate" destination="1bu-6l-7BF" id="ihD-td-EPg"/>
-                            <outlet property="emptyDataSetDelegate" destination="1bu-6l-7BF" id="ffQ-Yh-rMu"/>
-                            <outlet property="emptyDataSetSource" destination="1bu-6l-7BF" id="mCp-yb-udk"/>
                         </connections>
                     </tableView>
                     <connections>
@@ -890,7 +807,8 @@
         <image name="col" width="100" height="100"/>
         <image name="comments" width="20" height="20"/>
         <image name="defaulticon" width="80" height="80"/>
-        <image name="hert" width="20" height="20"/>
+        <image name="folder" width="20" height="20"/>
+        <image name="ic_toolbar_back" width="32" height="32"/>
         <image name="poet" width="20" height="20"/>
         <image name="settings" width="20" height="20"/>
     </resources>

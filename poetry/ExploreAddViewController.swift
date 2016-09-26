@@ -10,6 +10,8 @@ import UIKit
 class ExploreAddViewController: UITableViewController, UITextViewDelegate {
     
     var poem:Poem?
+    
+    var feed:Feed?
 
     @IBOutlet weak var imageView: UIImageView!
     
@@ -24,6 +26,9 @@ class ExploreAddViewController: UITableViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = poem?.title ?? "分享诗词"
+        if let feed = feed {
+            poem = feed.poem
+        }
         if let poem = poem {
             poem.loadPoet()
             poemCell.textLabel?.text = poem.title
@@ -105,6 +110,15 @@ class ExploreAddViewController: UITableViewController, UITextViewDelegate {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "AddFeedNotif"), object: nil)
             } else {
                 HUD.flash(.error(error!.localizedDescription), delay: 1)
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? PoemSearchViewController {
+            vc.selectPoemAction = {
+                self.poem = $0
+                self.tableView.reloadData()
             }
         }
     }
