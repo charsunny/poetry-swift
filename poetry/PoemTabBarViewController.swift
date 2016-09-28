@@ -50,3 +50,11 @@ class PoemTabBarViewController: UITabBarController {
     */
 
 }
+
+extension UINavigationController {
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return self.topViewController?.preferredStatusBarStyle ?? .default
+        }
+    }
+}

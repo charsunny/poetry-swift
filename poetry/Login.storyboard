@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mja-cL-jzF">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mja-cL-jzF">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -45,6 +46,12 @@
                                             <action selector="loginWithWeibo:" destination="mja-cL-jzF" eventType="touchUpInside" id="T1I-74-7I2"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fqe-yE-13B">
+                                        <state key="normal" image="wechat"/>
+                                        <connections>
+                                            <action selector="loginWithWechat:" destination="mja-cL-jzF" eventType="touchUpInside" id="rpf-3N-C96"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IoD-oD-nUs">
                                         <state key="normal" image="qq"/>
                                         <connections>
@@ -54,7 +61,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="NnK-x0-NUD"/>
-                                    <constraint firstAttribute="width" constant="120" id="ktu-IV-IOK"/>
+                                    <constraint firstAttribute="width" constant="180" id="ktu-IV-IOK"/>
                                 </constraints>
                             </stackView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用第三方帐号登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2vh-hA-cQw">
@@ -82,6 +89,16 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="asx-Y2-Ue1">
+                                <color key="backgroundColor" white="0.0" alpha="0.47011325503355705" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="QBw-QC-GM4"/>
+                                    <constraint firstAttribute="height" constant="24" id="YGq-Mz-jWb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -95,7 +112,9 @@
                             <constraint firstItem="uIb-CB-Euo" firstAttribute="top" secondItem="Gtg-FR-wgH" secondAttribute="bottom" constant="4" id="AGQ-gH-ed9"/>
                             <constraint firstItem="jdE-OI-cI0" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="AO7-pP-yX1"/>
                             <constraint firstItem="bCN-6o-vfN" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="GQE-ys-yuY"/>
+                            <constraint firstItem="asx-Y2-Ue1" firstAttribute="trailing" secondItem="KIJ-MD-wun" secondAttribute="trailingMargin" constant="8" id="MeE-ee-4yE"/>
                             <constraint firstItem="Gtg-FR-wgH" firstAttribute="centerX" secondItem="KIJ-MD-wun" secondAttribute="centerX" id="Odq-wq-pOk"/>
+                            <constraint firstItem="asx-Y2-Ue1" firstAttribute="top" secondItem="uAw-80-qjH" secondAttribute="bottom" id="PSW-Je-vzA"/>
                             <constraint firstItem="2vh-hA-cQw" firstAttribute="top" secondItem="JDB-aa-UcW" secondAttribute="bottom" constant="8" id="QFo-bs-Zje"/>
                             <constraint firstItem="1Vp-C0-31m" firstAttribute="top" secondItem="tvM-Fh-od3" secondAttribute="bottom" id="ZCh-qX-UeJ"/>
                             <constraint firstAttribute="trailing" secondItem="tvM-Fh-od3" secondAttribute="trailing" id="ZMu-Ow-C8r"/>
@@ -123,8 +142,10 @@
                         <outlet property="indicatorView" destination="jdE-OI-cI0" id="bMr-GJ-JSN"/>
                         <outlet property="qqButton" destination="IoD-oD-nUs" id="x80-mG-arG"/>
                         <outlet property="secondLineLabel" destination="wOi-sE-azi" id="VPe-1C-UGF"/>
+                        <outlet property="timerLabel" destination="asx-Y2-Ue1" id="vGX-fG-z6e"/>
                         <outlet property="tipLabel" destination="2vh-hA-cQw" id="Pxx-yX-wFq"/>
                         <outlet property="titleImageView" destination="bCN-6o-vfN" id="mNa-W7-J8D"/>
+                        <outlet property="wechatButton" destination="fqe-yE-13B" id="DGL-fu-QzH"/>
                         <outlet property="weiboButton" destination="kNA-0I-WJ7" id="lzH-A1-r17"/>
                     </connections>
                 </viewController>
@@ -137,6 +158,7 @@
         <image name="load" width="300" height="297"/>
         <image name="loadtitle" width="61" height="184"/>
         <image name="qq" width="40" height="40"/>
+        <image name="wechat" width="48" height="48"/>
         <image name="weibo" width="40" height="40"/>
     </resources>
 </document>

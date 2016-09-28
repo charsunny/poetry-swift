@@ -27,6 +27,9 @@ class PoetSimpleView: UIView {
     
     var poet:Poet! {
         didSet {
+            if poet == nil {
+                return
+            }
             nameLabel.text = poet.name
             if let url = URL(string:poet.name.iconURL()) {
                 imageView.af_setImage(withURL:url, placeholderImage: UIImage.imageWithString(poet.name, size: CGSize(width: 80, height: 80)))
@@ -39,7 +42,7 @@ class PoetSimpleView: UIView {
     weak var vc:UIViewController?
 }
 
-class SearchViewController: UITableViewController, UISearchResultsUpdating, UISearchControllerDelegate {
+class SearchViewController: UITableViewController, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
 
     var searchController:UISearchController!
     
@@ -74,6 +77,7 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         searchController = UISearchController(searchResultsController: searchResultVC)
         searchController.searchResultsUpdater = self;
         searchController.delegate = self
+        searchController.searchBar.delegate =  self
         //searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.definesPresentationContext = true
@@ -82,10 +86,38 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.tableView.reloadData()
         }
+        
         hotPoetView.forEach { (view) in
             let name = hotPoets[hotPoetView.index(of: view)!]
             view.vc = self
             view.poet = DataManager.manager.poetByName(name).first
+        }
+        if LocalDBExist {
+            return
+        }
+        HUD.show()
+        Search.GetSearchIndex { (data, error) in
+            HUD.dismiss()
+            if error != nil {
+                HUD.flash(.error(error!.localizedDescription), delay: 3)
+            } else {
+                if let data = data {
+                    self.recPoem = data.poem
+                    self.recPoet = data.poet
+                    self.recFormat = data.format
+                    let poets = data.poets
+                    self.hotPoetView.forEach { (view) in
+                        let index = self.hotPoetView.index(of: view)!
+                        if index >= poets.count {
+                            return
+                        }
+                        let poet = poets[index]
+                        view.vc = self
+                        view.poet = poet
+                    }
+                    self.tableView.reloadData()
+                }
+            }
         }
     }
 
@@ -97,6 +129,14 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating, UISe
         } else {
             searchResultVC.searchText = searchController.searchBar.text
         }
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        if !LocalDBExist {
+            HUD.flash(.info("请您先下载诗词数据库，再进行搜索。"), delay: 3.0)
+            return false
+        }
+        return true
     }
     
     func willPresentSearchController(_ searchController: UISearchController) {

@@ -75,6 +75,14 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
                 }
             })
         }
+        self.setNeedsStatusBarAppearanceUpdate()
+        //self.preferredStatusBarStyle = .lightContent
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return .lightContent
+        }
     }
     
     var tapIndex:Int = -1

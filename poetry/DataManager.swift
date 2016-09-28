@@ -144,7 +144,7 @@ open class DataManager: NSObject {
     open func explain(_ key:Character) -> String? {
         do {
             var exp = ""
-            if let ps = try dictdb?.executeQuery("select * from dict where zi = ? limit 1", values: [key]) {
+            if let ps = try dictdb?.executeQuery("select * from dict where zi = ? limit 1", values: [String(key)]) {
                 while ps.next() {
                     let name = ps.string(forColumn: "jijie") ?? ""
                     exp = name

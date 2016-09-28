@@ -6,3 +6,5 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <WeiboSDK/WeiboSDK.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "WXApi.h"
+#import "WechatAuthSDK.h"

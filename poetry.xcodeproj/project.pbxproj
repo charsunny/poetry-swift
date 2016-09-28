@@ -97,6 +97,7 @@
 		B65DBCCB1D78ACE500069D1D /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B65DBCC91D78ACE500069D1D /* Setting.storyboard */; };
 		B65DBCCD1D78AFA200069D1D /* UserColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65DBCCC1D78AFA200069D1D /* UserColumnViewController.swift */; };
 		B65DBCCF1D7F36BE00069D1D /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65DBCCE1D7F36BE00069D1D /* AudioPlayer.swift */; };
+		B66B075B1D9B6D560067F12D /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B66B07551D9B6D560067F12D /* libWeChatSDK.a */; };
 		B6BAF3FE1D72B00A0095A5EE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF3FD1D72B00A0095A5EE /* User.swift */; };
 		B6BAF4001D72FF1F0095A5EE /* Recommend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF3FF1D72FF1F0095A5EE /* Recommend.swift */; };
 		B6BAF4021D73001B0095A5EE /* Poem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAF4011D73001B0095A5EE /* Poem.swift */; };
@@ -113,6 +114,7 @@
 		B6C22CC31D8DEC5E00586CE6 /* IndexRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C22CC21D8DEC5E00586CE6 /* IndexRequestHandler.swift */; };
 		B6C22CC71D8DEC5F00586CE6 /* spotlight.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B6C22CC01D8DEC5E00586CE6 /* spotlight.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B6F41B181D951BE6001F58FE /* ColumnShowDetailSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F41B171D951BE6001F58FE /* ColumnShowDetailSegue.swift */; };
+		B6F41B1A1D99A0C9001F58FE /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F41B191D99A0C9001F58FE /* Search.swift */; };
 		B6F730971D90E85D00896791 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F730961D90E85D00896791 /* Column.swift */; };
 		B6F730991D913E0600896791 /* ColumnDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F730981D913E0600896791 /* ColumnDetailViewController.swift */; };
 		E65FF5B5E963E81EC8D8DBF8 /* Pods_poetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF809C35B568352BAAAD91DE /* Pods_poetry.framework */; };
@@ -247,6 +249,10 @@
 		B65DBCCA1D78ACE500069D1D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Setting.storyboard; sourceTree = "<group>"; };
 		B65DBCCC1D78AFA200069D1D /* UserColumnViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserColumnViewController.swift; sourceTree = "<group>"; };
 		B65DBCCE1D7F36BE00069D1D /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		B66B07551D9B6D560067F12D /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		B66B07581D9B6D560067F12D /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		B66B07591D9B6D560067F12D /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		B66B075A1D9B6D560067F12D /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		B6BAF3FD1D72B00A0095A5EE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B6BAF3FF1D72FF1F0095A5EE /* Recommend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recommend.swift; sourceTree = "<group>"; };
 		B6BAF4011D73001B0095A5EE /* Poem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poem.swift; sourceTree = "<group>"; };
@@ -266,6 +272,7 @@
 		B6C22CC41D8DEC5E00586CE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6C22CCB1D8DEC6F00586CE6 /* spotlight.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = spotlight.entitlements; sourceTree = "<group>"; };
 		B6F41B171D951BE6001F58FE /* ColumnShowDetailSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnShowDetailSegue.swift; sourceTree = "<group>"; };
+		B6F41B191D99A0C9001F58FE /* Search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		B6F730941D8FEA0B00896791 /* ChameleonFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ChameleonFramework.framework; path = "../../Library/Developer/Xcode/DerivedData/poetry-dykmvwhbpkefendtcyybvidmvwkf/Build/Products/Debug-iphoneos/ChameleonFramework/ChameleonFramework.framework"; sourceTree = "<group>"; };
 		B6F730961D90E85D00896791 /* Column.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		B6F730981D913E0600896791 /* ColumnDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnDetailViewController.swift; sourceTree = "<group>"; };
@@ -281,6 +288,7 @@
 			files = (
 				E65FF5B5E963E81EC8D8DBF8 /* Pods_poetry.framework in Frameworks */,
 				1605B5BE1D71B1B600A781AE /* TencentOpenAPI.framework in Frameworks */,
+				B66B075B1D9B6D560067F12D /* libWeChatSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +338,7 @@
 			children = (
 				A9DA87751CE31A5E007D4EBC /* DataManager.swift */,
 				B6BAF3FD1D72B00A0095A5EE /* User.swift */,
+				B6F41B191D99A0C9001F58FE /* Search.swift */,
 				B6BAF3FF1D72FF1F0095A5EE /* Recommend.swift */,
 				B6BAF4011D73001B0095A5EE /* Poem.swift */,
 				B6BAF4031D7302DF0095A5EE /* Poet.swift */,
@@ -448,6 +457,7 @@
 		A9A234871CE454FD008A8BAD /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B66B07541D9B6D560067F12D /* wechat */,
 				1605B5BC1D71B1B600A781AE /* TencentOpenAPI.framework */,
 				1605B5BD1D71B1B600A781AE /* TencentOpenApi_IOS_Bundle.bundle */,
 			);
@@ -548,6 +558,17 @@
 				B640FE8D1D8DC22D00098ED1 /* Info.plist */,
 			);
 			path = today;
+			sourceTree = "<group>";
+		};
+		B66B07541D9B6D560067F12D /* wechat */ = {
+			isa = PBXGroup;
+			children = (
+				B66B07551D9B6D560067F12D /* libWeChatSDK.a */,
+				B66B07581D9B6D560067F12D /* WechatAuthSDK.h */,
+				B66B07591D9B6D560067F12D /* WXApi.h */,
+				B66B075A1D9B6D560067F12D /* WXApiObject.h */,
+			);
+			path = wechat;
 			sourceTree = "<group>";
 		};
 		B6BDC6391D6CC07400AF0B8F /* base */ = {
@@ -899,6 +920,7 @@
 				B6BAF4081D735D000095A5EE /* Comment.swift in Sources */,
 				1605B5B41D71915800A781AE /* SearchResultViewController.swift in Sources */,
 				A9AEAE6D1CE2033E00312C8B /* RecommendViewController.swift in Sources */,
+				B6F41B1A1D99A0C9001F58FE /* Search.swift in Sources */,
 				16F6B7651D70402100286C43 /* UserNotifViewController.swift in Sources */,
 				1640AF9E1D797F9400F6E895 /* FontChooseViewController.swift in Sources */,
 				B658E5881D74A683005BCA8E /* SearchResultCell.swift in Sources */,
@@ -1120,6 +1142,10 @@
 				INFOPLIST_FILE = poetry/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/poetry/wechat",
+				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charsunny.poetry;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1148,6 +1174,10 @@
 				INFOPLIST_FILE = poetry/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/poetry/wechat",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.charsunny.poetry;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

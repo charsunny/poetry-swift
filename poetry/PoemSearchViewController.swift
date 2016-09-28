@@ -61,7 +61,7 @@ class PoemSearchViewController: UITableViewController, UISearchResultsUpdating, 
         if let text = searchController.searchBar.text, text.characters.count > 0 {
             if poemSearchType == .poem {
                 self.poems = DataManager.manager.search(text)
-            } else if poemSearchType == .poem {
+            } else if poemSearchType == .poet {
                 self.poets = DataManager.manager.searchAuthor(text)
             } else {
                 self.explains = text.characters.reversed().map {

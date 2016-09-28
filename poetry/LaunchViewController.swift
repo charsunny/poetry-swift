@@ -9,7 +9,7 @@
 import UIKit
 import SVProgressHUD
 
-class LaunchViewController: UIViewController, TencentSessionDelegate {
+class LaunchViewController: UIViewController, TencentSessionDelegate, WXApiDelegate {
     
     var userInfo:NSDictionary?
 
@@ -29,9 +29,17 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
     
     @IBOutlet weak var weiboButton: UIButton!
     
+    @IBOutlet weak var wechatButton: UIButton!
+    
     @IBOutlet weak var qqButton: UIButton!
     
     @IBOutlet weak var tipLabel: UILabel!
+    
+    @IBOutlet weak var timerLabel: UILabel!
+    
+    var timer:Timer!
+    
+    var leftTime = 5
     
     var qqOAuth : TencentOAuth!
     
@@ -79,6 +87,8 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
         super.viewDidLoad()
         self.qqButton.isHidden = true
         self.weiboButton.isHidden = true
+        self.wechatButton.isHidden = true
+        self.timerLabel.isHidden = true
         indicatorView.isHidden = true
         authorLabel.alpha = 0
         firstLineLabel.font = UIFont.userFont(size:24)
@@ -106,6 +116,12 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
             self.authorLabel.text = self.subtitle
         }
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return .lightContent
+        }
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -125,23 +141,46 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
                 self.qqButton.isHidden = false
                 self.weiboButton.isHidden = false
                 self.tipLabel.isHidden = false
+                if WXApi.isWXAppInstalled() {
+                    self.wechatButton.isHidden = false
+                }
+                self.timerLabel.isHidden = false
+                self.leftTime = 5
+                self.timerLabel.text = "\(self.leftTime)s"
+                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(LaunchViewController.onTimer), userInfo: nil, repeats: true)
             } else {
                 self.indicatorView.isHidden = false
                 self.indicatorView.startAnimating()
-                User.GetUserInfo({ (u, error) in
+                User.GetUserInfo { (u, error) in
                     self.indicatorView.isHidden = true
                     if error != nil {
                         self.qqButton.isHidden = false
                         self.weiboButton.isHidden = false
+                        if WXApi.isWXAppInstalled() {
+                            self.wechatButton.isHidden = false
+                        }
                         self.tipLabel.isHidden = false
                         SVProgressHUD.showError(withStatus: "加载失败，请重新登录")
                         SVProgressHUD.dismiss(withDelay: 1)                    } else {
                         if UIApplication.shared.keyWindow?.rootViewController == self {
-                            self.perform(#selector(LaunchViewController.enterMainPage(_:)), with: nil, afterDelay: 5)
+                            self.leftTime = 5
+                            self.timerLabel.isHidden = false
+                            self.timerLabel.text = "\(self.leftTime)s"
+                            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(LaunchViewController.onTimer), userInfo: nil, repeats: true)
                         }
                     }
-                })
+                }
             }
+        }
+    }
+    
+    func onTimer() {
+        self.leftTime = self.leftTime - 1
+        if leftTime <= 0 {
+            timer.invalidate()
+            self.enterMainPage(nil)
+        } else {
+            self.timerLabel.text = "\(self.leftTime)s"
         }
     }
     
@@ -152,6 +191,7 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
     }
 
     @IBAction func loginWithWeibo(_ sender: AnyObject) {
+        timer?.invalidate()
         let request = WBAuthorizeRequest()
         request.redirectURI = "http://classicpoem.cn"
         request.scope = "all"
@@ -159,7 +199,17 @@ class LaunchViewController: UIViewController, TencentSessionDelegate {
         WeiboSDK.send(request)
     }
     
+    @IBAction func loginWithWechat(_ sender: AnyObject) {
+        timer?.invalidate()
+        let req = SendAuthReq()
+        req.scope = "snsapi_userinfo"
+        req.state = "xxx"
+        //req.openID = "wxb44969eb6f18907d"
+        WXApi.sendAuthReq(req, viewController: self, delegate: self)
+    }
+    
     @IBAction func loginWithQQ(_ sender: AnyObject) {
+        timer?.invalidate()
         qqOAuth.authorize([kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO], inSafari: false)
     }
    

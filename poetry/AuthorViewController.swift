@@ -33,7 +33,7 @@ class AuthorViewController: UIViewController {
             vc.format = self.format
             list.append(vc)
         }
-        list.append(self.storyboard!.instantiateViewController(withIdentifier: "relatevc"))
+        //list.append(self.storyboard!.instantiateViewController(withIdentifier: "relatevc"))
         return list
     }()
     
@@ -133,7 +133,7 @@ extension AuthorViewController:UIPageViewControllerDelegate, UIPageViewControlle
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let index = controllers.index(of: viewController)!
-        if index == 2 {
+        if index == 1 {
             return nil
         }
         return controllers[index+1]

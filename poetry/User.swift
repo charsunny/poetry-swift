@@ -120,8 +120,8 @@ open class User: Mappable {
         }
     }
     
-    static func GetUserInfo(_ finish:@escaping (User?, Error?)->Void) {
-        Alamofire.request(Router.user(.get, "info", [:])).responseObject { (res :DataResponse<User>) in
+    static func GetUserInfo(_ id : Int = 0, _ finish:@escaping (User?, Error?)->Void) {
+        Alamofire.request(Router.user(.get, "info", ["id":id])).responseObject { (res :DataResponse<User>) in
             switch res.result {
             case let .success(value) :
                 User.LoginUser = value
@@ -261,5 +261,8 @@ open class User: Mappable {
         followeeCount <- map["FolloweeCount"]
         rongUser <- map["RongUser"]
         rongToken <- map["RongToken"]
+        if nick.characters.count == 0 {
+            nick = "诗词用户"
+        }
     }
 }

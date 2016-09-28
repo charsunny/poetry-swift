@@ -27,6 +27,11 @@ class DictViewController: UIViewController {
             textView.text = "暂无解释"
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        textView.contentOffset = CGPoint.zero
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -9,6 +9,8 @@
 import UIKit
 import IBAnimatable
 import TextAttributes
+import Alamofire
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -62,6 +64,29 @@ class ChatListViewController: RCConversationListViewController {
             }
         }
     }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+//    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+//        let action = UITableViewRowAction(style: .default, title: "删除") { (_, indexPath) in
+//            
+//        }
+//        return [action]
+//    }
+    
+    override func didDeleteConversationCell(_ model: RCConversationModel!) {
+        //RCConversation
+    }
+    
+    override func onSelectedTableRow(_ conversationModelType: RCConversationModelType, conversationModel model: RCConversationModel!, at indexPath: IndexPath!) {
+        if let chat = RCConversationViewController(conversationType: model.conversationType, targetId: model.targetId) {
+            chat.hidesBottomBarWhenPushed = true
+            chat.title = "聊天"
+            self.navigationController?.pushViewController(chat, animated: true)
+        }
+    }
 
     
     // MARK: - Navigation
@@ -72,4 +97,5 @@ class ChatListViewController: RCConversationListViewController {
         // Pass the selected object to the new view controller.
     }
 }
+
 

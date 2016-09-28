@@ -9,12 +9,15 @@
 import UIKit
 import JDStatusBarNotification
 import SVProgressHUD
+import Alamofire
 
 public let DocumentPath:String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
 
 public let CachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!
 
 public var LocalDBExist = false
+
+let WXAppId = "wxb44969eb6f18907d"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -31,9 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //UINavigationBar.appearance().tintColor = UIColor.flatRedColor()
         RCIM.shared().initWithAppKey("8w7jv4qb77vey")
+        RCIM.shared().userInfoDataSource = self
         WeiboSDK.enableDebugMode(true)
         WeiboSDK.registerApp("4225157019")
-        
+        WXApi.registerApp(WXAppId)
         SVProgressHUD.setMinimumDismissTimeInterval(3)
         if launchOptions == nil {
             window = UIWindow(frame: UIScreen.main.bounds)
@@ -101,6 +105,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if canHandle {
             return true
         }
+        canHandle = WXApi.handleOpen(url, delegate: self)
+        if canHandle {
+            return true
+        }
         canHandle = TencentOAuth.handleOpen(url)
         if canHandle {
             return true
@@ -142,6 +150,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+extension AppDelegate : WXApiDelegate {
+    func onResp(_ resp: BaseResp!) {
+        if let res = resp as? SendAuthResp {
+            if let code = res.code, let url = URL(string:"https://api.weixin.qq.com/sns/oauth2/access_token?appid=\(WXAppId)&secret=935e92b4c37b4157cdf4ba14a029dec8&code=\(code)&grant_type=authorization_code") {
+                Alamofire.request(url, method: .get).responseJSON(queue: DispatchQueue.main, options: .mutableContainers, completionHandler: { (res) in
+                    switch res.result {
+                    case .success(let value):
+                        if let dict = value as? NSDictionary {
+                            debugPrint(dict)
+                            guard let token = dict["access_token"] as? String, let openid = dict["openid"] as? String, let url = URL(string:"https://api.weixin.qq.com/sns/userinfo?access_token=\(token)&openid=\(openid)") else {return}
+                            Alamofire.request(url, method: .get).responseJSON(queue: DispatchQueue.main, options: .mutableContainers, completionHandler: { (data) in
+                                switch data.result {
+                                case .success(let value):
+                                    if let dict = value as? NSDictionary {
+                                        let nick = dict["nickname"] as? String ?? ""
+                                        let gender = dict["sex"] as? Int ?? 1
+                                        let avatar = dict["headimgurl"] as? String ?? ""
+                                        let uid = dict["openid"] as? String ?? ""
+                                        Login.LoginWithSNS(nick, gender: gender, avatar: avatar, userId: uid, snsType: 3, finish: { (login, err) in
+                                            if err != nil {
+                                                JDStatusBarNotification.show(withStatus: "登录失败", dismissAfter:1, styleName:JDStatusBarStyleError)
+                                            }
+                                        })
+                                    }
+                                case .failure:
+                                    debugPrint("failed")
+                                }
+                            })
+                        }
+                    case .failure:
+                        debugPrint("failed")
+                    }
+                })
+            }
+            
+        }
+    }
+}
+
 extension AppDelegate : WeiboSDKDelegate {
     
     func didReceiveWeiboRequest(_ request: WBBaseRequest!) {
@@ -165,6 +212,18 @@ extension AppDelegate : WeiboSDKDelegate {
             } else {
                 JDStatusBarNotification.show(withStatus: "拉取授权信息失败", dismissAfter:1, styleName:JDStatusBarStyleError)
             }
+        }
+    }
+}
+
+extension AppDelegate : RCIMUserInfoDataSource {
+    func getUserInfo(withUserId userId: String!, completion: ((RCUserInfo?) -> Void)!) {
+        User.GetUserInfo(Int(userId) ?? 0) { (user, error) in
+            if error == nil {
+                completion(nil)
+            }
+            let rcUser = RCUserInfo(userId: userId, name: user?.nick ?? "诗词用户", portrait: user?.avatar ?? "")
+            completion(rcUser)
         }
     }
 }

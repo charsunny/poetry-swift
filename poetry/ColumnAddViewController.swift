@@ -105,7 +105,10 @@ class ColumnAddViewController: UITableViewController {
         if section == 0 {
             return 2
         }
-        return poems.count
+        if segControl.selectedSegmentIndex == 0 {
+            return poems.count
+        }
+        return poets.count
     }
     
     lazy var segControl : UISegmentedControl = {

@@ -16,6 +16,10 @@ class UserViewController: UITableViewController {
     
     var user : User?
     
+    var qqOAuth : TencentOAuth!
+    
+    var openId: String?
+    
     var feedList : [Feed] = []
 
     @IBOutlet weak var headerView: UIView!
@@ -38,22 +42,31 @@ class UserViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        qqOAuth = TencentOAuth(appId: "1105650150", andDelegate: self)
         tableView.register(UINib(nibName: "PoemExploreCell", bundle:nil), forCellReuseIdentifier: "cell")
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "LoginSuccess"), object: nil, queue: OperationQueue.main) { (_) in
+            self.show(statusType: .loading)
+            self.loadFeeds()
             self.showUserInfo()
         }
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserFontChangeNotif"), object: nil, queue: OperationQueue.main) { (_) in
             self.tableView.reloadData()
         }
-        tableView.estimatedRowHeight = 420
-        tableView.rowHeight = UITableViewAutomaticDimension
+        //tableView.estimatedRowHeight = 420
+        tableView.rowHeight = 420
         headerView.backgroundColor = UIColor.flatRed()
-        showUserInfo()
-        self.show(statusType: .loading)
         if let user = user {
+            self.show(statusType: .loading)
             loadFeeds(0, uid: user.id)
         } else {
-            loadFeeds()
+            if User.LoginUser != nil {
+                self.show(statusType: .loading)
+                loadFeeds()
+            } else {
+                self.show(statusType: .empty(action: { 
+                    
+                }))
+            }
         }
         if self == self.navigationController?.viewControllers.first {
             self.backButton.isHidden = true
@@ -62,6 +75,39 @@ class UserViewController: UITableViewController {
             self.backButton.isHidden = false
             self.settingButton.isHidden = true
         }
+    }
+    
+    @IBAction func onTapHeader(_ sender: AnyObject) {
+        let logined = (User.LoginUser != nil)
+        let alertController = UIAlertController(title: logined ? "更换头像" : "用户登录", message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        if logined {
+            alertController.addAction(UIAlertAction(title: "相册选择", style: .default, handler: { (_) in
+                
+            }))
+            alertController.addAction(UIAlertAction(title: "拍摄照片", style: .default, handler: { (_) in
+                
+            }))
+        } else {
+            alertController.addAction(UIAlertAction(title: "微博登录", style: .default, handler: { (_) in
+                let request = WBAuthorizeRequest()
+                request.redirectURI = "http://classicpoem.cn"
+                request.scope = "all"
+                request.userInfo = ["SSO_From":"LaunchViewController"]
+                WeiboSDK.send(request)
+            }))
+            alertController.addAction(UIAlertAction(title: "微信登录", style: .default, handler: { (_) in
+                let req = SendAuthReq()
+                req.scope = "snsapi_userinfo"
+                req.state = "xxx"
+                //req.openID = "wxb44969eb6f18907d"
+                WXApi.sendAuthReq(req, viewController: self, delegate: nil)
+            }))
+            alertController.addAction(UIAlertAction(title: "QQ登录", style: .default, handler: { (_) in
+                self.qqOAuth.authorize([kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO], inSafari: false)
+            }))
+        }
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func onNavBack(_ sender: AnyObject) {
@@ -79,25 +125,15 @@ class UserViewController: UITableViewController {
             likeCountLabel.text = "\(user.likeCount)"
             favCountLabel.text = "\(user.columnCount)"
             followCountLabel.text = "\(user.followCount)"
-            followeeCountLabel.text = "\(user.followeeCount)"
-        }
-    }
-    
-    @IBAction func refresFeeds(_ sender: AnyObject) {
-        
-        Feed.GetFeedsAfter(feedList.first?.id ?? -1) { (list, error) in
-            self.refreshControl?.endRefreshing()
-            self.hide(statusType: .loading)
-            if error == nil {
-                if list.count > 0 {
-                    self.feedList.insert(contentsOf: list, at: 0)
-                    self.tableView.reloadData()
-                } else {
-                    self.show(statusType: .empty(action:nil))
-                }
-            } else {
-                HUD.flash(.error(error!.localizedDescription), delay: 1.0)
-            }
+            //followeeCountLabel.text = "\(user.followeeCount)"
+        } else {
+            feedList.removeAll()
+            nameLabel.text = "尚未登录，点击登录"
+            avatarImageView.image = UIImage(named: "defaulticon")
+            likeCountLabel.text = "0"
+            favCountLabel.text = "0"
+            followCountLabel.text = "0"
+            self.tableView.reloadData()
         }
     }
     
@@ -111,6 +147,7 @@ class UserViewController: UITableViewController {
         isLoading = true
         Feed.GetUserFeeds(page, uid:uid) { (list, error) in
             self.isLoading = false
+            self.hide(statusType: .loading)
             if page != self.page + 1 {
                 return
             }
@@ -120,6 +157,9 @@ class UserViewController: UITableViewController {
                     self.tableView.reloadData()
                 } else {
                     self.hasMore = false
+                    if self.feedList.count == 0 {
+                        self.show(statusType: .empty(action:nil))
+                    }
                 }
             }
         }
@@ -128,6 +168,7 @@ class UserViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController?.navigationBar.isHidden = true
+        showUserInfo()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -149,6 +190,10 @@ class UserViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return feedList.count
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -184,12 +229,57 @@ class UserViewController: UITableViewController {
         return cell
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return .lightContent
+        }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if User.Token == nil && identifier != "showsetting" && user == nil {
+            return false
+        }
+        return true
+    }
 }
 
 extension UserViewController: StatusProvider {
     
     var emptyView: EmptyStatusDisplaying?{
-        let image = UIImage(named: "theme4")?.af_imageScaled(to:CGSize(width: 120, height: 120)).af_imageRounded(withCornerRadius:60)
-        return EmptyStatusView(title: "没有分享", caption: "分享列表为空", image: image, actionTitle: nil)
+        let image = UIImage(named: "theme4")?.af_imageScaled(to:CGSize(width: 100, height: 100)).af_imageRounded(withCornerRadius:50)
+        return EmptyStatusView(title: "暂无分享", caption: "分享列表为空", image: image, actionTitle: nil)
+    }
+}
+
+extension UserViewController: TencentSessionDelegate {
+    func tencentDidLogin() {
+        debugPrint(qqOAuth.appId)
+        if qqOAuth.getUserInfo() {
+            self.openId = qqOAuth.openId
+            SVProgressHUD.showSuccess(withStatus: "授权成功")
+            SVProgressHUD.dismiss(withDelay: 1)
+        } else {
+            SVProgressHUD.showError(withStatus: "拉取授权信息失败")
+            SVProgressHUD.dismiss(withDelay: 1)
+        }
+    }
+    
+    func getUserInfoResponse(_ response: APIResponse!) {
+        guard let openId = self.openId else {return}
+        guard let dict = response.jsonResponse else {return}
+        Login.LoginWithSNS(dict["nickname"] as? String ?? "", gender: 1, avatar: (dict["figureurl_qq_2"] as? String ?? dict["figureurl_2"] as? String  ?? ""), userId: openId, snsType: 2, finish: { (login, err) in
+            if err != nil {
+                SVProgressHUD.showError(withStatus: "登录失败")
+                SVProgressHUD.dismiss(withDelay: 1)
+            }
+        })
+    }
+    
+    func tencentDidNotLogin(_ cancelled: Bool) {
+        
+    }
+    
+    func tencentDidNotNetWork() {
+        
     }
 }
