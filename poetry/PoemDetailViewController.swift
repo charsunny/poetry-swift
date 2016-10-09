@@ -236,6 +236,14 @@ class PoemDetailViewController: UIViewController, UITextViewDelegate, UIPopoverP
     
     
     // MARK: - Navigation
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if (identifier == "share" || identifier == "addcolumn") && User.LoginUser == nil {
+            HUD.flash(.info("尚未登录"), delay: 1.0)
+            return false
+        }
+        return true
+    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     var transitioner:CAVTransitioner?

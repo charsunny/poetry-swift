@@ -20,7 +20,7 @@
                         </textAttributes>
                     </navigationBar>
                     <connections>
-                        <segue destination="UPf-vD-qBY" kind="relationship" relationship="rootViewController" id="9ny-ff-ROq"/>
+                        <segue destination="9LW-6H-L8K" kind="relationship" relationship="rootViewController" id="7NB-7z-Vqm"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E5x-5w-My5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -117,7 +117,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n5c-NR-gO4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1521" y="212"/>
+            <point key="canvasLocation" x="1542" y="-634"/>
         </scene>
         <!--Page View Controller-->
         <scene sceneID="dwo-fQ-lSr">
@@ -125,19 +125,19 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="none" id="XUD-1b-kje" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H4X-fw-giw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2195" y="194.5"/>
+            <point key="canvasLocation" x="2214" y="-652"/>
         </scene>
-        <!--User Notif View Controller-->
+        <!--通知-->
         <scene sceneID="Rik-ep-Vlf">
             <objects>
-                <tableViewController storyboardIdentifier="usernotif" id="gPH-MB-Jax" customClass="UserNotifViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="usernotif" title="通知" id="gPH-MB-Jax" customClass="UserNotifViewController" customModule="poetry" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="pKK-0P-e7G">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Rdo-8U-mrN">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rdo-8U-mrN" id="Vhk-el-4rH">
                                     <frame key="frameInset" width="375" height="43"/>
@@ -153,7 +153,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FVA-hc-H7s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2947" y="-165"/>
+            <point key="canvasLocation" x="2633" y="212"/>
         </scene>
         <!--消息-->
         <scene sceneID="hYR-UG-AJc">
@@ -168,10 +168,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" title="消息" id="ka0-qN-pBH">
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="jiy-pP-2Hp"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="organize" id="7pW-zR-KdT">
+                            <connections>
+                                <segue destination="gPH-MB-Jax" kind="show" id="jlj-Bo-NSM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bch-S3-O2X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2953" y="594"/>
+            <point key="canvasLocation" x="1754" y="219"/>
         </scene>
     </scenes>
 </document>

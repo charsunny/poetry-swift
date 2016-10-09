@@ -143,6 +143,14 @@ class ExploreViewController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "addfeed" && User.LoginUser == nil {
+            HUD.flash(.info("尚未登录"), delay: 1.0)
+            return false
+        }
+        return true
+    }
+    
     //var transitioner:CAVTransitioner?
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if let pvc = segue.destinationViewController as? ExploreAddViewController {

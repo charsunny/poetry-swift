@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //UINavigationBar.appearance().tintColor = UIColor.flatRedColor()
-        RCIM.shared().initWithAppKey("8w7jv4qb77vey")
+        RCIM.shared().initWithAppKey("82hegw5uhhgfx")
         RCIM.shared().userInfoDataSource = self
         WeiboSDK.enableDebugMode(true)
         WeiboSDK.registerApp("4225157019")

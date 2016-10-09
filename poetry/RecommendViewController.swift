@@ -126,6 +126,14 @@ class RecommendViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "addrec" && User.LoginUser == nil {
+            HUD.flash(.info("尚未登录"), delay: 1.0)
+            return false
+        }
+        return true
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let detailVC = segue.destination as? PoemDetailViewController {
             let indexPath = tableView.indexPath(for: sender as! UITableViewCell)!

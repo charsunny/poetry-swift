@@ -13,7 +13,7 @@ typealias PoemUser = User
 
 enum Router : URLRequestConvertible {
     
-    #if !DEBUG
+    #if DEBUG
     static let baseURLString = "http://api.charsunny.com"
     //static let baseURLString = "http://121.41.112.242:8080"
     #else

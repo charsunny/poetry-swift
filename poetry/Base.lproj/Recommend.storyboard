@@ -341,7 +341,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="7I4-cJ-Avs"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="aW6-qA-SC0">
                             <connections>
-                                <segue destination="WGB-Ov-bwr" kind="presentation" id="97j-oN-e0y"/>
+                                <segue destination="WGB-Ov-bwr" kind="presentation" identifier="addrec" id="97j-oN-e0y"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="history" id="HKn-rf-NB8">
@@ -408,7 +408,7 @@
                                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" image="folder"/>
                                                     <connections>
-                                                        <segue destination="xIT-Q5-6wV" kind="show" id="04P-UB-ndY"/>
+                                                        <segue destination="xIT-Q5-6wV" kind="show" identifier="addcolumn" id="04P-UB-ndY"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1FX-Qo-651">
@@ -487,7 +487,7 @@
                         </view>
                         <barButtonItem key="rightBarButtonItem" image="share_big" id="ekm-4N-lIa">
                             <connections>
-                                <segue destination="KBd-iV-W7W" kind="presentation" id="HLH-uW-L8a"/>
+                                <segue destination="KBd-iV-W7W" kind="presentation" identifier="share" id="HLH-uW-L8a"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1684,10 +1684,10 @@
         <image name="thumb-up" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0iu-CJ-OaR"/>
-        <segue reference="pK7-pA-2Dt"/>
         <segue reference="7EM-1T-GHl"/>
+        <segue reference="pK7-pA-2Dt"/>
         <segue reference="kvM-qf-15W"/>
-        <segue reference="QLl-aT-2rU"/>
+        <segue reference="04P-UB-ndY"/>
+        <segue reference="0iu-CJ-OaR"/>
     </inferredMetricsTieBreakers>
 </document>

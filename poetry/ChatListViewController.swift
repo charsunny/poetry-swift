@@ -69,13 +69,6 @@ class ChatListViewController: RCConversationListViewController {
         return true
     }
     
-//    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//        let action = UITableViewRowAction(style: .default, title: "删除") { (_, indexPath) in
-//            
-//        }
-//        return [action]
-//    }
-    
     override func didDeleteConversationCell(_ model: RCConversationModel!) {
         //RCConversation
     }
@@ -83,7 +76,8 @@ class ChatListViewController: RCConversationListViewController {
     override func onSelectedTableRow(_ conversationModelType: RCConversationModelType, conversationModel model: RCConversationModel!, at indexPath: IndexPath!) {
         if let chat = RCConversationViewController(conversationType: model.conversationType, targetId: model.targetId) {
             chat.hidesBottomBarWhenPushed = true
-            chat.title = "聊天"
+            chat.conversationType = model.conversationType
+            chat.title = model.conversationTitle
             self.navigationController?.pushViewController(chat, animated: true)
         }
     }
